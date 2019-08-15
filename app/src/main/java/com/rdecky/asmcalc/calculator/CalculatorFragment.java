@@ -1,18 +1,14 @@
-package com.rdecky.asmcalc.ui.main;
+package com.rdecky.asmcalc.calculator;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.rdecky.asmcalc.R;
@@ -37,9 +33,9 @@ public class CalculatorFragment extends Fragment {
         dataBinding.setLifecycleOwner(this.getViewLifecycleOwner());
 
         GridView calculatorButtons = dataBinding.getRoot().findViewById(R.id.calculator_buttons);
-        calculatorButtons.setAdapter(new CalculatorListViewAdapter(getContext()));
+        calculatorButtons.setAdapter(new CalculatorListViewAdapter(getContext(), viewModel));
 
-        viewModel.initializeValues();
+        viewModel.initialize();
 
         return dataBinding.getRoot();
     }

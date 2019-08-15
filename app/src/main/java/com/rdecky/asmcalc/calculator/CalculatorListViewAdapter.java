@@ -1,4 +1,4 @@
-package com.rdecky.asmcalc.ui.main;
+package com.rdecky.asmcalc.calculator;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -18,9 +18,11 @@ public class CalculatorListViewAdapter implements ListAdapter {
     };
 
     private Context context;
+    private CalculatorViewModel viewModel;
 
-    public CalculatorListViewAdapter(Context context) {
+    CalculatorListViewAdapter(Context context, CalculatorViewModel viewModel) {
         this.context = context;
+        this.viewModel = viewModel;
     }
 
     @Override
@@ -65,10 +67,8 @@ public class CalculatorListViewAdapter implements ListAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null) {
-            Button button = new Button(context);
-            button.setText(BUTTON_SYMBOLS[position]);
-            return button;
+        if (convertView == null) {
+            return createNewButton(BUTTON_SYMBOLS[position]);
         }
 
         return convertView;
@@ -87,5 +87,17 @@ public class CalculatorListViewAdapter implements ListAdapter {
     @Override
     public boolean isEmpty() {
         return false;
+    }
+
+    private View createNewButton(String buttonSymbol) {
+        final Button button = new Button(context);
+        button.setText(buttonSymbol);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.buttonPressed(button.getText().toString());
+            }
+        });
+        return button;
     }
 }

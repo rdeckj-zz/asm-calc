@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.rdecky.asmcalc.R;
+import com.rdecky.asmcalc.calculator.CalculatorFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

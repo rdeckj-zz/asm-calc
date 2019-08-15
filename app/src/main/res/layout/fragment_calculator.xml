@@ -11,7 +11,7 @@
 
         <variable
             name="viewmodel"
-            type="com.rdecky.asmcalc.ui.main.CalculatorViewModel" />
+            type="com.rdecky.asmcalc.calculator.CalculatorViewModel" />
 
     </data>
 

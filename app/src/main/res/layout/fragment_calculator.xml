@@ -8,10 +8,10 @@
     <TextView
         android:id="@+id/input_history"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:paddingRight="8dp"
         android:paddingTop="5dp"
-        android:gravity="right|center_vertical"
+        android:gravity="end"
         android:background="@android:color/transparent"
         android:text=""
         app:layout_constraintTop_toTopOf="parent"/>
@@ -19,22 +19,83 @@
     <TextView
         android:id="@+id/input_bar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:gravity="right|center_vertical"
+        android:layout_height="wrap_content"
+        android:gravity="end"
         android:background="@android:color/transparent"
         android:textSize="18sp"
-        android:text="0"
+        android:text="@string/initial_dec_value"
         app:layout_constraintTop_toBottomOf="@id/input_history"/>
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <TextView
+        android:id="@+id/dec_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/decTitle"
+        app:layout_constraintTop_toBottomOf="@id/input_bar"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/dec_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/initial_dec_value"
+        app:layout_constraintTop_toBottomOf="@id/input_bar"
+        app:layout_constraintStart_toEndOf="@id/dec_title" />
+
+    <TextView
+        android:id="@+id/hex_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/hexTitle"
+        app:layout_constraintTop_toBottomOf="@id/dec_title"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/hex_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/initial_hex_value"
+        app:layout_constraintTop_toBottomOf="@id/dec_title"
+        app:layout_constraintStart_toEndOf="@id/hex_title" />
+
+    <TextView
+        android:id="@+id/bin_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/binTitle"
+        app:layout_constraintTop_toBottomOf="@id/hex_title"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/bin_display_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/initial_bin_value"
+        app:layout_constraintTop_toBottomOf="@id/hex_title"
+        app:layout_constraintStart_toEndOf="@id/bin_title" />
+
+    <TextView
+        android:id="@+id/bin_display_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/initial_bin_value"
+        app:layout_constraintTop_toBottomOf="@id/bin_display_top"
+        app:layout_constraintStart_toEndOf="@id/bin_title" />
+
+    <GridView
         android:id="@+id/calculator_buttons"
         android:layout_width="match_parent"
         android:numColumns="6"
         android:layout_height="wrap_content"
         android:stretchMode="columnWidth"
-        app:layout_constraintTop_toBottomOf="@id/input_bar"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,7 @@
             android:gravity="end"
             android:paddingTop="5dp"
             android:paddingRight="8dp"
-            android:text=""
+            android:text="@{viewmodel.inputHistory}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

@@ -1,101 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/input_history"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="viewmodel"
+            type="com.rdecky.asmcalc.ui.main.CalculatorViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingRight="8dp"
-        android:paddingTop="5dp"
-        android:gravity="end"
-        android:background="@android:color/transparent"
-        android:text=""
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/input_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:background="@android:color/transparent"
-        android:textSize="18sp"
-        android:text="@string/initial_dec_value"
-        app:layout_constraintTop_toBottomOf="@id/input_history"/>
+        <TextView
+            android:id="@+id/input_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:gravity="end"
+            android:paddingTop="5dp"
+            android:paddingRight="8dp"
+            android:text=""
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/input_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:gravity="end"
+            android:text="@{viewmodel.inputText}"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/input_history" />
 
 
-    <TextView
-        android:id="@+id/dec_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/decTitle"
-        app:layout_constraintTop_toBottomOf="@id/input_bar"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/dec_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/decTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_bar" />
 
-    <TextView
-        android:id="@+id/dec_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/initial_dec_value"
-        app:layout_constraintTop_toBottomOf="@id/input_bar"
-        app:layout_constraintStart_toEndOf="@id/dec_title" />
+        <TextView
+            android:id="@+id/dec_display"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:clickable="true"
+            android:text="@{viewmodel.decText}"
+            app:layout_constraintStart_toEndOf="@id/dec_title"
+            app:layout_constraintTop_toBottomOf="@id/input_bar" />
 
-    <TextView
-        android:id="@+id/hex_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/hexTitle"
-        app:layout_constraintTop_toBottomOf="@id/dec_title"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/hex_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/hexTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dec_title" />
 
-    <TextView
-        android:id="@+id/hex_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/initial_hex_value"
-        app:layout_constraintTop_toBottomOf="@id/dec_title"
-        app:layout_constraintStart_toEndOf="@id/hex_title" />
+        <TextView
+            android:id="@+id/hex_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@{viewmodel.hexText}"
+            app:layout_constraintStart_toEndOf="@id/hex_title"
+            app:layout_constraintTop_toBottomOf="@id/dec_title" />
 
-    <TextView
-        android:id="@+id/bin_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/binTitle"
-        app:layout_constraintTop_toBottomOf="@id/hex_title"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/bin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/binTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hex_title" />
 
-    <TextView
-        android:id="@+id/bin_display_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/initial_bin_value"
-        app:layout_constraintTop_toBottomOf="@id/hex_title"
-        app:layout_constraintStart_toEndOf="@id/bin_title" />
+        <TextView
+            android:id="@+id/bin_display_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@{viewmodel.binTextTop}"
+            app:layout_constraintStart_toEndOf="@id/bin_title"
+            app:layout_constraintTop_toBottomOf="@id/hex_title" />
 
-    <TextView
-        android:id="@+id/bin_display_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/initial_bin_value"
-        app:layout_constraintTop_toBottomOf="@id/bin_display_top"
-        app:layout_constraintStart_toEndOf="@id/bin_title" />
+        <TextView
+            android:id="@+id/bin_display_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@{viewmodel.binTextBottom}"
+            app:layout_constraintStart_toEndOf="@id/bin_title"
+            app:layout_constraintTop_toBottomOf="@id/bin_display_top" />
 
-    <GridView
-        android:id="@+id/calculator_buttons"
-        android:layout_width="match_parent"
-        android:numColumns="6"
-        android:layout_height="wrap_content"
-        android:stretchMode="columnWidth"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        <GridView
+            android:id="@+id/calculator_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="6"
+            android:stretchMode="columnWidth"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -6,8 +6,4 @@
     <string name="decTitle">Dec:</string>
     <string name="hexTitle">Hex:</string>
     <string name="binTitle">Bin:</string>
-
-    <string name="initial_dec_value">0</string>
-    <string name="initial_hex_value">0</string>
-    <string name="initial_bin_value">0000 0000 0000 0000 0000 0000 0000 0000</string>
 </resources>

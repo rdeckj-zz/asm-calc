@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import static com.rdecky.asmcalc.calculator.InputFormatClickListener.*;
+
 public class CalculatorViewModel extends ViewModel {
 
     private static final String INITIAL_DEC_TEXT = "0";
@@ -14,6 +16,7 @@ public class CalculatorViewModel extends ViewModel {
     private static final String INITIAL_BIN_TEXT = "0000 0000 0000 0000 0000 0000 0000 0000";
 
     private NumberFormatter numberFormatter;
+    private Observer<String> inputFormatObserver;
 
     private MutableLiveData<Long> _currentValue = new MutableLiveData<>();
 
@@ -35,6 +38,9 @@ public class CalculatorViewModel extends ViewModel {
     private MutableLiveData<String> _binTextBottom = new MutableLiveData<>();
     public LiveData<String> binTextBottom = _binTextBottom;
 
+    private MutableLiveData<String> _binText = new MutableLiveData<>();
+    public LiveData<String> binText = _binText;
+
     void initialize() {
         numberFormatter = new NumberFormatter();
         _currentValue.setValue(0L);
@@ -44,21 +50,85 @@ public class CalculatorViewModel extends ViewModel {
         _binTextTop.setValue(INITIAL_BIN_TEXT);
         _binTextBottom.setValue(INITIAL_BIN_TEXT);
         setObservers();
+        setInputFormat(InputFormat.DEC);
     }
 
     void buttonPressed(String buttonText) {
         if (isNumber(buttonText)) {
             handleNumericInput(buttonText);
+        } else if (isHexDigit(buttonText)) {
+            handleHexInput(buttonText);
+        } else {
+            handleSpecialInput(buttonText);
         }
+    }
+
+    void setInputFormat(InputFormat newFormat) {
+        createInputFormatObserver();
+        removeOldInputFormatObserver();
+        setNewInputFormatObserver(newFormat);
+    }
+
+    private void setNewInputFormatObserver(InputFormat newFormat) {
+        if(newFormat == InputFormat.DEC) {
+            _decText.observeForever(inputFormatObserver);
+        }
+        else if(newFormat == InputFormat.HEX) {
+            _hexText.observeForever(inputFormatObserver);
+        } else {
+            _binText.observeForever(inputFormatObserver);
+        }
+    }
+
+    private void createInputFormatObserver() {
+        if(inputFormatObserver == null) {
+            inputFormatObserver = new Observer<String>() {
+                @Override
+                public void onChanged(String newString) {
+                    _inputText.setValue(newString);
+                }
+            };
+        }
+    }
+
+    private void removeOldInputFormatObserver() {
+        _decText.removeObserver(inputFormatObserver);
+        _hexText.removeObserver(inputFormatObserver);
+        _binText.removeObserver(inputFormatObserver);
+    }
+
+    private void handleSpecialInput(String buttonText) {
+        switch (buttonText.toLowerCase()) {
+            case "ce":
+                break;
+            case "clear":
+                clear();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void clear() {
+        _currentValue.setValue(0L);
+    }
+
+    private void handleHexInput(String buttonText) {
+
     }
 
     private void handleNumericInput(String buttonText) {
         Long value = _currentValue.getValue();
-        if(value == null || value == 0) {
+        if (value == null || value == 0) {
             _currentValue.setValue(Long.valueOf(buttonText));
         } else {
             String newDecText = _currentValue.getValue().toString() + buttonText;
-            _currentValue.setValue(Long.parseLong(newDecText));
+            try {
+                Long newDec = Long.parseLong(newDecText);
+                _currentValue.setValue(newDec);
+            } catch (NumberFormatException e) {
+                //?
+            }
         }
     }
 
@@ -84,12 +154,21 @@ public class CalculatorViewModel extends ViewModel {
     private void setBinTextFormattedValue(Long currentValue) {
         String binary = Long.toBinaryString(currentValue);
         List<String> formattedBinary = numberFormatter.formatBinString(binary);
-        _binTextTop.setValue(formattedBinary.get(0));
-        _binTextBottom.setValue(formattedBinary.get(1));
+        String topText = formattedBinary.get(0);
+        String bottomText = formattedBinary.get(1);
+
+        _binTextTop.setValue(topText);
+        _binTextBottom.setValue(bottomText);
+        _binText.setValue(topText + " " + bottomText);
     }
 
     private boolean isNumber(String buttonText) {
-        return buttonText.charAt(0) >= '0' && buttonText.charAt(0) <= '9';
+        char firstDigit = buttonText.charAt(0);
+        return buttonText.length() == 1 && firstDigit >= '0' && firstDigit <= '9';
     }
 
+    private boolean isHexDigit(String buttonText) {
+        char firstDigit = buttonText.charAt(0);
+        return buttonText.length() == 1 && firstDigit >= 'A' && firstDigit <= 'F';
+    }
 }

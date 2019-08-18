@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.rdecky.asmcalc.R;
 import com.rdecky.asmcalc.databinding.FragmentCalculatorBinding;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat.BIN;
 import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat.DEC;
@@ -53,22 +58,64 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void setDecFormatListeners() {
-        InputFormatClickListener decClickListener = new InputFormatClickListener(viewModel, DEC);
-        root.findViewById(R.id.dec_title).setOnClickListener(decClickListener);
-        root.findViewById(R.id.dec_display).setOnClickListener(decClickListener);
+        List<TextView> decInputViews = getDecInputViews();
+        List<TextView> allInputViews = getAllInputViews();
+        InputFormatClickListener decClickListener = new InputFormatClickListener(viewModel, DEC, decInputViews, allInputViews);
+
+        setFormatListenerOnViews(decInputViews, decClickListener);
     }
 
     private void setHexFormatListeners() {
-        InputFormatClickListener hexClickListener = new InputFormatClickListener(viewModel, HEX);
-        root.findViewById(R.id.hex_title).setOnClickListener(hexClickListener);
-        root.findViewById(R.id.hex_display).setOnClickListener(hexClickListener);
+        List<TextView> hexInputViews = getHexInputViews();
+        List<TextView> allInputViews = getAllInputViews();
+        InputFormatClickListener hexClickListener = new InputFormatClickListener(viewModel, HEX, hexInputViews, allInputViews);
+
+        setFormatListenerOnViews(hexInputViews, hexClickListener);
     }
 
     private void setBinFormatListeners() {
-        InputFormatClickListener binClickListener = new InputFormatClickListener(viewModel, BIN);
-        root.findViewById(R.id.bin_title).setOnClickListener(binClickListener);
-        root.findViewById(R.id.bin_display_top).setOnClickListener(binClickListener);
-        root.findViewById(R.id.bin_display_bottom).setOnClickListener(binClickListener);
+        List<TextView> binInputViews = getBinInputViews();
+        List<TextView> allInputViews = getAllInputViews();
+        InputFormatClickListener binClickListener = new InputFormatClickListener(viewModel, BIN, binInputViews, allInputViews);
+
+        setFormatListenerOnViews(binInputViews, binClickListener);
+    }
+
+    private void setFormatListenerOnViews(List<TextView> inputViews, InputFormatClickListener clickListener) {
+        for (TextView view : inputViews) {
+            view.setOnClickListener(clickListener);
+        }
+    }
+
+    private List<TextView> getDecInputViews() {
+        TextView decTitle = root.findViewById(R.id.dec_title);
+        TextView decDisplay = root.findViewById(R.id.dec_display);
+
+        return Arrays.asList(decTitle, decDisplay);
+    }
+
+    private List<TextView> getHexInputViews() {
+        TextView hexTitle = root.findViewById(R.id.hex_title);
+        TextView hexDisplay = root.findViewById(R.id.hex_display);
+
+        return Arrays.asList(hexTitle, hexDisplay);
+    }
+
+    private List<TextView> getBinInputViews() {
+        TextView binTitle = root.findViewById(R.id.bin_title);
+        TextView binDisplayTop = root.findViewById(R.id.bin_display_top);
+        TextView binDisplayBottom = root.findViewById(R.id.bin_display_bottom);
+
+        return Arrays.asList(binTitle, binDisplayTop, binDisplayBottom);
+    }
+
+    private List<TextView> getAllInputViews() {
+        List<TextView> allInputViews = new ArrayList<>();
+        allInputViews.addAll(getDecInputViews());
+        allInputViews.addAll(getHexInputViews());
+        allInputViews.addAll(getBinInputViews());
+
+        return allInputViews;
     }
 
     private void createCalculatorButtons() {

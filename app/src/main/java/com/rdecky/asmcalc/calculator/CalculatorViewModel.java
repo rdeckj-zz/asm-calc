@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import static com.rdecky.asmcalc.calculator.InputFormatClickListener.*;
+import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat;
 
 public class CalculatorViewModel extends ViewModel {
 
@@ -17,6 +17,7 @@ public class CalculatorViewModel extends ViewModel {
 
     private NumberFormatter numberFormatter;
     private Observer<String> inputFormatObserver;
+    private InputFormat currentInputFormat;
 
     private MutableLiveData<Long> _currentValue = new MutableLiveData<>();
 
@@ -39,7 +40,6 @@ public class CalculatorViewModel extends ViewModel {
     public LiveData<String> binTextBottom = _binTextBottom;
 
     private MutableLiveData<String> _binText = new MutableLiveData<>();
-    public LiveData<String> binText = _binText;
 
     void initialize() {
         numberFormatter = new NumberFormatter();
@@ -64,16 +64,16 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     void setInputFormat(InputFormat newFormat) {
+        currentInputFormat = newFormat;
         createInputFormatObserver();
         removeOldInputFormatObserver();
         setNewInputFormatObserver(newFormat);
     }
 
     private void setNewInputFormatObserver(InputFormat newFormat) {
-        if(newFormat == InputFormat.DEC) {
+        if (newFormat == InputFormat.DEC) {
             _decText.observeForever(inputFormatObserver);
-        }
-        else if(newFormat == InputFormat.HEX) {
+        } else if (newFormat == InputFormat.HEX) {
             _hexText.observeForever(inputFormatObserver);
         } else {
             _binText.observeForever(inputFormatObserver);
@@ -81,7 +81,7 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     private void createInputFormatObserver() {
-        if(inputFormatObserver == null) {
+        if (inputFormatObserver == null) {
             inputFormatObserver = new Observer<String>() {
                 @Override
                 public void onChanged(String newString) {
@@ -114,22 +114,42 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     private void handleHexInput(String buttonText) {
-
+        if (currentInputFormat == InputFormat.HEX) {
+            setNewValueBasedOnInput(buttonText, 16, _hexText);
+        }
     }
 
     private void handleNumericInput(String buttonText) {
+        if (currentInputFormat == InputFormat.DEC) {
+            setNewValueBasedOnInput(buttonText, 10, _decText);
+        }
+
+        if (currentInputFormat == InputFormat.BIN) {
+            setNewValueBasedOnInput(buttonText, 2, _binText);
+        }
+    }
+
+    private void setNewValueBasedOnInput(String buttonText, int radix, MutableLiveData<String> inputText) {
         Long value = _currentValue.getValue();
         if (value == null || value == 0) {
-            _currentValue.setValue(Long.valueOf(buttonText));
+            _currentValue.setValue(Long.parseLong(buttonText, radix));
         } else {
-            String newDecText = _currentValue.getValue().toString() + buttonText;
-            try {
-                Long newDec = Long.parseLong(newDecText);
-                _currentValue.setValue(newDec);
-            } catch (NumberFormatException e) {
-                //?
-            }
+            String newText = stripFormatting(inputText.getValue()) + buttonText;
+            setNewValue(radix, newText);
         }
+    }
+
+    private void setNewValue(int radix, String newText) {
+        try {
+            Long newValue = Long.parseLong(newText, radix);
+            _currentValue.setValue(newValue);
+        } catch (NumberFormatException e) {
+            // Overflow, don't do anything
+        }
+    }
+
+    private String stripFormatting(String input) {
+        return input.replace(" ", "").replace(",", "");
     }
 
     private void setObservers() {

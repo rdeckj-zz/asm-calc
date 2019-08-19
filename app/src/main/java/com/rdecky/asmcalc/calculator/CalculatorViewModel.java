@@ -120,11 +120,11 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     private void handleNumericInput(String buttonText) {
-        if (currentInputFormat == InputFormat.DEC) {
+        if (currentInputFormat == InputFormat.DEC && !isBinDigit(buttonText)) {
             setNewValueBasedOnInput(buttonText, 10, _decText);
         }
 
-        if (currentInputFormat == InputFormat.BIN) {
+        if (currentInputFormat == InputFormat.BIN && isBinDigit(buttonText)) {
             setNewValueBasedOnInput(buttonText, 2, _binText);
         }
     }
@@ -190,5 +190,10 @@ public class CalculatorViewModel extends ViewModel {
     private boolean isHexDigit(String buttonText) {
         char firstDigit = buttonText.charAt(0);
         return buttonText.length() == 1 && firstDigit >= 'A' && firstDigit <= 'F';
+    }
+
+    private boolean isBinDigit(String buttonText) {
+        char firstDigit = buttonText.charAt(0);
+        return buttonText.length() == 1 && (firstDigit == '0' || firstDigit == '1');
     }
 }

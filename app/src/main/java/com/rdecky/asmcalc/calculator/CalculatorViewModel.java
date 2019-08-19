@@ -54,9 +54,9 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     void buttonPressed(String buttonText) {
-        if (isNumber(buttonText)) {
+        if (isNumberButton(buttonText)) {
             handleNumericInput(buttonText);
-        } else if (isHexDigit(buttonText)) {
+        } else if (isHexDigitButton(buttonText)) {
             handleHexInput(buttonText);
         } else {
             handleSpecialInput(buttonText);
@@ -120,11 +120,11 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     private void handleNumericInput(String buttonText) {
-        if (currentInputFormat == InputFormat.DEC && !isBinDigit(buttonText)) {
+        if (currentInputFormat == InputFormat.DEC && !isBinDigitButton(buttonText)) {
             setNewValueBasedOnInput(buttonText, 10, _decText);
         }
 
-        if (currentInputFormat == InputFormat.BIN && isBinDigit(buttonText)) {
+        if (currentInputFormat == InputFormat.BIN && isBinDigitButton(buttonText)) {
             setNewValueBasedOnInput(buttonText, 2, _binText);
         }
     }
@@ -182,18 +182,23 @@ public class CalculatorViewModel extends ViewModel {
         _binText.setValue(topText + " " + bottomText);
     }
 
-    private boolean isNumber(String buttonText) {
+    private boolean isNumberButton(String buttonText) {
         char firstDigit = buttonText.charAt(0);
         return buttonText.length() == 1 && firstDigit >= '0' && firstDigit <= '9';
     }
 
-    private boolean isHexDigit(String buttonText) {
+    boolean isHexDigitButton(String buttonText) {
         char firstDigit = buttonText.charAt(0);
         return buttonText.length() == 1 && firstDigit >= 'A' && firstDigit <= 'F';
     }
 
-    private boolean isBinDigit(String buttonText) {
+    boolean isBinDigitButton(String buttonText) {
         char firstDigit = buttonText.charAt(0);
         return buttonText.length() == 1 && (firstDigit == '0' || firstDigit == '1');
+    }
+
+    boolean isSpecialButton(String buttonText) {
+        return buttonText.length() > 1 ;
+        //TODO operators, parens, etc...
     }
 }

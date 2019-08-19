@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CalculatorListViewAdapter implements ListAdapter {
     private static final String[] BUTTON_SYMBOLS = {
             "Lsh", "Rsh", "Or", "Xor", "Not", "And",
@@ -19,10 +22,12 @@ public class CalculatorListViewAdapter implements ListAdapter {
 
     private Context context;
     private CalculatorViewModel viewModel;
+    private List<Button> allButtons;
 
     CalculatorListViewAdapter(Context context, CalculatorViewModel viewModel) {
         this.context = context;
         this.viewModel = viewModel;
+        allButtons = new ArrayList<>();
     }
 
     @Override
@@ -90,6 +95,8 @@ public class CalculatorListViewAdapter implements ListAdapter {
     }
 
     private View createNewButton(String buttonSymbol) {
+
+        //TODO create an object to hold the button and methods like isSpecial(), isBinDigit(), etc...
         final Button button = new Button(context);
         button.setText(buttonSymbol);
         button.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +105,11 @@ public class CalculatorListViewAdapter implements ListAdapter {
                 viewModel.buttonPressed(button.getText().toString());
             }
         });
+        allButtons.add(button);
         return button;
+    }
+
+    List<Button> getAllButtons() {
+        return allButtons;
     }
 }

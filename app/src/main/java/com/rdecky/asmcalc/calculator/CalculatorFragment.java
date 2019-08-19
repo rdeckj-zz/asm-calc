@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -43,46 +44,43 @@ public class CalculatorFragment extends Fragment {
         dataBinding.setLifecycleOwner(this.getViewLifecycleOwner());
 
         root = dataBinding.getRoot();
-        createCalculatorButtons();
-        setInputFormatListeners();
+        List<Button> calculatorButtons = createCalculatorButtons();
+        setInputFormatListeners(calculatorButtons);
 
         viewModel.initialize();
 
         return dataBinding.getRoot();
     }
 
-    private void setInputFormatListeners() {
-        setDecFormatListeners();
-        setHexFormatListeners();
-        setBinFormatListeners();
+    private void setInputFormatListeners(List<Button> calculatorButtons) {
+        setDecFormatListeners(calculatorButtons);
+        setHexFormatListeners(calculatorButtons);
+        setBinFormatListeners(calculatorButtons);
     }
 
-    private void setDecFormatListeners() {
-        List<TextView> decInputViews = getDecInputViews();
-        List<TextView> allInputViews = getAllInputViews();
-        InputFormatClickListener decClickListener = new InputFormatClickListener(viewModel, DEC, decInputViews, allInputViews);
+    private void setDecFormatListeners(List<Button> calculatorButtons) {
+        GroupedInputView decGroup = new GroupedInputView(getDecInputViews(), getAllInputViews(), DEC);
+        InputFormatClickListener decClickListener = new InputFormatClickListener(viewModel, decGroup, calculatorButtons);
 
-        setFormatListenerOnViews(decInputViews, decClickListener);
+        setFormatListenerOnViews(decGroup, decClickListener);
     }
 
-    private void setHexFormatListeners() {
-        List<TextView> hexInputViews = getHexInputViews();
-        List<TextView> allInputViews = getAllInputViews();
-        InputFormatClickListener hexClickListener = new InputFormatClickListener(viewModel, HEX, hexInputViews, allInputViews);
+    private void setHexFormatListeners(List<Button> calculatorButtons) {
+        GroupedInputView hexGroup = new GroupedInputView(getHexInputViews(), getAllInputViews(), HEX);
+        InputFormatClickListener hexClickListener = new InputFormatClickListener(viewModel, hexGroup, calculatorButtons);
 
-        setFormatListenerOnViews(hexInputViews, hexClickListener);
+        setFormatListenerOnViews(hexGroup, hexClickListener);
     }
 
-    private void setBinFormatListeners() {
-        List<TextView> binInputViews = getBinInputViews();
-        List<TextView> allInputViews = getAllInputViews();
-        InputFormatClickListener binClickListener = new InputFormatClickListener(viewModel, BIN, binInputViews, allInputViews);
+    private void setBinFormatListeners(List<Button> calculatorButtons) {
+        GroupedInputView binGroup = new GroupedInputView(getBinInputViews(), getAllInputViews(), BIN);
+        InputFormatClickListener binClickListener = new InputFormatClickListener(viewModel, binGroup, calculatorButtons);
 
-        setFormatListenerOnViews(binInputViews, binClickListener);
+        setFormatListenerOnViews(binGroup, binClickListener);
     }
 
-    private void setFormatListenerOnViews(List<TextView> inputViews, InputFormatClickListener clickListener) {
-        for (TextView view : inputViews) {
+    private void setFormatListenerOnViews(GroupedInputView groupedInputView, InputFormatClickListener clickListener) {
+        for (TextView view : groupedInputView.getGroupedViews()) {
             view.setOnClickListener(clickListener);
         }
     }
@@ -118,8 +116,10 @@ public class CalculatorFragment extends Fragment {
         return allInputViews;
     }
 
-    private void createCalculatorButtons() {
+    private List<Button> createCalculatorButtons() {
         GridView calculatorButtons = root.findViewById(R.id.calculator_buttons);
-        calculatorButtons.setAdapter(new CalculatorListViewAdapter(getContext(), viewModel));
+        CalculatorListViewAdapter adapter = new CalculatorListViewAdapter(getContext(), viewModel);
+        calculatorButtons.setAdapter(adapter);
+        return adapter.getAllButtons();
     }
 }

@@ -44,7 +44,7 @@ public class CalculatorFragment extends Fragment {
         dataBinding.setLifecycleOwner(this.getViewLifecycleOwner());
 
         root = dataBinding.getRoot();
-        List<Button> calculatorButtons = createCalculatorButtons();
+        List<CalculatorButton> calculatorButtons = createCalculatorButtons();
         setInputFormatListeners(calculatorButtons);
 
         viewModel.initialize();
@@ -52,27 +52,27 @@ public class CalculatorFragment extends Fragment {
         return dataBinding.getRoot();
     }
 
-    private void setInputFormatListeners(List<Button> calculatorButtons) {
+    private void setInputFormatListeners(List<CalculatorButton> calculatorButtons) {
         setDecFormatListeners(calculatorButtons);
         setHexFormatListeners(calculatorButtons);
         setBinFormatListeners(calculatorButtons);
     }
 
-    private void setDecFormatListeners(List<Button> calculatorButtons) {
+    private void setDecFormatListeners(List<CalculatorButton> calculatorButtons) {
         GroupedInputView decGroup = new GroupedInputView(getDecInputViews(), getAllInputViews(), DEC);
         InputFormatClickListener decClickListener = new InputFormatClickListener(viewModel, decGroup, calculatorButtons);
 
         setFormatListenerOnViews(decGroup, decClickListener);
     }
 
-    private void setHexFormatListeners(List<Button> calculatorButtons) {
+    private void setHexFormatListeners(List<CalculatorButton> calculatorButtons) {
         GroupedInputView hexGroup = new GroupedInputView(getHexInputViews(), getAllInputViews(), HEX);
         InputFormatClickListener hexClickListener = new InputFormatClickListener(viewModel, hexGroup, calculatorButtons);
 
         setFormatListenerOnViews(hexGroup, hexClickListener);
     }
 
-    private void setBinFormatListeners(List<Button> calculatorButtons) {
+    private void setBinFormatListeners(List<CalculatorButton> calculatorButtons) {
         GroupedInputView binGroup = new GroupedInputView(getBinInputViews(), getAllInputViews(), BIN);
         InputFormatClickListener binClickListener = new InputFormatClickListener(viewModel, binGroup, calculatorButtons);
 
@@ -116,7 +116,7 @@ public class CalculatorFragment extends Fragment {
         return allInputViews;
     }
 
-    private List<Button> createCalculatorButtons() {
+    private List<CalculatorButton> createCalculatorButtons() {
         GridView calculatorButtons = root.findViewById(R.id.calculator_buttons);
         CalculatorListViewAdapter adapter = new CalculatorListViewAdapter(getContext(), viewModel);
         calculatorButtons.setAdapter(adapter);

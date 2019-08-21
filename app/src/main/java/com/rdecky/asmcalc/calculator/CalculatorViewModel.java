@@ -1,5 +1,7 @@
 package com.rdecky.asmcalc.calculator;
 
+import android.widget.Button;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -53,13 +55,11 @@ public class CalculatorViewModel extends ViewModel {
         setInputFormat(InputFormat.DEC);
     }
 
-    void buttonPressed(String buttonText) {
-        if (isNumberButton(buttonText)) {
-            handleNumericInput(buttonText);
-        } else if (isHexDigitButton(buttonText)) {
-            handleHexInput(buttonText);
+    void buttonPressed(CalculatorButton button) {
+        if (!button.isSpecialOperator()) {
+            handleRegularInput(button);
         } else {
-            handleSpecialInput(buttonText);
+            handleSpecialInput(button);
         }
     }
 
@@ -97,7 +97,21 @@ public class CalculatorViewModel extends ViewModel {
         _binText.removeObserver(inputFormatObserver);
     }
 
-    private void handleSpecialInput(String buttonText) {
+    private void handleRegularInput(CalculatorButton button) {
+        String buttonText = button.getText().toString();
+
+        if (currentInputFormat == InputFormat.DEC) {
+            setNewValueBasedOnInput(buttonText, 10, _decText);
+        } else if (currentInputFormat == InputFormat.HEX) {
+            setNewValueBasedOnInput(buttonText, 16, _hexText);
+        } else if (currentInputFormat == InputFormat.BIN) {
+            setNewValueBasedOnInput(buttonText, 2, _binText);
+        }
+    }
+
+    private void handleSpecialInput(Button button) {
+        String buttonText = button.getText().toString();
+
         switch (buttonText.toLowerCase()) {
             case "ce":
                 break;
@@ -111,22 +125,6 @@ public class CalculatorViewModel extends ViewModel {
 
     private void clear() {
         _currentValue.setValue(0L);
-    }
-
-    private void handleHexInput(String buttonText) {
-        if (currentInputFormat == InputFormat.HEX) {
-            setNewValueBasedOnInput(buttonText, 16, _hexText);
-        }
-    }
-
-    private void handleNumericInput(String buttonText) {
-        if (currentInputFormat == InputFormat.DEC && !isBinDigitButton(buttonText)) {
-            setNewValueBasedOnInput(buttonText, 10, _decText);
-        }
-
-        if (currentInputFormat == InputFormat.BIN && isBinDigitButton(buttonText)) {
-            setNewValueBasedOnInput(buttonText, 2, _binText);
-        }
     }
 
     private void setNewValueBasedOnInput(String buttonText, int radix, MutableLiveData<String> inputText) {
@@ -180,25 +178,5 @@ public class CalculatorViewModel extends ViewModel {
         _binTextTop.setValue(topText);
         _binTextBottom.setValue(bottomText);
         _binText.setValue(topText + " " + bottomText);
-    }
-
-    private boolean isNumberButton(String buttonText) {
-        char firstDigit = buttonText.charAt(0);
-        return buttonText.length() == 1 && firstDigit >= '0' && firstDigit <= '9';
-    }
-
-    boolean isHexDigitButton(String buttonText) {
-        char firstDigit = buttonText.charAt(0);
-        return buttonText.length() == 1 && firstDigit >= 'A' && firstDigit <= 'F';
-    }
-
-    boolean isBinDigitButton(String buttonText) {
-        char firstDigit = buttonText.charAt(0);
-        return buttonText.length() == 1 && (firstDigit == '0' || firstDigit == '1');
-    }
-
-    boolean isSpecialButton(String buttonText) {
-        return buttonText.length() > 1 ;
-        //TODO operators, parens, etc...
     }
 }

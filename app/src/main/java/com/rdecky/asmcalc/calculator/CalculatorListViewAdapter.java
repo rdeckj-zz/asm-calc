@@ -22,7 +22,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
 
     private Context context;
     private CalculatorViewModel viewModel;
-    private List<Button> allButtons;
+    private List<CalculatorButton> allButtons;
 
     CalculatorListViewAdapter(Context context, CalculatorViewModel viewModel) {
         this.context = context;
@@ -95,21 +95,19 @@ public class CalculatorListViewAdapter implements ListAdapter {
     }
 
     private View createNewButton(String buttonSymbol) {
-
-        //TODO create an object to hold the button and methods like isSpecial(), isBinDigit(), etc...
-        final Button button = new Button(context);
+        final CalculatorButton button = new CalculatorButton(context);
         button.setText(buttonSymbol);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.buttonPressed(button.getText().toString());
+                viewModel.buttonPressed(button);
             }
         });
         allButtons.add(button);
         return button;
     }
 
-    List<Button> getAllButtons() {
+    List<CalculatorButton> getAllButtons() {
         return allButtons;
     }
 }

@@ -16,9 +16,9 @@ public class InputFormatClickListener implements View.OnClickListener {
 
     private CalculatorViewModel viewModel;
     private GroupedInputView groupedInputView;
-    private List<Button> calculatorButtons;
+    private List<CalculatorButton> calculatorButtons;
 
-    InputFormatClickListener(CalculatorViewModel viewModel, GroupedInputView groupedInputView, List<Button> calculatorButtons) {
+    InputFormatClickListener(CalculatorViewModel viewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorButtons) {
         this.viewModel = viewModel;
         this.groupedInputView = groupedInputView;
         this.calculatorButtons = calculatorButtons;
@@ -64,17 +64,16 @@ public class InputFormatClickListener implements View.OnClickListener {
     }
 
     private void disableNonBinaryButtons() {
-        for (Button button : calculatorButtons) {
-            String buttonText = button.getText().toString();
-            if (!viewModel.isBinDigitButton(buttonText) && !viewModel.isSpecialButton(buttonText)) {
+        for (CalculatorButton button : calculatorButtons) {
+            if (!button.isBinDigit() && (button.isNumericDigit() || button.isHexDigit())) {
                 button.setEnabled(false);
             }
         }
     }
 
     private void disableHexButtons() {
-        for (Button button : calculatorButtons) {
-            if (viewModel.isHexDigitButton(button.getText().toString())) {
+        for (CalculatorButton button : calculatorButtons) {
+            if (button.isHexDigit()) {
                 button.setEnabled(false);
             }
         }

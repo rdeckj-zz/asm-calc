@@ -102,69 +102,80 @@ public class CalculatorButtonTest {
     }
 
     @Test
-    public void isSpecialOperator_divide_true() {
+    public void isSpecial_divide_true() {
         button.setText("/");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_multiply_true() {
+    public void isSpecial_multiply_true() {
         button.setText("*");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_minus_true() {
+    public void isSpecial_minus_true() {
         button.setText("-");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_plus_true() {
+    public void isSpecial_plus_true() {
         button.setText("+");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_equals_true() {
+    public void isSpecial_equals_true() {
         button.setText("=");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_invert_true() {
+    public void isSpecial_invert_true() {
         button.setText("+/-");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_period_true() {
+    public void isSpecial_period_true() {
         button.setText(".");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_openParenthesis_true() {
+    public void isSpecial_openParenthesis_true() {
         button.setText("(");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_closeParenthesis_true() {
+    public void isSpecial_closeParenthesis_true() {
         button.setText(")");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_Lsh_true() {
+    public void isSpecial_Lsh_true() {
         button.setText("Lsh");
-        assertTrue(button.isSpecialOperator());
+        assertTrue(button.isSpecial());
     }
 
     @Test
-    public void isSpecialOperator_1_false() {
+    public void isSpecial_1_false() {
         button.setText("1");
-        assertFalse(button.isSpecialOperator());
+        assertFalse(button.isSpecial());
     }
 
+    @Test
+    public void isOperator_add_true() {
+        button.setText("+");
+        assertTrue(button.isOperator());
+    }
+
+    @Test
+    public void isOperator_equals_false() {
+        button.setText("=");
+        assertFalse(button.isOperator());
+    }
 }

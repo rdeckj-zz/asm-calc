@@ -33,7 +33,15 @@ public class CalculatorButton extends Button {
         return text.length() == 1 && (firstDigit == '0' || firstDigit == '1');
     }
 
-    boolean isSpecialOperator() {
+    boolean isSpecial() {
         return !isNumericDigit() && !isHexDigit() && !isBinDigit();
+    }
+
+    boolean isOperator() {
+        String text = getText().toString().toLowerCase();
+        return isSpecial() && !(text.equals(".") ||
+                text.equals("ms") || text.equals("clear") ||
+                text.equals("ce") || text.equals("bksp") ||
+                text.equals("+/-") || text.equals("(") || text.equals(")") || text.equals("="));
     }
 }

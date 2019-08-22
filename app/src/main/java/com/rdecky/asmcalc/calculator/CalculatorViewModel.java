@@ -18,7 +18,7 @@ public class CalculatorViewModel extends ViewModel {
     private InputFormatter inputFormatter;
     private Observer<String> inputFormatObserver;
     private InputFormat currentInputFormat;
-    private SpecialInputHandler specialInputHandler;
+    private SpecialButtonHandler specialButtonHandler;
 
     private MutableLiveData<Long> _currentValue = new MutableLiveData<>();
 
@@ -44,8 +44,9 @@ public class CalculatorViewModel extends ViewModel {
 
     void initialize() {
         inputFormatter = new InputFormatter();
-        specialInputHandler = new SpecialInputHandler(this, inputFormatter, new HistoryBarController(this));
+        specialButtonHandler = new SpecialButtonHandler(this, inputFormatter, new HistoryBarController(this));
         _currentValue.setValue(0L);
+        _inputHistory.setValue("");
         _inputText.setValue(INITIAL_DEC_TEXT);
         _decText.setValue(INITIAL_DEC_TEXT);
         _hexText.setValue(INITIAL_HEX_TEXT);
@@ -56,10 +57,10 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     void buttonPressed(CalculatorButton button) {
-        if (!button.isSpecialOperator()) {
+        if (!button.isSpecial()) {
             handleRegularInput(button);
         } else {
-            specialInputHandler.handleInput(button);
+            specialButtonHandler.handle(button);
         }
     }
 

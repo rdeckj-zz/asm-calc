@@ -1,22 +1,24 @@
 package com.rdecky.asmcalc.calculator;
 
-import android.widget.Button;
-
-class SpecialInputHandler {
+class SpecialButtonHandler {
 
     private CalculatorViewModel calculatorViewModel;
     private InputFormatter inputFormatter;
     private HistoryBarController historyBarController;
 
-    SpecialInputHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController) {
+    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController) {
         this.calculatorViewModel = calculatorViewModel;
         this.inputFormatter = inputFormatter;
         this.historyBarController = historyBarController;
     }
 
-    void handleInput(Button button) {
-        String buttonText = button.getText().toString();
+    void handle(CalculatorButton button) {
+        handleOperator(button);
+        handleNonOperator(button);
+    }
 
+    private void handleNonOperator(CalculatorButton button) {
+        String buttonText = button.getText().toString();
         switch (buttonText.toLowerCase()) {
             case "bksp":
                 backspace();
@@ -27,11 +29,15 @@ class SpecialInputHandler {
             case "ce":
                 clearEntry();
                 break;
-            case "+":
-                historyBarController.update("+");
-                break;
             default:
                 break;
+        }
+    }
+
+    private void handleOperator(CalculatorButton button) {
+        if (button.isOperator()) {
+            historyBarController.update(button.getText().toString());
+            clearEntry();
         }
     }
 

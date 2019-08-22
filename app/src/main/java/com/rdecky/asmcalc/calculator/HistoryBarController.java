@@ -22,16 +22,12 @@ class HistoryBarController {
     }
 
     private String appendToHistory(String currentHistory, String operator, String currentValue) {
-        StringBuilder newHistory = new StringBuilder();
+        StringBuilder newHistory = new StringBuilder(currentHistory);
 
-        if (currentHistory != null) {
-            newHistory.append(currentHistory);
-            if (!currentHistory.isEmpty()) {
-                newHistory.append(" ");
-            }
+        if (!currentHistory.isEmpty()) {
+            newHistory.append(" ");
         }
 
-        newHistory.append(newHistory);
         newHistory.append(currentValue);
         newHistory.append(" ");
         newHistory.append(operator);

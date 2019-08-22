@@ -4,7 +4,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-class NumberFormatter {
+class InputFormatter {
+
+    String stripFormatting(String input) {
+        return input.replace(" ", "").replace(",", "");
+    }
 
     String formatDec(Long number) {
         DecimalFormat decimalFormat = new DecimalFormat("#,###");

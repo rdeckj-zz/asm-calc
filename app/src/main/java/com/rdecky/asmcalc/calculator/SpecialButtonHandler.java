@@ -1,5 +1,11 @@
 package com.rdecky.asmcalc.calculator;
 
+import android.util.Log;
+
+import java.util.List;
+
+import static com.rdecky.asmcalc.calculator.InputFormatClickListener.*;
+
 class SpecialButtonHandler {
 
     private CalculatorViewModel calculatorViewModel;
@@ -29,9 +35,19 @@ class SpecialButtonHandler {
             case "ce":
                 clearEntry();
                 break;
+            case "=":
+                equals();
+                break;
             default:
                 break;
         }
+    }
+
+    private void equals() {
+        historyBarController.update("=");
+        long result = Calculator.evaluate(historyBarController.getHistory());
+        historyBarController.clear();
+        calculatorViewModel.setCurrentValue(Long.toString(result));
     }
 
     private void handleOperator(CalculatorButton button) {

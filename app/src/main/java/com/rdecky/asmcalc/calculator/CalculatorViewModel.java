@@ -69,6 +69,7 @@ public class CalculatorViewModel extends ViewModel {
         createInputFormatObserver();
         removeOldInputFormatObserver();
         setNewInputFormatObserver(newFormat);
+
     }
 
     void setCurrentValue(String newText) {
@@ -91,6 +92,10 @@ public class CalculatorViewModel extends ViewModel {
 
     void setInputHistory(String newValue) {
         _inputHistory.setValue(newValue);
+    }
+
+    Long getCurrentValue() {
+        return _currentValue.getValue();
     }
 
     private void setNewInputFormatObserver(InputFormat newFormat) {

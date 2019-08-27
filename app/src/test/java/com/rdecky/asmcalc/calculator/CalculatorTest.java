@@ -13,6 +13,9 @@ public class CalculatorTest {
     private HistoryValue subtract = new HistoryValue("-");
     private HistoryValue multiply = new HistoryValue("*");
     private HistoryValue divide = new HistoryValue("/");
+    private HistoryValue power = new HistoryValue("pow");
+    private HistoryValue openParenthesis = new HistoryValue("(");
+    private HistoryValue closeParenthesis = new HistoryValue(")");
 
     @Test
     public void calculate_1plus1() {
@@ -69,6 +72,41 @@ public class CalculatorTest {
         long result = Calculator.evaluate(historyValues);
 
         Long expected = (long) 30 / 3;
+        assertThat(result, is(expected));
+    }
+
+    @Test
+    public void calculate_2toThePowerOf6() {
+        HistoryValue two = new HistoryValue(2L);
+        HistoryValue six = new HistoryValue(6L);
+        List<HistoryValue> historyValues = new ArrayList();
+        historyValues.add(two);
+        historyValues.add(power);
+        historyValues.add(six);
+
+        long result = Calculator.evaluate(historyValues);
+
+        Long expected = (long) Math.pow(2, 6);
+        assertThat(result, is(expected));
+    }
+
+    @Test
+    public void calculate_withParenthesis() {
+        HistoryValue four = new HistoryValue(4);
+        HistoryValue three = new HistoryValue(3);
+        HistoryValue two = new HistoryValue(2);
+        List<HistoryValue> historyValues = new ArrayList();
+        historyValues.add(openParenthesis);
+        historyValues.add(four);
+        historyValues.add(add);
+        historyValues.add(two);
+        historyValues.add(closeParenthesis);
+        historyValues.add(multiply);
+        historyValues.add(three);
+
+        long result = Calculator.evaluate(historyValues);
+
+        Long expected = (long) (4 + 2) * 3;
         assertThat(result, is(expected));
     }
 }

@@ -1,29 +1,29 @@
 package com.rdecky.asmcalc.calculator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class Calculator {
 
     public static long evaluate(List<HistoryValue> historyValues) {
-        return evaluate(convertInfixToRPN(historyValues));
+        ArrayList<HistoryValue> RPNHistory = convertInfixToRPN(historyValues);
+
+        return evaluate(RPNHistory);
     }
 
-    /**
-     *
-     * @param input
-     * @return
-     */
-    private static long evaluate(ArrayList<HistoryValue> input){
-        ArrayList<Long> numberList = new ArrayList<Long>(2);
-        for(HistoryValue o : input){
+    private static long evaluate(ArrayList<HistoryValue> input) {
+        ArrayList<Long> numberList = new ArrayList<>(2);
+        for (HistoryValue o : input) {
             // if this is a number
-            if(!o.isOperator()){
+            if (!o.isOperator()) {
                 numberList.add(o.getValue());
             }
             // must be an operator
-            else{
-                if(numberList.size() >= 2) {
+            else {
+                if (numberList.size() >= 2) {
                     long val2 = numberList.remove(numberList.size() - 1);
                     long val1 = numberList.remove(numberList.size() - 1);
                     numberList.add(evaluateOperator(val1, val2, o.getOperator()));
@@ -34,111 +34,121 @@ public class Calculator {
     }
 
     /**
-     * Implement Djikstra's shunting-yard algorithm on the historyArrayList ArrayList.
+     * Implement Djikstra's shunting-yard algorithm
      */
     private static ArrayList convertInfixToRPN(List<HistoryValue> historyValues) {
         // clear the lists we are going to be using
-        ArrayList<HistoryValue> RPNList = new ArrayList(10);
-        ArrayList<HistoryValue> operatorList = new ArrayList();
-        operatorList.clear();
-        for (HistoryValue o : historyValues) {
-            // if number, push to output
-            if (!o.isOperator()) {
-                RPNList.add(o);
-                // if '(', just push to the operator stack
-            } else if (o.getOperator().charAt(0) == '(') {
-                operatorList.add(o);
-                // if ')', pop off operator stack and onto output list until we hit a '('
-            } else if (o.getOperator().charAt(0) == ')') {
-                for(int i = operatorList.size() -  1; i >= 0; i--){
-                    if(operatorList.get(i).getOperator().charAt(0) != '('){
-                        RPNList.add(operatorList.remove(i));
-                    } else {
-                        operatorList.remove(i);
-                        break;
+        Stack<HistoryValue> operatorStack = new Stack<>();
+        Stack<HistoryValue> outputStack = new Stack<>();
+
+        for(HistoryValue token: historyValues) {
+            if(token.isNumber()) {
+                outputStack.push(token);
+            }
+            if(token.isOperator()) {
+                operatorStack.push(token);
+                for (HistoryValue operator : operatorStack) {
+                    //there is an operator at top of stack with greater precedence
+                    if((getPrecedence(operator.getOperator()) > getPrecedence(token.getOperator())
+                            //or there is operator at top of the stack with equal prec and is left assoc.
+                            || getPrecedence(operator.getOperator()) == getPrecedence(token.getOperator()) && operator.getOperator().equals("^"))
+                            //and the top operator is not a left paren
+                        && !operator.getOperator().equals("(")) {
+                        outputStack.add(operatorStack.pop());
                     }
                 }
-                // if normal operator
-            } else {
-                // if the operator stack is empty, just add our current operator to it
-                if(operatorList.isEmpty()){
-                    operatorList.add(o);
-                }
-                // else if current operator is left-associative and its precedence <= precedence of top of stack
-                else if(o.getOperator().charAt(0) != '^' &&
-                        getPrecedence(o.getOperator()) <= getPrecedence(operatorList.get(operatorList.size()-1).getOperator())){
-                    // remove from the top of the operator stack and put it on the output list
-                    RPNList.add(operatorList.remove(operatorList.size()-1));
-                    operatorList.add(o);
-                }
-                // else if current operator is right-associative and its precedence < precedence top of stack
-                else if(o.getOperator().charAt(0) == '^' &&
-                        getPrecedence(o.getOperator()) < getPrecedence(operatorList.get(operatorList.size()-1).getOperator())){
-                    // remove from the top of the operator stack and put it on the output list
-                    RPNList.add(operatorList.remove(operatorList.size()-1));
-                    operatorList.add(o);
+            }
+            if(token.getOperator() != null && token.getOperator().equals("(")) {
+                operatorStack.push(token);
+            }
+            if(token.getOperator() != null && token.getOperator().equals(")")) {
+                for(HistoryValue operator: operatorStack) {
+                    if(!operator.getOperator().equals("(")) {
+                        outputStack.push(operatorStack.pop());
+                    }
+                    if(operator.getOperator().equals("(")) {
+                        operatorStack.pop();
+                    }
                 }
             }
+
         }
-        while(!operatorList.isEmpty()){
-            RPNList.add(operatorList.remove(operatorList.size()-1));
+
+        while(!operatorStack.empty()) {
+            outputStack.push(operatorStack.pop());
         }
-        return RPNList;
+
+        return new ArrayList(outputStack);
     }
 
-    private static int getPrecedence(String operator){
+    private static int getPrecedence(String operator) {
         int result = 0;
-        switch (operator.toLowerCase()){
-            case "pow":    result = 6;
+        switch (operator.toLowerCase()) {
+            case "pow":
+                result = 6;
                 break;
             case "mod":
             case "*":
-            case "/":   result = 5;
+            case "/":
+                result = 5;
                 break;
             case "+":
-            case "-": result = 4;
+            case "-":
+                result = 4;
                 break;
             case "(":
-            case ")":    result = 3;
+            case ")":
+                result = 3;
                 break;
             case "lsh":
-            case "rsh":      result = 2;
+            case "rsh":
+                result = 2;
                 break;
             case "or":
             case "xor":
-            case "and":      result = 1;
+            case "and":
+                result = 1;
                 break;
         }
         return result;
     }
 
-    private static long evaluateOperator(long val1, long val2, String operator){
+    private static long evaluateOperator(long val1, long val2, String operator) {
         long result = 0;
         switch (operator.toLowerCase()) {
-            case "or":       result = val1 | val2;
+            case "or":
+                result = val1 | val2;
                 break;
-            case "xor":      result = val1 ^ val2;
+            case "xor":
+                result = val1 ^ val2;
                 break;
-            case "and":      result = val1 & val2;
+            case "and":
+                result = val1 & val2;
                 break;
-            case "lsh":      result = val1 << val2;
+            case "lsh":
+                result = val1 << val2;
                 break;
             //we want an unsigned shift
-            case "rsh":      result = val1 >>> val2;
+            case "rsh":
+                result = val1 >>> val2;
                 break;
-            case "mod":   result = val1 % val2;
+            case "mod":
+                result = val1 % val2;
                 break;
-            case "pow":    double d1 = val1;
-                double d2 = val2;
-                result = (long) Math.pow(d1, d2);
+            case "pow":
+                result = (long) Math.pow(val1, val2);
                 break;
-            case "*": result = val1 * val2;
+            case "*":
+                result = val1 * val2;
                 break;
-            case "/":   result = val1 / val2;
+            case "/":
+                result = val1 / val2;
                 break;
-            case "+":      result = val1 + val2;
+            case "+":
+                result = val1 + val2;
                 break;
-            case "-": result = val1 - val2;
+            case "-":
+                result = val1 - val2;
                 break;
         }
         return result;

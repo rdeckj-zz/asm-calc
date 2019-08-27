@@ -6,8 +6,8 @@ public class HistoryValue {
     private String operator;
     private long value;
 
-    HistoryValue(String operator) {
-        this.operator = operator;
+    HistoryValue(String value) {
+        this.operator = value;
         this.isOperator = true;
     }
 
@@ -18,6 +18,10 @@ public class HistoryValue {
 
     boolean isOperator() {
         return isOperator;
+    }
+
+    boolean isNumber() {
+        return !isOperator;
     }
 
     String getOperator() {

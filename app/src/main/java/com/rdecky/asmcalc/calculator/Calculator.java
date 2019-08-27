@@ -3,6 +3,7 @@ package com.rdecky.asmcalc.calculator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -38,76 +39,61 @@ public class Calculator {
      */
     private static ArrayList convertInfixToRPN(List<HistoryValue> historyValues) {
         // clear the lists we are going to be using
-        Stack<HistoryValue> operatorStack = new Stack<>();
-        Stack<HistoryValue> outputStack = new Stack<>();
-
-        for(HistoryValue token: historyValues) {
-            if(token.isNumber()) {
-                outputStack.push(token);
-            }
-            if(token.isOperator()) {
-                operatorStack.push(token);
-                for (HistoryValue operator : operatorStack) {
-                    //there is an operator at top of stack with greater precedence
-                    if((getPrecedence(operator.getOperator()) > getPrecedence(token.getOperator())
-                            //or there is operator at top of the stack with equal prec and is left assoc.
-                            || getPrecedence(operator.getOperator()) == getPrecedence(token.getOperator()) && operator.getOperator().equals("^"))
-                            //and the top operator is not a left paren
-                        && !operator.getOperator().equals("(")) {
-                        outputStack.add(operatorStack.pop());
+        ArrayList<HistoryValue> outputList = new ArrayList();
+        ArrayList<HistoryValue> operatorList = new ArrayList();
+        operatorList.clear();
+        for (HistoryValue token : historyValues) {
+            if (token.isNumber()) {
+                outputList.add(token);
+            } else if (token.getOperator().equals("(")) {
+                operatorList.add(token);
+                // if ')', pop off operator stack and onto output list until we hit a '('
+            } else if (token.getOperator().equals(")")) {
+                for(int i = operatorList.size() -  1; i >= 0; i--){
+                    if(!operatorList.get(i).getOperator().equals("(")){
+                        outputList.add(operatorList.remove(i));
+                    } else {
+                        operatorList.remove(i);
+                        break;
                     }
                 }
-            }
-            if(token.getOperator() != null && token.getOperator().equals("(")) {
-                operatorStack.push(token);
-            }
-            if(token.getOperator() != null && token.getOperator().equals(")")) {
-                for(HistoryValue operator: operatorStack) {
-                    if(!operator.getOperator().equals("(")) {
-                        outputStack.push(operatorStack.pop());
-                    }
-                    if(operator.getOperator().equals("(")) {
-                        operatorStack.pop();
-                    }
+                // if normal operator
+            } else if(token.isOperator()){
+                if(operatorList.isEmpty()) {
+                    operatorList.add(token);
+                }
+                else{
+                    for(int i = operatorList.size() -  1; i >= 0; i--){
+                                   if(getPrecedence(operatorList.get(i).getOperator()) > getPrecedence(token.getOperator()) ||
+                                           (token.getOperator().charAt(0) != '^' && getPrecedence(operatorList.get(i).getOperator()) == getPrecedence(token.getOperator())
+                                                   && !operatorList.get(i).getOperator().equals("("))) {
+                                       outputList.add(operatorList.remove(i));
+                                   }
+                                   break;
+                        }
+                    operatorList.add(token);
                 }
             }
-
         }
-
-        while(!operatorStack.empty()) {
-            outputStack.push(operatorStack.pop());
+        while(!operatorList.isEmpty()){
+            outputList.add(operatorList.remove(operatorList.size()-1));
         }
-
-        return new ArrayList(outputStack);
+        return outputList;
     }
 
     private static int getPrecedence(String operator) {
         int result = 0;
         switch (operator.toLowerCase()) {
             case "pow":
-                result = 6;
+                result = 4;
                 break;
-            case "mod":
             case "*":
             case "/":
-                result = 5;
+                result = 3;
                 break;
             case "+":
             case "-":
-                result = 4;
-                break;
-            case "(":
-            case ")":
-                result = 3;
-                break;
-            case "lsh":
-            case "rsh":
                 result = 2;
-                break;
-            case "or":
-            case "xor":
-            case "and":
-                result = 1;
                 break;
         }
         return result;

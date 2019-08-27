@@ -109,4 +109,33 @@ public class CalculatorTest {
         Long expected = (long) (4 + 2) * 3;
         assertThat(result, is(expected));
     }
+
+    @Test
+    public void calculate_withDoubleParenthesis() {
+        HistoryValue twenty = new HistoryValue(20);
+        HistoryValue four = new HistoryValue(4);
+        HistoryValue three = new HistoryValue(3);
+        HistoryValue two = new HistoryValue(2);
+        List<HistoryValue> historyValues = new ArrayList();
+        historyValues.add(openParenthesis);
+        historyValues.add(openParenthesis);
+        historyValues.add(twenty);
+        historyValues.add(multiply);
+        historyValues.add(four);
+        historyValues.add(closeParenthesis);
+        historyValues.add(multiply);
+        historyValues.add(two);
+        historyValues.add(closeParenthesis);
+        historyValues.add(divide);
+        historyValues.add(openParenthesis);
+        historyValues.add(three);
+        historyValues.add(subtract);
+        historyValues.add(two);
+        historyValues.add(closeParenthesis);
+
+        long result = Calculator.evaluate(historyValues);
+
+        Long expected = (long) ((20 * 4) * 2) / (3 - 2);
+        assertThat(result, is(expected));
+    }
 }

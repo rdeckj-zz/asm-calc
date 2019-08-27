@@ -3,11 +3,11 @@ package com.rdecky.asmcalc.calculator;
 public class HistoryValue {
 
     private boolean isOperator;
-    private String operator;
+    private String specialValue;
     private long value;
 
-    HistoryValue(String value) {
-        this.operator = value;
+    HistoryValue(String specialValue) {
+        this.specialValue = specialValue;
         this.isOperator = true;
     }
 
@@ -17,7 +17,11 @@ public class HistoryValue {
     }
 
     boolean isOperator() {
-        return isOperator;
+        return isOperator && !isParenthesis();
+    }
+
+    boolean isParenthesis() {
+        return (specialValue != null && (specialValue.equals(")") || specialValue.equals("(")));
     }
 
     boolean isNumber() {
@@ -25,7 +29,7 @@ public class HistoryValue {
     }
 
     String getOperator() {
-        return operator;
+        return specialValue;
     }
 
     long getValue() {

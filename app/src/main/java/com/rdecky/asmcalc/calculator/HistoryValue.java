@@ -17,11 +17,15 @@ public class HistoryValue {
     }
 
     boolean isOperator() {
-        return isOperator && !isParenthesis();
+        return isOperator && !isLeftParenthesis() && !isRightParenthesis();
     }
 
-    boolean isParenthesis() {
-        return (specialValue != null && (specialValue.equals(")") || specialValue.equals("(")));
+    boolean isLeftParenthesis() {
+        return specialValue != null && specialValue.equals("(");
+    }
+
+    boolean isRightParenthesis() {
+        return specialValue != null && specialValue.equals(")");
     }
 
     boolean isNumber() {
@@ -34,5 +38,32 @@ public class HistoryValue {
 
     long getValue() {
         return value;
+    }
+
+    int getPrecedence() {
+        if (specialValue == null) {
+            return 0;
+        }
+        switch (specialValue.toLowerCase()) {
+            case "pow":
+                return 4;
+            case "*":
+            case "/":
+                return 3;
+            case "+":
+            case "-":
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    boolean isLeftAssociative() {
+        if(specialValue == null) {
+            return false;
+        }
+
+        return !specialValue.equals("pow");
+
     }
 }

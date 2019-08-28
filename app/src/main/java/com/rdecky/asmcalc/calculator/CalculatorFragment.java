@@ -39,7 +39,7 @@ public class CalculatorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         dataBinding = FragmentCalculatorBinding.inflate(inflater, container, false);
-        dataBinding.setViewmodel(viewModel);
+        dataBinding.setViewModel(viewModel);
         dataBinding.setLifecycleOwner(this.getViewLifecycleOwner());
 
         root = dataBinding.getRoot();

@@ -1,11 +1,5 @@
 package com.rdecky.asmcalc.calculator;
 
-import android.util.Log;
-
-import java.util.List;
-
-import static com.rdecky.asmcalc.calculator.InputFormatClickListener.*;
-
 class SpecialButtonHandler {
 
     private CalculatorViewModel calculatorViewModel;

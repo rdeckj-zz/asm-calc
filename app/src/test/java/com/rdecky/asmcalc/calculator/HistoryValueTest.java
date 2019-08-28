@@ -19,15 +19,15 @@ public class HistoryValueTest {
     }
 
     @Test
-    public void isParenthesis_leftParenthesis_true() {
+    public void isLeftParenthesis_leftParenthesis_true() {
         HistoryValue value = new HistoryValue("(");
-        assertTrue(value.isParenthesis());
+        assertTrue(value.isLeftParenthesis());
     }
 
     @Test
-    public void isParenthesis_rightParenthesis_true() {
+    public void isRightParenthesis_rightParenthesis_true() {
         HistoryValue value = new HistoryValue(")");
-        assertTrue(value.isParenthesis());
+        assertTrue(value.isRightParenthesis());
     }
 
     @Test
@@ -40,5 +40,23 @@ public class HistoryValueTest {
     public void isNumber_nine_true() {
         HistoryValue value = new HistoryValue(9);
         assertTrue(value.isNumber());
+    }
+
+    @Test
+    public void isLeftAssociative_pow_false() {
+        HistoryValue value = new HistoryValue("pow");
+        assertFalse(value.isLeftAssociative());
+    }
+
+    @Test
+    public void isLeftAssociative_multiply_true() {
+        HistoryValue value = new HistoryValue("x");
+        assertTrue(value.isLeftAssociative());
+    }
+
+    @Test
+    public void isLeftAssociative_divide_true() {
+        HistoryValue value = new HistoryValue("/");
+        assertTrue(value.isLeftAssociative());
     }
 }

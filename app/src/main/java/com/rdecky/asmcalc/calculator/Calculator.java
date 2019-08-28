@@ -3,21 +3,20 @@ package com.rdecky.asmcalc.calculator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Calculator {
+class Calculator {
 
-    public static long evaluate(List<HistoryValue> historyValues) {
+    long evaluate(List<HistoryValue> historyValues) {
         ArrayList<HistoryValue> RPNHistory = convertToRPN(historyValues);
 
         return evaluateRPNHistory(RPNHistory);
     }
 
-    private static long evaluateRPNHistory(ArrayList<HistoryValue> input) {
+    private long evaluateRPNHistory(ArrayList<HistoryValue> input) {
         ArrayList<Long> numberList = new ArrayList<>();
         for (HistoryValue value : input) {
             if (value.isNumber()) {
                 numberList.add(value.getValue());
-            }
-            else {
+            } else {
                 if (numberList.size() >= 2) {
                     long val2 = numberList.remove(numberList.size() - 1);
                     long val1 = numberList.remove(numberList.size() - 1);
@@ -31,51 +30,70 @@ public class Calculator {
     /**
      * Uses Djikstra's shunting-yard algorithm
      */
-    private static ArrayList convertToRPN(List<HistoryValue> historyValues) {
+    private ArrayList<HistoryValue> convertToRPN(List<HistoryValue> historyValues) {
         ArrayList<HistoryValue> outputList = new ArrayList<>();
         ArrayList<HistoryValue> operatorList = new ArrayList<>();
-        operatorList.clear();
         for (HistoryValue token : historyValues) {
-            if (token.isNumber()) {
-                outputList.add(token);
-            } else if (token.isLeftParenthesis()) {
-                operatorList.add(token);
-                // if ')', pop off operator stack and onto output list until we hit a '('
-            } else if (token.isRightParenthesis()) {
-                for(int i = operatorList.size() -  1; i >= 0; i--){
-                    if(!operatorList.get(i).isLeftParenthesis()){
-                        outputList.add(operatorList.remove(i));
-                    } else {
-                        operatorList.remove(i);
-                        break;
-                    }
-                }
-                // if normal operator
-            } else if(token.isOperator()){
-                if(operatorList.isEmpty()) {
-                    operatorList.add(token);
-                }
-                else{
-                    for(int i = operatorList.size() -  1; i >= 0; i--){
-                                   if(operatorList.get(i).getPrecedence() > token.getPrecedence() ||
-                                           (token.isLeftAssociative() && operatorList.get(i).getPrecedence() == token.getPrecedence()
-                                                   && !operatorList.get(i).isLeftParenthesis())) {
-                                       outputList.add(operatorList.remove(i));
-                                   } else {
-                                       break;
-                                   }
-                        }
-                    operatorList.add(token);
-                }
-            }
+            handleNumber(outputList, token);
+            handleLeftParenthesis(operatorList, token);
+            handleRightParenthesis(outputList, operatorList, token);
+            handleOperator(outputList, operatorList, token);
         }
-        while(!operatorList.isEmpty()){
-            outputList.add(operatorList.remove(operatorList.size()-1));
-        }
+        putOperatorsOntoOutput(outputList, operatorList);
         return outputList;
     }
 
-    private static long evaluateOperator(long val1, long val2, String operator) {
+    private void putOperatorsOntoOutput(ArrayList<HistoryValue> outputList, ArrayList<HistoryValue> operatorList) {
+        while (!operatorList.isEmpty()) {
+            outputList.add(operatorList.remove(operatorList.size() - 1));
+        }
+    }
+
+    private void handleOperator(ArrayList<HistoryValue> outputList, ArrayList<HistoryValue> operatorList, HistoryValue token) {
+        if (token.isOperator()) {
+            if (operatorList.isEmpty()) {
+                operatorList.add(token);
+            } else {
+                for (int i = operatorList.size() - 1; i >= 0; i--) {
+                    if (operatorList.get(i).getPrecedence() > token.getPrecedence() ||
+                            (token.isLeftAssociative() && operatorList.get(i).getPrecedence() == token.getPrecedence()
+                                    && !operatorList.get(i).isLeftParenthesis())) {
+                        outputList.add(operatorList.remove(i));
+                    } else {
+                        break;
+                    }
+                }
+                operatorList.add(token);
+            }
+        }
+    }
+
+    private void handleRightParenthesis(ArrayList<HistoryValue> outputList, ArrayList<HistoryValue> operatorList, HistoryValue token) {
+        if (token.isRightParenthesis()) {
+            for (int i = operatorList.size() - 1; i >= 0; i--) {
+                if (!operatorList.get(i).isLeftParenthesis()) {
+                    outputList.add(operatorList.remove(i));
+                } else {
+                    operatorList.remove(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void handleLeftParenthesis(ArrayList<HistoryValue> operatorList, HistoryValue token) {
+        if (token.isLeftParenthesis()) {
+            operatorList.add(token);
+        }
+    }
+
+    private void handleNumber(ArrayList<HistoryValue> outputList, HistoryValue token) {
+        if (token.isNumber()) {
+            outputList.add(token);
+        }
+    }
+
+    private long evaluateOperator(long val1, long val2, String operator) {
         long result = 0;
         switch (operator.toLowerCase()) {
             case "or":

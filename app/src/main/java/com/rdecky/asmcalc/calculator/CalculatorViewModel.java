@@ -44,7 +44,12 @@ public class CalculatorViewModel extends ViewModel {
 
     void initialize() {
         inputFormatter = new InputFormatter();
-        specialButtonHandler = new SpecialButtonHandler(this, inputFormatter, new HistoryBarController(this));
+        specialButtonHandler = new SpecialButtonHandler(
+                this,
+                inputFormatter,
+                new HistoryBarController(this),
+                new Calculator()
+        );
         _currentValue.setValue(0L);
         _inputHistory.setValue("");
         _inputText.setValue(INITIAL_DEC_TEXT);

@@ -5,11 +5,13 @@ class SpecialButtonHandler {
     private CalculatorViewModel calculatorViewModel;
     private InputFormatter inputFormatter;
     private HistoryBarController historyBarController;
+    private Calculator calculator;
 
-    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController) {
+    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController, Calculator calculator) {
         this.calculatorViewModel = calculatorViewModel;
         this.inputFormatter = inputFormatter;
         this.historyBarController = historyBarController;
+        this.calculator = calculator;
     }
 
     void handle(CalculatorButton button) {
@@ -39,7 +41,7 @@ class SpecialButtonHandler {
 
     private void equals() {
         historyBarController.update("=");
-        long result = Calculator.evaluate(historyBarController.getHistory());
+        long result = calculator.evaluate(historyBarController.getHistory());
         historyBarController.clear();
         calculatorViewModel.setCurrentValue(Long.toString(result));
     }

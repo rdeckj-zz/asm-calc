@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.calculator;
 
-public class HistoryValue {
+class HistoryValue {
 
     private boolean isOperator;
     private String specialValue;
@@ -59,11 +59,10 @@ public class HistoryValue {
     }
 
     boolean isLeftAssociative() {
-        if(specialValue == null) {
+        if (specialValue == null) {
             return false;
         }
 
         return !specialValue.equals("pow");
-
     }
 }

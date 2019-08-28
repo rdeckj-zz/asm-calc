@@ -9,6 +9,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class CalculatorTest {
+    private Calculator calculator;
     private ArrayList<HistoryValue> historyValues;
 
     private HistoryValue add = new HistoryValue("+");
@@ -33,79 +34,86 @@ public class CalculatorTest {
     @Before
     public void setUp() {
         historyValues = new ArrayList<>();
+        calculator = new Calculator();
     }
 
     @Test
     public void calculate_1plus1() {
+        // 1 + 1
         historyValues.add(one);
         historyValues.add(add);
         historyValues.add(one);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
-        Long expected = (long) 1 + 1;
         assertThat(result, is(2L));
     }
 
     @Test
     public void calculate_10minus8() {
+        // 10 - 8
         historyValues.add(ten);
         historyValues.add(subtract);
         historyValues.add(eight);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
         assertThat(result, is(2L));
     }
 
     @Test
     public void calculate_7times7() {
+        // 7 * 7
         historyValues.add(seven);
         historyValues.add(multiply);
         historyValues.add(seven);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
         assertThat(result, is(49L));
     }
 
     @Test
     public void calculate_30divide3() {
+        // 30 / 3
         historyValues.add(thirty);
         historyValues.add(divide);
         historyValues.add(three);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
         assertThat(result, is(10L));
     }
 
     @Test
     public void calculate_2toThePowerOf6() {
+        // 2 ^ 6
         historyValues.add(two);
         historyValues.add(power);
         historyValues.add(six);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
         assertThat(result, is(64L));
     }
 
     @Test
     public void calculate_2toThePowerOf4Plus8() {
+        // 2 ^ 4 + 8
         historyValues.add(two);
         historyValues.add(power);
         historyValues.add(four);
         historyValues.add(add);
         historyValues.add(eight);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
         assertThat(result, is(24L));
     }
 
     @Test
     public void calculate_withParenthesis() {
+        // ( 4 + 2 ) * 3
         historyValues.add(openParenthesis);
         historyValues.add(four);
         historyValues.add(add);
@@ -114,14 +122,14 @@ public class CalculatorTest {
         historyValues.add(multiply);
         historyValues.add(three);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
         assertThat(result, is(18L));
     }
 
     @Test
     public void calculate_withDoubleParenthesis() {
-        //(30 * 4) * 2 / (3 - 2^4)
+        //( 30 * 4 ) * 2 / ( 3 - 2^4 )
         historyValues.add(openParenthesis);
         historyValues.add(thirty);
         historyValues.add(multiply);
@@ -138,7 +146,7 @@ public class CalculatorTest {
         historyValues.add(four);
         historyValues.add(closeParenthesis);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
         assertThat(result, is(-18L));
     }
@@ -162,7 +170,7 @@ public class CalculatorTest {
         historyValues.add(power);
         historyValues.add(three);
 
-        long result = Calculator.evaluate(historyValues);
+        long result = calculator.evaluate(historyValues);
 
         assertThat(result, is(3L));
     }

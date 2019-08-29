@@ -7,6 +7,7 @@ class HistoryBarController {
 
     private CalculatorViewModel calculatorViewModel;
     private List<HistoryValue> history = new ArrayList<>();
+    private String previousOperator;
 
     HistoryBarController(CalculatorViewModel calculatorViewModel) {
         this.calculatorViewModel = calculatorViewModel;
@@ -17,9 +18,16 @@ class HistoryBarController {
         history.clear();
     }
 
+    void equals() {
+        if(!previousOperator.equals(")")) {
+            update("=");
+        }
+    }
+
     void update(String operator) {
         updateHistoryList(operator);
         updateViewModel(operator);
+        previousOperator = operator;
     }
 
     List<HistoryValue> getHistory() {
@@ -36,7 +44,9 @@ class HistoryBarController {
     }
 
     private void updateHistoryList(String operator) {
-        history.add(new HistoryValue(calculatorViewModel.getCurrentValue()));
+        if (!isLeftParenthesis(operator)) {
+            history.add(new HistoryValue(calculatorViewModel.getCurrentValue()));
+        }
         history.add(new HistoryValue(operator));
     }
 
@@ -47,10 +57,16 @@ class HistoryBarController {
             newHistory.append(" ");
         }
 
-        newHistory.append(currentValue);
-        newHistory.append(" ");
+        if (!isLeftParenthesis(operator)) {
+            newHistory.append(currentValue);
+            newHistory.append(" ");
+        }
         newHistory.append(operator);
 
         return newHistory.toString();
+    }
+
+    private boolean isLeftParenthesis(String operator) {
+        return operator.equals("(");
     }
 }

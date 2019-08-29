@@ -42,6 +42,6 @@ public class CalculatorButton extends Button {
         return isSpecial() && !(text.equals(".") ||
                 text.equals("ms") || text.equals("clear") ||
                 text.equals("ce") || text.equals("bksp") ||
-                text.equals("+/-") || text.equals("(") || text.equals(")") || text.equals("="));
+                text.equals("+/-") || text.equals("="));
     }
 }

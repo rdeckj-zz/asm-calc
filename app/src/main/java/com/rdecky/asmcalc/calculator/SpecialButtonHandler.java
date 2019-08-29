@@ -43,7 +43,7 @@ class SpecialButtonHandler {
         historyBarController.update("=");
         long result = calculator.evaluate(historyBarController.getHistory());
         historyBarController.clear();
-        calculatorViewModel.setCurrentValue(Long.toString(result));
+        calculatorViewModel.setCurrentValueAsDec(result);
     }
 
     private void handleOperator(CalculatorButton button) {

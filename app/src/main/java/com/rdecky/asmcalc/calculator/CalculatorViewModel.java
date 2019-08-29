@@ -87,6 +87,10 @@ public class CalculatorViewModel extends ViewModel {
         }
     }
 
+    void setCurrentValueAsDec(long newValue) {
+        _currentValue.setValue(newValue);
+    }
+
     String getInputText() {
         return _inputText.getValue();
     }

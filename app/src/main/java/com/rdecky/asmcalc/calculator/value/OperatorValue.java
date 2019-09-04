@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.calculator.value;
 
-public class OperatorValue implements ButtonValue, HValue {
+public class OperatorValue implements ButtonValue, HistoryValue {
 
     private String value;
 

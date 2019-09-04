@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.calculator.value;
 
-public class NumberValue implements HValue {
+public class NumberValue implements HistoryValue {
 
     private long value;
 

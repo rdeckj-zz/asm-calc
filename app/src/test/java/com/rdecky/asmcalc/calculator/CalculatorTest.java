@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.calculator;
 
-import com.rdecky.asmcalc.calculator.value.HValue;
+import com.rdecky.asmcalc.calculator.value.HistoryValue;
 import com.rdecky.asmcalc.calculator.value.NumberValue;
 import com.rdecky.asmcalc.calculator.value.OperatorValue;
 
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 
 public class CalculatorTest {
     private Calculator calculator;
-    private ArrayList<HValue> historyValues;
+    private ArrayList<HistoryValue> historyValues;
 
     private OperatorValue add = new OperatorValue("+");
     private OperatorValue subtract = new OperatorValue("-");

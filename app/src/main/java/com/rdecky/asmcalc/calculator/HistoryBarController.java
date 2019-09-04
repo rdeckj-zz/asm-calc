@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.calculator;
 
-import com.rdecky.asmcalc.calculator.value.HValue;
+import com.rdecky.asmcalc.calculator.value.HistoryValue;
 import com.rdecky.asmcalc.calculator.value.NumberValue;
 import com.rdecky.asmcalc.calculator.value.OperatorValue;
 
@@ -10,7 +10,7 @@ import java.util.List;
 class HistoryBarController {
 
     private CalculatorViewModel calculatorViewModel;
-    private List<HValue> history = new ArrayList<>();
+    private List<HistoryValue> history = new ArrayList<>();
     private OperatorValue previousValue;
     private static final OperatorValue EQUALS = new OperatorValue("=");
 
@@ -35,7 +35,7 @@ class HistoryBarController {
         previousValue = value;
     }
 
-    List<HValue> getHistory() {
+    List<HistoryValue> getHistory() {
         return history;
     }
 

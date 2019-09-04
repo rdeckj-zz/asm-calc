@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.calculator;
 
-import com.rdecky.asmcalc.calculator.value.HValue;
+import com.rdecky.asmcalc.calculator.value.HistoryValue;
 import com.rdecky.asmcalc.calculator.value.NumberValue;
 import com.rdecky.asmcalc.calculator.value.OperatorValue;
 
@@ -9,15 +9,15 @@ import java.util.List;
 
 class Calculator {
 
-    long evaluate(List<HValue> historyValues) {
-        ArrayList<HValue> RPNHistory = convertToRPN(historyValues);
+    long evaluate(List<HistoryValue> historyValues) {
+        ArrayList<HistoryValue> RPNHistory = convertToRPN(historyValues);
 
         return evaluateRPNHistory(RPNHistory);
     }
 
-    private long evaluateRPNHistory(ArrayList<HValue> input) {
+    private long evaluateRPNHistory(ArrayList<HistoryValue> input) {
         ArrayList<Long> numberList = new ArrayList<>();
-        for (HValue value : input) {
+        for (HistoryValue value : input) {
             if (value instanceof NumberValue) {
                 NumberValue numberValue = (NumberValue) value;
                 numberList.add(numberValue.getValue());
@@ -36,10 +36,10 @@ class Calculator {
     /**
      * Uses Djikstra's shunting-yard algorithm
      */
-    private ArrayList<HValue> convertToRPN(List<HValue> historyValues) {
-        ArrayList<HValue> outputList = new ArrayList<>();
+    private ArrayList<HistoryValue> convertToRPN(List<HistoryValue> historyValues) {
+        ArrayList<HistoryValue> outputList = new ArrayList<>();
         ArrayList<OperatorValue> operatorList = new ArrayList<>();
-        for (HValue token : historyValues) {
+        for (HistoryValue token : historyValues) {
             handleNumber(outputList, token);
             handleLeftParenthesis(operatorList, token);
             handleRightParenthesis(outputList, operatorList, token);
@@ -49,13 +49,13 @@ class Calculator {
         return outputList;
     }
 
-    private void putOperatorsOntoOutput(ArrayList<HValue> outputList, ArrayList<OperatorValue> operatorList) {
+    private void putOperatorsOntoOutput(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList) {
         while (!operatorList.isEmpty()) {
             outputList.add(operatorList.remove(operatorList.size() - 1));
         }
     }
 
-    private void handleOperator(ArrayList<HValue> outputList, ArrayList<OperatorValue> operatorList, HValue token) {
+    private void handleOperator(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList, HistoryValue token) {
         if (token instanceof OperatorValue) {
             OperatorValue operatorValue = (OperatorValue) token;
             if (!operatorValue.isParenthesis()) {
@@ -77,7 +77,7 @@ class Calculator {
         }
     }
 
-    private void handleRightParenthesis(ArrayList<HValue> outputList, ArrayList<OperatorValue> operatorList, HValue token) {
+    private void handleRightParenthesis(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList, HistoryValue token) {
         if(token instanceof OperatorValue) {
             OperatorValue operatorValue = (OperatorValue) token;
             if (operatorValue.isRightParenthesis()) {
@@ -93,7 +93,7 @@ class Calculator {
         }
     }
 
-    private void handleLeftParenthesis(ArrayList<OperatorValue> operatorList, HValue token) {
+    private void handleLeftParenthesis(ArrayList<OperatorValue> operatorList, HistoryValue token) {
         if (token instanceof OperatorValue) {
             OperatorValue operatorValue = (OperatorValue) token;
             if (operatorValue.isLeftParenthesis()) {
@@ -102,7 +102,7 @@ class Calculator {
         }
     }
 
-    private void handleNumber(ArrayList<HValue> outputList, HValue token) {
+    private void handleNumber(ArrayList<HistoryValue> outputList, HistoryValue token) {
         if (token instanceof NumberValue) {
             outputList.add(token);
         }

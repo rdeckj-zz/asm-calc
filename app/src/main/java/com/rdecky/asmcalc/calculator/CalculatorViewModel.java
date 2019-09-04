@@ -5,6 +5,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
+import com.rdecky.asmcalc.calculator.buttonValue.OperatorButtonValue;
+import com.rdecky.asmcalc.calculator.buttonValue.SpecialButtonValue;
+
 import java.util.List;
 
 import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat;
@@ -18,7 +22,9 @@ public class CalculatorViewModel extends ViewModel {
     private InputFormatter inputFormatter;
     private Observer<String> inputFormatObserver;
     private InputFormat currentInputFormat;
+
     private SpecialButtonHandler specialButtonHandler;
+    private OperatorButtonHandler operatorButtonHandler;
 
     private MutableLiveData<Long> _currentValue = new MutableLiveData<>();
 
@@ -44,12 +50,14 @@ public class CalculatorViewModel extends ViewModel {
 
     void initialize() {
         inputFormatter = new InputFormatter();
+        HistoryBarController historyBarController = new HistoryBarController(this);
         specialButtonHandler = new SpecialButtonHandler(
                 this,
                 inputFormatter,
-                new HistoryBarController(this),
+                historyBarController,
                 new Calculator()
         );
+        operatorButtonHandler = new OperatorButtonHandler(this, historyBarController);
         _currentValue.setValue(0L);
         _inputHistory.setValue("");
         _inputText.setValue(INITIAL_DEC_TEXT);
@@ -61,12 +69,18 @@ public class CalculatorViewModel extends ViewModel {
         setInputFormat(InputFormat.DEC);
     }
 
-    void buttonPressed(CalculatorButton button) {
-        if (!button.isSpecial()) {
-            handleRegularInput(button);
-        } else {
-            specialButtonHandler.handle(button);
-        }
+    void regularButtonPressed(ButtonValue value) {
+        String buttonText = value.getText();
+        String newText = inputFormatter.stripFormatting(inputText.getValue()) + buttonText;
+        setCurrentValue(newText);
+    }
+
+    void specialButtonPressed(SpecialButtonValue value) {
+        specialButtonHandler.handle(value);
+    }
+
+    void operatorButtonPressed(OperatorButtonValue value) {
+        operatorButtonHandler.handle(value);
     }
 
     void setInputFormat(InputFormat newFormat) {
@@ -107,6 +121,10 @@ public class CalculatorViewModel extends ViewModel {
         return _currentValue.getValue();
     }
 
+    void clearEntry() {
+        setCurrentValue("0");
+    }
+
     private void setNewInputFormatObserver(InputFormat newFormat) {
         if (newFormat == InputFormat.DEC) {
             _decText.observeForever(inputFormatObserver);
@@ -132,12 +150,6 @@ public class CalculatorViewModel extends ViewModel {
         _decText.removeObserver(inputFormatObserver);
         _hexText.removeObserver(inputFormatObserver);
         _binText.removeObserver(inputFormatObserver);
-    }
-
-    private void handleRegularInput(CalculatorButton button) {
-        String buttonText = button.getText().toString();
-        String newText = inputFormatter.stripFormatting(inputText.getValue()) + buttonText;
-        setCurrentValue(newText);
     }
 
     private void setCurrentValueBasedOnRadix(String newText, int radix) {

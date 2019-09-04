@@ -1,5 +1,7 @@
 package com.rdecky.asmcalc.calculator;
 
+import com.rdecky.asmcalc.calculator.buttonValue.SpecialButtonValue;
+
 class SpecialButtonHandler {
 
     private CalculatorViewModel calculatorViewModel;
@@ -14,14 +16,8 @@ class SpecialButtonHandler {
         this.calculator = calculator;
     }
 
-    void handle(CalculatorButton button) {
-        handleOperator(button);
-        handleNonOperator(button);
-    }
-
-    private void handleNonOperator(CalculatorButton button) {
-        String buttonText = button.getText().toString();
-        switch (buttonText.toLowerCase()) {
+    void handle(SpecialButtonValue value) {
+        switch (value.getText().toLowerCase()) {
             case "bksp":
                 backspace();
                 break;
@@ -29,7 +25,7 @@ class SpecialButtonHandler {
                 clear();
                 break;
             case "ce":
-                clearEntry();
+                calculatorViewModel.clearEntry();
                 break;
             case "=":
                 equals();
@@ -46,13 +42,6 @@ class SpecialButtonHandler {
         calculatorViewModel.setCurrentValueAsDec(result);
     }
 
-    private void handleOperator(CalculatorButton button) {
-        if (button.isOperator()) {
-            historyBarController.update(button.getText().toString());
-            clearEntry();
-        }
-    }
-
     private void backspace() {
         String noFormatting = inputFormatter.stripFormatting(calculatorViewModel.getInputText());
         if (noFormatting.length() == 1) {
@@ -64,11 +53,7 @@ class SpecialButtonHandler {
     }
 
     private void clear() {
-        clearEntry();
+        calculatorViewModel.clearEntry();
         historyBarController.clear();
-    }
-
-    private void clearEntry() {
-        calculatorViewModel.setCurrentValue("0");
     }
 }

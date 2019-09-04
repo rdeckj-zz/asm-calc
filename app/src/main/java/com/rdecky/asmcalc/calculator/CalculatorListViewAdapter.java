@@ -16,67 +16,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalculatorListViewAdapter implements ListAdapter {
-    private static final String[] BUTTON_SYMBOLS = {
-            "Lsh", "Rsh", "Or", "Xor", "Not", "And",
-            "MS", "Mod", "CE", "Clear", "Bksp", "/",
-            "A", "B", "7", "8", "9", "*",
-            "C", "D", "4", "5", "6", "-",
-            "E", "F", "1", "2", "3", "+",
-            "(", ")", "+/-", "0", ".", "="
-    };
-
-    private static final ButtonValue[] ROW_1 = {
+    private static final ButtonValue[] BUTTON_VALUES = {
+            //Row 1
             new OperatorButtonValue("Lsh"),
             new OperatorButtonValue("Rsh"),
             new OperatorButtonValue("Or"),
             new OperatorButtonValue("Xor"),
             new OperatorButtonValue("Not"),
-            new OperatorButtonValue("And")
-    };
-
-    private static final ButtonValue[] ROW_2 = {
+            new OperatorButtonValue("And"),
+            //Row 2
             new SpecialButtonValue("MS"),
             new OperatorButtonValue("Mod"),
             new SpecialButtonValue("CE"),
             new SpecialButtonValue("Clear"),
             new SpecialButtonValue("Bksp"),
-            new OperatorButtonValue("/")
-    };
-
-    private static final ButtonValue[] ROW_3 = {
+            new OperatorButtonValue("/"),
+            //Row 3
             new HexButtonValue("A"),
             new HexButtonValue("B"),
             new DecButtonValue("7"),
             new DecButtonValue("8"),
             new DecButtonValue("9"),
-            new OperatorButtonValue("*")
-    };
-
-    private static final ButtonValue[] ROW_4 = {
+            new OperatorButtonValue("*"),
+            //Row 4
             new HexButtonValue("C"),
             new HexButtonValue("D"),
             new DecButtonValue("4"),
             new DecButtonValue("5"),
             new DecButtonValue("6"),
-            new OperatorButtonValue("-")
-    };
-
-    private static final ButtonValue[] ROW_5 = {
+            new OperatorButtonValue("-"),
+            //Row 5
             new HexButtonValue("E"),
             new HexButtonValue("F"),
             new DecButtonValue("1"),
             new DecButtonValue("2"),
             new DecButtonValue("3"),
-            new OperatorButtonValue("+")
-    };
-
-    private static final ButtonValue[] ROW_6 = {
+            new OperatorButtonValue("+"),
+            //Row 6
             new OperatorButtonValue("("),
             new OperatorButtonValue(")"),
             new SpecialButtonValue("+/-"),
             new DecButtonValue("0"),
             new SpecialButtonValue("."),
-            new OperatorButtonValue("=")
+            new SpecialButtonValue("=")
     };
 
     private Context context;
@@ -132,7 +114,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            return createNewButton(BUTTON_SYMBOLS[position]);
+            return createNewButton(BUTTON_VALUES[position]);
         }
 
         return convertView;
@@ -153,20 +135,55 @@ public class CalculatorListViewAdapter implements ListAdapter {
         return false;
     }
 
-    private View createNewButton(String buttonSymbol) {
-        final CalculatorButton button = new CalculatorButton(context);
-        button.setText(buttonSymbol);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.buttonPressed(button);
-            }
-        });
+    List<CalculatorButton> getAllButtons() {
+        return allButtons;
+    }
+
+    private View createNewButton(ButtonValue buttonValue) {
+        final CalculatorButton button = new CalculatorButton(context, buttonValue);
+        setButtonClickListener(button);
         allButtons.add(button);
         return button;
     }
 
-    List<CalculatorButton> getAllButtons() {
-        return allButtons;
+    private void setButtonClickListener(final CalculatorButton button) {
+        final ButtonValue buttonValue = button.getValue();
+
+        if (buttonValue instanceof SpecialButtonValue) {
+            setSpecialButtonClickListener(button, buttonValue);
+        } else if (buttonValue instanceof OperatorButtonValue) {
+            setOperatorButtonClickListener(button, buttonValue);
+        } else {
+            setRegularButtonClickListener(button, buttonValue);
+        }
+    }
+
+    private void setRegularButtonClickListener(CalculatorButton button, final ButtonValue buttonValue) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.regularButtonPressed(buttonValue);
+            }
+        });
+    }
+
+    private void setSpecialButtonClickListener(CalculatorButton button, ButtonValue buttonValue) {
+        final SpecialButtonValue specialButtonValue = (SpecialButtonValue) buttonValue;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.specialButtonPressed(specialButtonValue);
+            }
+        });
+    }
+
+    private void setOperatorButtonClickListener(CalculatorButton button, ButtonValue buttonValue) {
+        final OperatorButtonValue operatorButtonValue = (OperatorButtonValue) buttonValue;
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.operatorButtonPressed(operatorButtonValue);
+            }
+        });
     }
 }

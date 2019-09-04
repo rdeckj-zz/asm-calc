@@ -9,7 +9,7 @@ public class DecButtonValue implements ButtonValue {
     }
 
     @Override
-    public String getValue() {
+    public String getText() {
         return value;
     }
 
@@ -27,15 +27,5 @@ public class DecButtonValue implements ButtonValue {
     public boolean isBinValue() {
         char firstDigit = value.charAt(0);
         return firstDigit == '0' || firstDigit == '1';
-    }
-
-    @Override
-    public boolean isSpecialValue() {
-        return false;
-    }
-
-    @Override
-    public boolean isOperatorValue() {
-        return false;
     }
 }

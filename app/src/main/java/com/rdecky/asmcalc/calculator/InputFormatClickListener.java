@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
+
 import java.util.List;
 
 public class InputFormatClickListener implements View.OnClickListener {
@@ -65,7 +67,8 @@ public class InputFormatClickListener implements View.OnClickListener {
 
     private void disableNonBinaryButtons() {
         for (CalculatorButton button : calculatorButtons) {
-            if (!button.isBinDigit() && (button.isNumericDigit() || button.isHexDigit())) {
+            ButtonValue value = button.getValue();
+            if (!value.isBinValue() && (value.isDecValue() || value.isHexValue())) {
                 button.setEnabled(false);
             }
         }
@@ -73,7 +76,8 @@ public class InputFormatClickListener implements View.OnClickListener {
 
     private void disableHexButtons() {
         for (CalculatorButton button : calculatorButtons) {
-            if (button.isHexDigit()) {
+            ButtonValue value = button.getValue();
+            if (value.isHexValue()) {
                 button.setEnabled(false);
             }
         }

@@ -11,7 +11,7 @@ public class HexButtonValue implements ButtonValue {
     }
 
     @Override
-    public String getValue() {
+    public String getText() {
         return value;
     }
 
@@ -27,16 +27,6 @@ public class HexButtonValue implements ButtonValue {
 
     @Override
     public boolean isBinValue() {
-        return false;
-    }
-
-    @Override
-    public boolean isSpecialValue() {
-        return false;
-    }
-
-    @Override
-    public boolean isOperatorValue() {
         return false;
     }
 }

@@ -1,7 +1,5 @@
 package com.rdecky.asmcalc.calculator.buttonValue;
 
-import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
-
 public class SpecialButtonValue implements ButtonValue {
 
     private String value;
@@ -11,7 +9,7 @@ public class SpecialButtonValue implements ButtonValue {
     }
 
     @Override
-    public String getValue() {
+    public String getText() {
         return value;
     }
 
@@ -27,16 +25,6 @@ public class SpecialButtonValue implements ButtonValue {
 
     @Override
     public boolean isBinValue() {
-        return false;
-    }
-
-    @Override
-    public boolean isSpecialValue() {
-        return true;
-    }
-
-    @Override
-    public boolean isOperatorValue() {
         return false;
     }
 }

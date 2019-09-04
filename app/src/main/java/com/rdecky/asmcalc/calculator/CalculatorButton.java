@@ -5,43 +5,24 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.Button;
 
+import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
+
 @SuppressLint("AppCompatCustomView")
 public class CalculatorButton extends Button {
+
+    private ButtonValue value;
 
     public CalculatorButton(Context context) {
         super(context);
     }
 
-    boolean isNumericDigit() {
-        String text = getText().toString();
-        char firstDigit = text.charAt(0);
-
-        return text.length() == 1 && firstDigit >= '0' && firstDigit <= '9';
+    public CalculatorButton(Context context, ButtonValue value) {
+        super(context);
+        this.value = value;
+        setText(value.getText());
     }
 
-    boolean isHexDigit() {
-        String text = getText().toString();
-        char firstDigit = text.charAt(0);
-
-        return text.length() == 1 && firstDigit >= 'A' && firstDigit <= 'F';
-    }
-
-    boolean isBinDigit() {
-        String text = getText().toString();
-        char firstDigit = text.charAt(0);
-
-        return text.length() == 1 && (firstDigit == '0' || firstDigit == '1');
-    }
-
-    boolean isSpecial() {
-        return !isNumericDigit() && !isHexDigit() && !isBinDigit();
-    }
-
-    boolean isOperator() {
-        String text = getText().toString().toLowerCase();
-        return isSpecial() && !(text.equals(".") ||
-                text.equals("ms") || text.equals("clear") ||
-                text.equals("ce") || text.equals("bksp") ||
-                text.equals("+/-") || text.equals("="));
+    ButtonValue getValue() {
+        return value;
     }
 }

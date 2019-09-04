@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.calculator;
 
-import com.rdecky.asmcalc.calculator.buttonValue.SpecialButtonValue;
+import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
 
 class SpecialButtonHandler {
 

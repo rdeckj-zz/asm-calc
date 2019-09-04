@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
-import com.rdecky.asmcalc.calculator.buttonValue.OperatorButtonValue;
-import com.rdecky.asmcalc.calculator.buttonValue.SpecialButtonValue;
+import com.rdecky.asmcalc.calculator.value.ButtonValue;
+import com.rdecky.asmcalc.calculator.value.OperatorValue;
+import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
 
 import java.util.List;
 
@@ -79,7 +79,7 @@ public class CalculatorViewModel extends ViewModel {
         specialButtonHandler.handle(value);
     }
 
-    void operatorButtonPressed(OperatorButtonValue value) {
+    void operatorButtonPressed(OperatorValue value) {
         operatorButtonHandler.handle(value);
     }
 

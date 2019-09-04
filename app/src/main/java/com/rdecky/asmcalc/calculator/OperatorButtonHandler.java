@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.calculator;
 
-import com.rdecky.asmcalc.calculator.buttonValue.OperatorButtonValue;
+import com.rdecky.asmcalc.calculator.value.OperatorValue;
 
 class OperatorButtonHandler {
 
@@ -12,8 +12,8 @@ class OperatorButtonHandler {
         this.historyBarController = historyBarController;
     }
 
-    void handle(OperatorButtonValue value) {
-        historyBarController.update(value.getText());
+    void handle(OperatorValue value) {
+        historyBarController.update(value);
         calculatorViewModel.clearEntry();
     }
 }

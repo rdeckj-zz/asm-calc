@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
-import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
-import com.rdecky.asmcalc.calculator.buttonValue.DecButtonValue;
-import com.rdecky.asmcalc.calculator.buttonValue.HexButtonValue;
-import com.rdecky.asmcalc.calculator.buttonValue.OperatorButtonValue;
-import com.rdecky.asmcalc.calculator.buttonValue.SpecialButtonValue;
+import com.rdecky.asmcalc.calculator.value.ButtonValue;
+import com.rdecky.asmcalc.calculator.value.DecButtonValue;
+import com.rdecky.asmcalc.calculator.value.HexButtonValue;
+import com.rdecky.asmcalc.calculator.value.OperatorValue;
+import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,43 +18,43 @@ import java.util.List;
 public class CalculatorListViewAdapter implements ListAdapter {
     private static final ButtonValue[] BUTTON_VALUES = {
             //Row 1
-            new OperatorButtonValue("Lsh"),
-            new OperatorButtonValue("Rsh"),
-            new OperatorButtonValue("Or"),
-            new OperatorButtonValue("Xor"),
-            new OperatorButtonValue("Not"),
-            new OperatorButtonValue("And"),
+            new OperatorValue("Lsh"),
+            new OperatorValue("Rsh"),
+            new OperatorValue("Or"),
+            new OperatorValue("Xor"),
+            new OperatorValue("Not"),
+            new OperatorValue("And"),
             //Row 2
             new SpecialButtonValue("MS"),
-            new OperatorButtonValue("Mod"),
+            new OperatorValue("Mod"),
             new SpecialButtonValue("CE"),
             new SpecialButtonValue("Clear"),
             new SpecialButtonValue("Bksp"),
-            new OperatorButtonValue("/"),
+            new OperatorValue("/"),
             //Row 3
             new HexButtonValue("A"),
             new HexButtonValue("B"),
             new DecButtonValue("7"),
             new DecButtonValue("8"),
             new DecButtonValue("9"),
-            new OperatorButtonValue("*"),
+            new OperatorValue("*"),
             //Row 4
             new HexButtonValue("C"),
             new HexButtonValue("D"),
             new DecButtonValue("4"),
             new DecButtonValue("5"),
             new DecButtonValue("6"),
-            new OperatorButtonValue("-"),
+            new OperatorValue("-"),
             //Row 5
             new HexButtonValue("E"),
             new HexButtonValue("F"),
             new DecButtonValue("1"),
             new DecButtonValue("2"),
             new DecButtonValue("3"),
-            new OperatorButtonValue("+"),
+            new OperatorValue("+"),
             //Row 6
-            new OperatorButtonValue("("),
-            new OperatorButtonValue(")"),
+            new OperatorValue("("),
+            new OperatorValue(")"),
             new SpecialButtonValue("+/-"),
             new DecButtonValue("0"),
             new SpecialButtonValue("."),
@@ -151,7 +151,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
 
         if (buttonValue instanceof SpecialButtonValue) {
             setSpecialButtonClickListener(button, buttonValue);
-        } else if (buttonValue instanceof OperatorButtonValue) {
+        } else if (buttonValue instanceof OperatorValue) {
             setOperatorButtonClickListener(button, buttonValue);
         } else {
             setRegularButtonClickListener(button, buttonValue);
@@ -178,7 +178,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
     }
 
     private void setOperatorButtonClickListener(CalculatorButton button, ButtonValue buttonValue) {
-        final OperatorButtonValue operatorButtonValue = (OperatorButtonValue) buttonValue;
+        final OperatorValue operatorButtonValue = (OperatorValue) buttonValue;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

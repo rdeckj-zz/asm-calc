@@ -1,10 +1,10 @@
-package com.rdecky.asmcalc.calculator.buttonValue;
+package com.rdecky.asmcalc.calculator.value;
 
-public class OperatorButtonValue implements ButtonValue {
+public class SpecialButtonValue implements ButtonValue {
 
     private String value;
 
-    public OperatorButtonValue(String value) {
+    public SpecialButtonValue(String value) {
         this.value = value;
     }
 

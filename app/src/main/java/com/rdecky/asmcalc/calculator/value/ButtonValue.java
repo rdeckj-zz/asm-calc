@@ -1,4 +1,4 @@
-package com.rdecky.asmcalc.calculator.buttonValue;
+package com.rdecky.asmcalc.calculator.value;
 
 public interface ButtonValue {
     public String getText();

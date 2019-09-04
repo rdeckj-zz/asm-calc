@@ -1,6 +1,4 @@
-package com.rdecky.asmcalc.calculator.buttonValue;
-
-import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
+package com.rdecky.asmcalc.calculator.value;
 
 public class HexButtonValue implements ButtonValue {
 

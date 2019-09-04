@@ -1,13 +1,18 @@
 package com.rdecky.asmcalc.calculator;
 
+import com.rdecky.asmcalc.calculator.value.HValue;
+import com.rdecky.asmcalc.calculator.value.NumberValue;
+import com.rdecky.asmcalc.calculator.value.OperatorValue;
+
 import java.util.ArrayList;
 import java.util.List;
 
 class HistoryBarController {
 
     private CalculatorViewModel calculatorViewModel;
-    private List<HistoryValue> history = new ArrayList<>();
-    private String previousOperator;
+    private List<HValue> history = new ArrayList<>();
+    private OperatorValue previousValue;
+    private static final OperatorValue EQUALS = new OperatorValue("=");
 
     HistoryBarController(CalculatorViewModel calculatorViewModel) {
         this.calculatorViewModel = calculatorViewModel;
@@ -19,54 +24,50 @@ class HistoryBarController {
     }
 
     void equals() {
-        if(!previousOperator.equals(")")) {
-            update("=");
+        if(!previousValue.isRightParenthesis()) {
+            update(EQUALS);
         }
     }
 
-    void update(String operator) {
-        updateHistoryList(operator);
-        updateViewModel(operator);
-        previousOperator = operator;
+    void update(OperatorValue value) {
+        updateHistoryList(value);
+        updateViewModel(value);
+        previousValue = value;
     }
 
-    List<HistoryValue> getHistory() {
+    List<HValue> getHistory() {
         return history;
     }
 
-    private void updateViewModel(String operator) {
+    private void updateViewModel(OperatorValue value) {
         String currentHistory = calculatorViewModel.getInputHistory();
         String currentValue = calculatorViewModel.getInputText();
 
-        String newHistory = appendToHistory(currentHistory, operator, currentValue);
+        String newHistory = appendToHistory(currentHistory, value, currentValue);
 
         calculatorViewModel.setInputHistory(newHistory);
     }
 
-    private void updateHistoryList(String operator) {
-        if (!isLeftParenthesis(operator)) {
-            history.add(new HistoryValue(calculatorViewModel.getCurrentValue()));
+    private void updateHistoryList(OperatorValue value) {
+        if (!value.isLeftParenthesis()) {
+            history.add(new NumberValue(calculatorViewModel.getCurrentValue()));
         }
-        history.add(new HistoryValue(operator));
+        history.add(value);
     }
 
-    private String appendToHistory(String currentHistory, String operator, String currentValue) {
+    private String appendToHistory(String currentHistory, OperatorValue value, String currentValue) {
         StringBuilder newHistory = new StringBuilder(currentHistory);
 
         if (!currentHistory.isEmpty()) {
             newHistory.append(" ");
         }
 
-        if (!isLeftParenthesis(operator)) {
+        if (!value.isLeftParenthesis()) {
             newHistory.append(currentValue);
             newHistory.append(" ");
         }
-        newHistory.append(operator);
+        newHistory.append(value.getText());
 
         return newHistory.toString();
-    }
-
-    private boolean isLeftParenthesis(String operator) {
-        return operator.equals("(");
     }
 }

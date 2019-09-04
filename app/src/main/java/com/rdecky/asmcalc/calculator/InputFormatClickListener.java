@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
+import com.rdecky.asmcalc.calculator.value.ButtonValue;
 
 import java.util.List;
 

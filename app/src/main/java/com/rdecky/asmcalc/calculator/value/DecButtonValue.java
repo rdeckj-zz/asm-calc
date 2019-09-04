@@ -1,4 +1,4 @@
-package com.rdecky.asmcalc.calculator.buttonValue;
+package com.rdecky.asmcalc.calculator.value;
 
 public class DecButtonValue implements ButtonValue {
 

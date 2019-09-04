@@ -5,7 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.Button;
 
-import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
+import com.rdecky.asmcalc.calculator.value.ButtonValue;
 
 @SuppressLint("AppCompatCustomView")
 public class CalculatorButton extends Button {

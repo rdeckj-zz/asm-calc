@@ -1,5 +1,9 @@
 package com.rdecky.asmcalc.calculator;
 
+import com.rdecky.asmcalc.calculator.value.HValue;
+import com.rdecky.asmcalc.calculator.value.NumberValue;
+import com.rdecky.asmcalc.calculator.value.OperatorValue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,26 +14,26 @@ import static org.junit.Assert.assertThat;
 
 public class CalculatorTest {
     private Calculator calculator;
-    private ArrayList<HistoryValue> historyValues;
+    private ArrayList<HValue> historyValues;
 
-    private HistoryValue add = new HistoryValue("+");
-    private HistoryValue subtract = new HistoryValue("-");
-    private HistoryValue multiply = new HistoryValue("*");
-    private HistoryValue divide = new HistoryValue("/");
-    private HistoryValue power = new HistoryValue("pow");
-    private HistoryValue openParenthesis = new HistoryValue("(");
-    private HistoryValue closeParenthesis = new HistoryValue(")");
+    private OperatorValue add = new OperatorValue("+");
+    private OperatorValue subtract = new OperatorValue("-");
+    private OperatorValue multiply = new OperatorValue("*");
+    private OperatorValue divide = new OperatorValue("/");
+    private OperatorValue power = new OperatorValue("pow");
+    private OperatorValue openParenthesis = new OperatorValue("(");
+    private OperatorValue closeParenthesis = new OperatorValue(")");
 
-    private HistoryValue one = new HistoryValue(1L);
-    private HistoryValue two = new HistoryValue(2L);
-    private HistoryValue three = new HistoryValue(3L);
-    private HistoryValue four = new HistoryValue(4L);
-    private HistoryValue five = new HistoryValue(5L);
-    private HistoryValue six = new HistoryValue(6L);
-    private HistoryValue seven = new HistoryValue(7L);
-    private HistoryValue eight = new HistoryValue(8L);
-    private HistoryValue ten = new HistoryValue(10L);
-    private HistoryValue thirty = new HistoryValue(30L);
+    private NumberValue one = new NumberValue(1L);
+    private NumberValue two = new NumberValue(2L);
+    private NumberValue three = new NumberValue(3L);
+    private NumberValue four = new NumberValue(4L);
+    private NumberValue five = new NumberValue(5L);
+    private NumberValue six = new NumberValue(6L);
+    private NumberValue seven = new NumberValue(7L);
+    private NumberValue eight = new NumberValue(8L);
+    private NumberValue ten = new NumberValue(10L);
+    private NumberValue thirty = new NumberValue(30L);
 
     @Before
     public void setUp() {

@@ -6,6 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
+import com.rdecky.asmcalc.calculator.buttonValue.ButtonValue;
+import com.rdecky.asmcalc.calculator.buttonValue.DecButtonValue;
+import com.rdecky.asmcalc.calculator.buttonValue.HexButtonValue;
+import com.rdecky.asmcalc.calculator.buttonValue.OperatorButtonValue;
+import com.rdecky.asmcalc.calculator.buttonValue.SpecialButtonValue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +23,60 @@ public class CalculatorListViewAdapter implements ListAdapter {
             "C", "D", "4", "5", "6", "-",
             "E", "F", "1", "2", "3", "+",
             "(", ")", "+/-", "0", ".", "="
+    };
+
+    private static final ButtonValue[] ROW_1 = {
+            new OperatorButtonValue("Lsh"),
+            new OperatorButtonValue("Rsh"),
+            new OperatorButtonValue("Or"),
+            new OperatorButtonValue("Xor"),
+            new OperatorButtonValue("Not"),
+            new OperatorButtonValue("And")
+    };
+
+    private static final ButtonValue[] ROW_2 = {
+            new SpecialButtonValue("MS"),
+            new OperatorButtonValue("Mod"),
+            new SpecialButtonValue("CE"),
+            new SpecialButtonValue("Clear"),
+            new SpecialButtonValue("Bksp"),
+            new OperatorButtonValue("/")
+    };
+
+    private static final ButtonValue[] ROW_3 = {
+            new HexButtonValue("A"),
+            new HexButtonValue("B"),
+            new DecButtonValue("7"),
+            new DecButtonValue("8"),
+            new DecButtonValue("9"),
+            new OperatorButtonValue("*")
+    };
+
+    private static final ButtonValue[] ROW_4 = {
+            new HexButtonValue("C"),
+            new HexButtonValue("D"),
+            new DecButtonValue("4"),
+            new DecButtonValue("5"),
+            new DecButtonValue("6"),
+            new OperatorButtonValue("-")
+    };
+
+    private static final ButtonValue[] ROW_5 = {
+            new HexButtonValue("E"),
+            new HexButtonValue("F"),
+            new DecButtonValue("1"),
+            new DecButtonValue("2"),
+            new DecButtonValue("3"),
+            new OperatorButtonValue("+")
+    };
+
+    private static final ButtonValue[] ROW_6 = {
+            new OperatorButtonValue("("),
+            new OperatorButtonValue(")"),
+            new SpecialButtonValue("+/-"),
+            new DecButtonValue("0"),
+            new SpecialButtonValue("."),
+            new OperatorButtonValue("=")
     };
 
     private Context context;

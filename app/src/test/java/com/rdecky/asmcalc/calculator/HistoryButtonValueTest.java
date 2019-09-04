@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class HistoryValueTest {
+public class HistoryButtonValueTest {
 
     @Test
     public void isOperator_leftParenthesis_false() {

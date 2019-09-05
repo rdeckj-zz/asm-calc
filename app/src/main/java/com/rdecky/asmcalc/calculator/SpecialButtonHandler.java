@@ -30,6 +30,12 @@ class SpecialButtonHandler {
             case "=":
                 equals();
                 break;
+            case "+/-":
+                invert();
+                break;
+            case "ms":
+                //TODO
+                break;
             default:
                 break;
         }
@@ -55,5 +61,11 @@ class SpecialButtonHandler {
     private void clear() {
         calculatorViewModel.clearEntry();
         historyBarController.clear();
+    }
+
+    private void invert() {
+        long currentValue = calculatorViewModel.getCurrentValue();
+        long invertedValue = currentValue * -1L;
+        calculatorViewModel.setCurrentValueAsDec(invertedValue);
     }
 }

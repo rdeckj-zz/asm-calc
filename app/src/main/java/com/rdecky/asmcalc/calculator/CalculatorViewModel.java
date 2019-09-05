@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.rdecky.asmcalc.calculator.value.ButtonValue;
 import com.rdecky.asmcalc.calculator.value.OperatorValue;
 import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
+import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
 
 import java.util.List;
 
@@ -48,8 +49,7 @@ public class CalculatorViewModel extends ViewModel {
 
     private MutableLiveData<String> _binText = new MutableLiveData<>();
 
-    void initialize() {
-        inputFormatter = new InputFormatter();
+    public CalculatorViewModel(AsmCalcDatabase database) {
         HistoryBarController historyBarController = new HistoryBarController(this);
         specialButtonHandler = new SpecialButtonHandler(
                 this,
@@ -58,6 +58,7 @@ public class CalculatorViewModel extends ViewModel {
                 new Calculator()
         );
         operatorButtonHandler = new OperatorButtonHandler(this, historyBarController);
+        inputFormatter = new InputFormatter();
         _currentValue.setValue(0L);
         _inputHistory.setValue("");
         _inputText.setValue(INITIAL_DEC_TEXT);
@@ -88,7 +89,6 @@ public class CalculatorViewModel extends ViewModel {
         createInputFormatObserver();
         removeOldInputFormatObserver();
         setNewInputFormatObserver(newFormat);
-
     }
 
     void setCurrentValue(String newText) {

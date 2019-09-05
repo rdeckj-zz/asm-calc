@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.rdecky.asmcalc.CustomViewModelFactory;
 import com.rdecky.asmcalc.R;
 import com.rdecky.asmcalc.databinding.FragmentCalculatorBinding;
 
@@ -26,27 +27,25 @@ import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat
 public class CalculatorFragment extends Fragment {
 
     private CalculatorViewModel viewModel;
-    private FragmentCalculatorBinding dataBinding;
     private View root;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(CalculatorViewModel.class);
+        CustomViewModelFactory viewModelFactory = CustomViewModelFactory.getInstance(getContext());
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CalculatorViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dataBinding = FragmentCalculatorBinding.inflate(inflater, container, false);
+        FragmentCalculatorBinding dataBinding = FragmentCalculatorBinding.inflate(inflater, container, false);
         dataBinding.setViewModel(viewModel);
         dataBinding.setLifecycleOwner(this.getViewLifecycleOwner());
 
         root = dataBinding.getRoot();
         List<CalculatorButton> calculatorButtons = createCalculatorButtons();
         setInputFormatListeners(calculatorButtons);
-
-        viewModel.initialize();
 
         return dataBinding.getRoot();
     }

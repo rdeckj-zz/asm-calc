@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.rdecky.asmcalc.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

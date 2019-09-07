@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.rdecky.asmcalc.calculator.CalculatorViewModel;
 import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
+import com.rdecky.asmcalc.userEntry.UserEntryViewModel;
 
 public class CustomViewModelFactory implements ViewModelProvider.Factory {
 
@@ -30,7 +31,9 @@ public class CustomViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if(modelClass.isAssignableFrom(CalculatorViewModel.class)) {
-            return (T) new CalculatorViewModel(database);
+            return (T) new CalculatorViewModel(database.userEntryDao());
+        } else if (modelClass.isAssignableFrom(UserEntryViewModel.class)) {
+            return (T) new UserEntryViewModel(database.userEntryDao());
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class");

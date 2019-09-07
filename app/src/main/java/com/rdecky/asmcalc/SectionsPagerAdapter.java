@@ -1,4 +1,4 @@
-package com.rdecky.asmcalc.ui.main;
+package com.rdecky.asmcalc;
 
 import android.content.Context;
 
@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.rdecky.asmcalc.R;
 import com.rdecky.asmcalc.calculator.CalculatorFragment;
+import com.rdecky.asmcalc.userEntry.UserEntryFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -28,10 +28,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new CalculatorFragment();
         } else {
-            return PlaceholderFragment.newInstance(position + 1);
+            return new UserEntryFragment();
         }
     }
 
@@ -43,7 +43,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return 2;
+        return TAB_TITLES.length;
     }
 }

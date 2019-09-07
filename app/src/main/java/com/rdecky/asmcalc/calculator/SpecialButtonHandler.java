@@ -34,7 +34,7 @@ class SpecialButtonHandler {
                 invert();
                 break;
             case "ms":
-                //TODO
+                calculatorViewModel.addUserEntry();
                 break;
             default:
                 break;

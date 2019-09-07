@@ -12,7 +12,7 @@ import java.util.List;
 
 public class InputFormatClickListener implements View.OnClickListener {
 
-    enum InputFormat {
+    public enum InputFormat {
         BIN, HEX, DEC
     }
 
@@ -20,7 +20,7 @@ public class InputFormatClickListener implements View.OnClickListener {
     private GroupedInputView groupedInputView;
     private List<CalculatorButton> calculatorButtons;
 
-    InputFormatClickListener(CalculatorViewModel viewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorButtons) {
+    public InputFormatClickListener(CalculatorViewModel viewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorButtons) {
         this.viewModel = viewModel;
         this.groupedInputView = groupedInputView;
         this.calculatorButtons = calculatorButtons;

@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface UserEntryDao {
     @Query("SELECT * FROM userentry")
-    List<UserEntry> getAll();
+    List<UserEntry> getUserEntries();
 
     @Insert
     void insertAll(UserEntry... userEntries);

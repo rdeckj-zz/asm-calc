@@ -65,7 +65,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
     private CalculatorViewModel viewModel;
     private List<CalculatorButton> allButtons;
 
-    CalculatorListViewAdapter(Context context, CalculatorViewModel viewModel) {
+    public CalculatorListViewAdapter(Context context, CalculatorViewModel viewModel) {
         this.context = context;
         this.viewModel = viewModel;
         allButtons = new ArrayList<>();
@@ -135,7 +135,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
         return false;
     }
 
-    List<CalculatorButton> getAllButtons() {
+    public List<CalculatorButton> getAllButtons() {
         return allButtons;
     }
 

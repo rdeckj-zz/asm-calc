@@ -11,11 +11,15 @@ import java.util.List;
 
 @Dao
 public interface UserEntryDao {
+    //TODO return livedata
     @Query("SELECT * FROM userentry")
     List<UserEntry> getUserEntries();
 
     @Insert
     void insertAll(UserEntry... userEntries);
+
+    @Insert
+    void insert(UserEntry userEntry);
 
     @Delete
     void delete(UserEntry userEntry);

@@ -57,7 +57,8 @@ public class CalculatorViewModel extends ViewModel {
                 this,
                 inputFormatter,
                 historyBarController,
-                new Calculator()
+                new Calculator(),
+                userEntryDao
         );
         operatorButtonHandler = new OperatorButtonHandler(this, historyBarController);
         inputFormatter = new InputFormatter();
@@ -125,10 +126,6 @@ public class CalculatorViewModel extends ViewModel {
 
     void clearEntry() {
         setCurrentValue("0");
-    }
-
-    void addUserEntry() {
-        //TODO
     }
 
     private void setNewInputFormatObserver(InputFormat newFormat) {

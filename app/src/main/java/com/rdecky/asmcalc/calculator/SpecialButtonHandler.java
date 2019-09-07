@@ -1,6 +1,8 @@
 package com.rdecky.asmcalc.calculator;
 
 import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
+import com.rdecky.asmcalc.data.UserEntry;
+import com.rdecky.asmcalc.data.source.UserEntryDao;
 
 class SpecialButtonHandler {
 
@@ -8,12 +10,15 @@ class SpecialButtonHandler {
     private InputFormatter inputFormatter;
     private HistoryBarController historyBarController;
     private Calculator calculator;
+    private UserEntryDao userEntryDao;
 
-    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController, Calculator calculator) {
+    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController,
+                         Calculator calculator, UserEntryDao userEntryDao) {
         this.calculatorViewModel = calculatorViewModel;
         this.inputFormatter = inputFormatter;
         this.historyBarController = historyBarController;
         this.calculator = calculator;
+        this.userEntryDao = userEntryDao;
     }
 
     void handle(SpecialButtonValue value) {
@@ -34,7 +39,7 @@ class SpecialButtonHandler {
                 invert();
                 break;
             case "ms":
-                calculatorViewModel.addUserEntry();
+                saveEntry();
                 break;
             default:
                 break;
@@ -67,5 +72,12 @@ class SpecialButtonHandler {
         long currentValue = calculatorViewModel.getCurrentValue();
         long invertedValue = currentValue * -1L;
         calculatorViewModel.setCurrentValueAsDec(invertedValue);
+    }
+
+    private void saveEntry() {
+        //TODO
+        UserEntry userEntry = new UserEntry();
+        userEntry.shortName = "potato";
+        userEntryDao.insert(userEntry);
     }
 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.rdecky.asmcalc.CustomViewModelFactory;
 import com.rdecky.asmcalc.R;
 import com.rdecky.asmcalc.data.UserEntry;
+import com.rdecky.asmcalc.databinding.FragmentCalculatorBinding;
 import com.rdecky.asmcalc.databinding.FragmentUserEntryBinding;
 
 import java.util.ArrayList;
@@ -25,7 +26,9 @@ import java.util.Observable;
 
 public class UserEntryFragment extends Fragment {
 
+    FragmentUserEntryBinding dataBinding;
     private UserEntryViewModel viewModel;
+    private View root;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,48 +40,23 @@ public class UserEntryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_user_entry, container, false);
-        super.onCreate(savedInstanceState);
+        dataBinding = FragmentUserEntryBinding.inflate(inflater, container, false);
+        dataBinding.setViewModel(viewModel);
 
-        RecyclerView userEntryList = v.findViewById(R.id.user_entry_list);
-        userEntryList.setHasFixedSize(true);
-        userEntryList.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        root = dataBinding.getRoot();
 
+        dataBinding.setLifecycleOwner(getViewLifecycleOwner());
+        dataBinding.userEntryList.setAdapter(new UserEntriesAdapter(viewModel));
 
-        final UserEntriesAdapter userEntriesAdapter = new UserEntriesAdapter(Collections.<UserEntry>emptyList());
-        userEntryList.setAdapter(userEntriesAdapter);
+        viewModel.observeUserEntries();
 
-
-        viewModel.items.observe(this, new Observer<List<UserEntry>>() {
-            @Override
-            public void onChanged(List<UserEntry> userEntries) {
-                userEntriesAdapter.setUserEntries(userEntries);
-            }
-        });
-
-        return v;
+        return root;
     }
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//
-//        RecyclerView userEntryList = root.findViewById(R.id.user_entry_list);
-//        userEntryList.setHasFixedSize(true);
-//
-//
-//        //test code
-//
-//        UserEntry userEntry1 = new UserEntry();
-//        userEntry1.shortName = "test1";
-//
-//        UserEntry userEntry2 = new UserEntry();
-//        userEntry1.shortName = "test2";
-//
-//        List<UserEntry> userEntries = new ArrayList<>();
-//        userEntries.add(userEntry1);
-//        userEntries.add(userEntry2);
-//
-//        userEntryList.setAdapter(new UserEntriesAdapter(userEntries));
-//    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+    }
 }

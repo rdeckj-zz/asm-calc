@@ -5,10 +5,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rdecky.asmcalc.BR;
 import com.rdecky.asmcalc.R;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.databinding.RowUserEntryBinding;
@@ -19,7 +17,7 @@ public class UserEntriesAdapter extends RecyclerView.Adapter<UserEntriesAdapter.
 
     static class UserEntriesViewHolder extends RecyclerView.ViewHolder {
 
-         RowUserEntryBinding binding;
+        RowUserEntryBinding binding;
 
         public UserEntriesViewHolder(RowUserEntryBinding binding) {
             super(binding.getRoot());
@@ -27,15 +25,16 @@ public class UserEntriesAdapter extends RecyclerView.Adapter<UserEntriesAdapter.
         }
 
         public void bind(UserEntry entry) {
-
             binding.setUserEntry(entry);
+            binding.executePendingBindings();
         }
     }
 
     private List<UserEntry> userEntries;
+    private UserEntryViewModel viewModel;
 
-    UserEntriesAdapter(List<UserEntry> userEntries) {
-        this.userEntries = userEntries;
+    UserEntriesAdapter(UserEntryViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -48,8 +47,8 @@ public class UserEntriesAdapter extends RecyclerView.Adapter<UserEntriesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull UserEntriesViewHolder holder, int position) {
-        UserEntry entry = userEntries.get(position);
-        holder.bind(entry);
+        UserEntry item = userEntries.get(position);
+        holder.bind(item);
     }
 
     @Override
@@ -59,6 +58,7 @@ public class UserEntriesAdapter extends RecyclerView.Adapter<UserEntriesAdapter.
 
     public void setUserEntries(List<UserEntry> userEntries) {
         this.userEntries = userEntries;
+        notifyDataSetChanged();
     }
 
 }

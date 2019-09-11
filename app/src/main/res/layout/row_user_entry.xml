@@ -2,11 +2,15 @@
 
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="userEntry" type="com.rdecky.asmcalc.data.UserEntry"/>
+
+        <variable
+            name="userEntry"
+            type="com.rdecky.asmcalc.data.UserEntry" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/lookup_item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,5 +22,5 @@
             android:layout_height="wrap_content"
             android:text="@{userEntry.shortName}" />
 
-    </FrameLayout>
+    </LinearLayout>
 </layout>

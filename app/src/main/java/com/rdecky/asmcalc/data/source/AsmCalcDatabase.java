@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.rdecky.asmcalc.data.UserEntry;
 
-@Database(entities = {UserEntry.class}, version = 1)
+@Database(entities = {UserEntry.class}, version = 2)
 public abstract class AsmCalcDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "UserEntries.db";
     private static AsmCalcDatabase INSTANCE = null;
@@ -17,7 +17,9 @@ public abstract class AsmCalcDatabase extends RoomDatabase {
 
     public static AsmCalcDatabase getInstance(Context context) {
         if(INSTANCE == null) {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AsmCalcDatabase.class, DATABASE_NAME).build();
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AsmCalcDatabase.class, DATABASE_NAME)
+                    .fallbackToDestructiveMigration()
+                    .build();
         }
         return INSTANCE;
     }

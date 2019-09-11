@@ -2,12 +2,15 @@ package com.rdecky.asmcalc.userEntry;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UserEntryViewModel extends ViewModel {
@@ -19,9 +22,15 @@ public class UserEntryViewModel extends ViewModel {
 
     public UserEntryViewModel(UserEntryDao userEntryDao) {
         this.userEntryDao = userEntryDao;
+        _items.setValue(Collections.<UserEntry>emptyList());
     }
 
-    public void loadItems() {
-        _items.setValue(userEntryDao.getUserEntries());
+    public void observeUserEntries() {
+        userEntryDao.getUserEntries().observeForever(new Observer<List<UserEntry>>() {
+            @Override
+            public void onChanged(List<UserEntry> userEntries) {
+                _items.setValue(userEntries);
+            }
+        });
     }
 }

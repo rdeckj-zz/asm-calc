@@ -47,7 +47,7 @@ public class CalculatorFragment extends Fragment {
         List<CalculatorButton> calculatorButtons = createCalculatorButtons();
         setInputFormatListeners(calculatorButtons);
 
-        return dataBinding.getRoot();
+        return root;
     }
 
     private void setInputFormatListeners(List<CalculatorButton> calculatorButtons) {

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class UserEntry {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
 
     @ColumnInfo(name = "decimal_value")

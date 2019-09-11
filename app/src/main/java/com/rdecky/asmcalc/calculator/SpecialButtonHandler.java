@@ -1,8 +1,12 @@
 package com.rdecky.asmcalc.calculator;
 
+import android.os.AsyncTask;
+
 import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
+
+import java.util.Random;
 
 class SpecialButtonHandler {
 
@@ -11,6 +15,7 @@ class SpecialButtonHandler {
     private HistoryBarController historyBarController;
     private Calculator calculator;
     private UserEntryDao userEntryDao;
+    private Random random;
 
     SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController,
                          Calculator calculator, UserEntryDao userEntryDao) {
@@ -19,6 +24,7 @@ class SpecialButtonHandler {
         this.historyBarController = historyBarController;
         this.calculator = calculator;
         this.userEntryDao = userEntryDao;
+        random = new Random();
     }
 
     void handle(SpecialButtonValue value) {
@@ -75,9 +81,13 @@ class SpecialButtonHandler {
     }
 
     private void saveEntry() {
-        //TODO
-        UserEntry userEntry = new UserEntry();
-        userEntry.shortName = "potato";
-        userEntryDao.insert(userEntry);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                UserEntry userEntry = new UserEntry();
+                userEntry.shortName = "TODO"; //TODO
+                userEntryDao.insert(userEntry);
+            }
+        });
     }
 }

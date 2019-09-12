@@ -16,19 +16,19 @@ public class InputFormatClickListener implements View.OnClickListener {
         BIN, HEX, DEC
     }
 
-    private CalculatorViewModel viewModel;
+    private CalculatorViewModel calculatorViewModel;
     private GroupedInputView groupedInputView;
     private List<CalculatorButton> calculatorButtons;
 
-    public InputFormatClickListener(CalculatorViewModel viewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorButtons) {
-        this.viewModel = viewModel;
+    InputFormatClickListener(CalculatorViewModel calculatorViewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorButtons) {
+        this.calculatorViewModel = calculatorViewModel;
         this.groupedInputView = groupedInputView;
         this.calculatorButtons = calculatorButtons;
     }
 
     @Override
     public void onClick(View view) {
-        viewModel.setInputFormat(groupedInputView.getInputFormat());
+        calculatorViewModel.setInputFormat(groupedInputView.getInputFormat());
         resetAllViews();
         highlightLinkedViews();
         enableAllButtons();

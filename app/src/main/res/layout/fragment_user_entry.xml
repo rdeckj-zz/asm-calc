@@ -10,7 +10,7 @@
         <import type="androidx.core.content.ContextCompat" />
 
         <variable
-            name="calculatorViewModel"
+            name="viewModel"
             type="com.rdecky.asmcalc.userEntry.UserEntryViewModel" />
 
     </data>
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:items="@{calculatorViewModel.items}"
+            app:items="@{viewModel.items}"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

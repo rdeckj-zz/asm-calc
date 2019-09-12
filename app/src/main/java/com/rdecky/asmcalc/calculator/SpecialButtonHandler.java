@@ -14,15 +14,12 @@ class SpecialButtonHandler {
     private CalculatorViewModel calculatorViewModel;
     private InputFormatter inputFormatter;
     private HistoryBarController historyBarController;
-    private Calculator calculator;
     private UserEntryDao userEntryDao;
 
-    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController,
-                         Calculator calculator, UserEntryDao userEntryDao) {
+    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController, UserEntryDao userEntryDao) {
         this.calculatorViewModel = calculatorViewModel;
         this.inputFormatter = inputFormatter;
         this.historyBarController = historyBarController;
-        this.calculator = calculator;
         this.userEntryDao = userEntryDao;
     }
 
@@ -53,7 +50,7 @@ class SpecialButtonHandler {
 
     private void equals() {
         historyBarController.equals();
-        long result = calculator.evaluate(historyBarController.getHistory());
+        long result = Calculator.evaluate(historyBarController.getHistory());
         historyBarController.clear();
         calculatorViewModel.setCurrentValueAsDec(result);
     }

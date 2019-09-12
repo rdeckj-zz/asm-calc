@@ -13,7 +13,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class CalculatorTest {
-    private Calculator calculator;
     private ArrayList<HistoryValue> historyValues;
 
     private OperatorValue add = new OperatorValue("+");
@@ -38,7 +37,6 @@ public class CalculatorTest {
     @Before
     public void setUp() {
         historyValues = new ArrayList<>();
-        calculator = new Calculator();
     }
 
     @Test
@@ -48,7 +46,7 @@ public class CalculatorTest {
         historyValues.add(add);
         historyValues.add(one);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(2L));
     }
@@ -60,7 +58,7 @@ public class CalculatorTest {
         historyValues.add(subtract);
         historyValues.add(eight);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(2L));
     }
@@ -72,7 +70,7 @@ public class CalculatorTest {
         historyValues.add(multiply);
         historyValues.add(seven);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(49L));
     }
@@ -84,7 +82,7 @@ public class CalculatorTest {
         historyValues.add(divide);
         historyValues.add(three);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(10L));
     }
@@ -96,7 +94,7 @@ public class CalculatorTest {
         historyValues.add(power);
         historyValues.add(six);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(64L));
     }
@@ -110,7 +108,7 @@ public class CalculatorTest {
         historyValues.add(add);
         historyValues.add(eight);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(24L));
     }
@@ -126,7 +124,7 @@ public class CalculatorTest {
         historyValues.add(multiply);
         historyValues.add(three);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(18L));
     }
@@ -150,7 +148,7 @@ public class CalculatorTest {
         historyValues.add(four);
         historyValues.add(closeParenthesis);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(-18L));
     }
@@ -174,7 +172,7 @@ public class CalculatorTest {
         historyValues.add(power);
         historyValues.add(three);
 
-        long result = calculator.evaluate(historyValues);
+        long result = Calculator.evaluate(historyValues);
 
         assertThat(result, is(3L));
     }

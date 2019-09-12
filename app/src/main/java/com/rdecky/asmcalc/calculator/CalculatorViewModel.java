@@ -57,7 +57,6 @@ public class CalculatorViewModel extends ViewModel {
                 this,
                 inputFormatter,
                 historyBarController,
-                new Calculator(),
                 userEntryDao
         );
         operatorButtonHandler = new OperatorButtonHandler(this, historyBarController);

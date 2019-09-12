@@ -9,13 +9,13 @@ import java.util.List;
 
 class Calculator {
 
-    long evaluate(List<HistoryValue> historyValues) {
+    static long evaluate(List<HistoryValue> historyValues) {
         ArrayList<HistoryValue> RPNHistory = convertToRPN(historyValues);
 
         return evaluateRPNHistory(RPNHistory);
     }
 
-    private long evaluateRPNHistory(ArrayList<HistoryValue> input) {
+    private static long evaluateRPNHistory(ArrayList<HistoryValue> input) {
         ArrayList<Long> numberList = new ArrayList<>();
         for (HistoryValue value : input) {
             if (value instanceof NumberValue) {
@@ -36,7 +36,7 @@ class Calculator {
     /**
      * Uses Djikstra's shunting-yard algorithm
      */
-    private ArrayList<HistoryValue> convertToRPN(List<HistoryValue> historyValues) {
+    private static ArrayList<HistoryValue> convertToRPN(List<HistoryValue> historyValues) {
         ArrayList<HistoryValue> outputList = new ArrayList<>();
         ArrayList<OperatorValue> operatorList = new ArrayList<>();
         for (HistoryValue token : historyValues) {
@@ -49,13 +49,13 @@ class Calculator {
         return outputList;
     }
 
-    private void putOperatorsOntoOutput(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList) {
+    private static void putOperatorsOntoOutput(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList) {
         while (!operatorList.isEmpty()) {
             outputList.add(operatorList.remove(operatorList.size() - 1));
         }
     }
 
-    private void handleOperator(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList, HistoryValue token) {
+    private static void handleOperator(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList, HistoryValue token) {
         if (token instanceof OperatorValue) {
             OperatorValue operatorValue = (OperatorValue) token;
             if (!operatorValue.isParenthesis()) {
@@ -77,7 +77,7 @@ class Calculator {
         }
     }
 
-    private void handleRightParenthesis(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList, HistoryValue token) {
+    private static void handleRightParenthesis(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList, HistoryValue token) {
         if(token instanceof OperatorValue) {
             OperatorValue operatorValue = (OperatorValue) token;
             if (operatorValue.isRightParenthesis()) {
@@ -93,7 +93,7 @@ class Calculator {
         }
     }
 
-    private void handleLeftParenthesis(ArrayList<OperatorValue> operatorList, HistoryValue token) {
+    private static void handleLeftParenthesis(ArrayList<OperatorValue> operatorList, HistoryValue token) {
         if (token instanceof OperatorValue) {
             OperatorValue operatorValue = (OperatorValue) token;
             if (operatorValue.isLeftParenthesis()) {
@@ -102,13 +102,13 @@ class Calculator {
         }
     }
 
-    private void handleNumber(ArrayList<HistoryValue> outputList, HistoryValue token) {
+    private static void handleNumber(ArrayList<HistoryValue> outputList, HistoryValue token) {
         if (token instanceof NumberValue) {
             outputList.add(token);
         }
     }
 
-    private long evaluateOperator(long val1, long val2, String operator) {
+    private static long evaluateOperator(long val1, long val2, String operator) {
         long result = 0;
         switch (operator.toLowerCase()) {
             case "or":

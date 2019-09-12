@@ -9,11 +9,14 @@ public class UserEntry {
     @PrimaryKey(autoGenerate = true)
     public int uid;
 
-    @ColumnInfo(name = "decimal_value")
-    public long decimalValue;
+    @ColumnInfo(name = "value")
+    public long value;
 
-    @ColumnInfo(name = "hex_value")
-    public String hexValue;
+    @ColumnInfo(name = "dec_text")
+    public String decText;
+
+    @ColumnInfo(name = "hex_text")
+    public String hexText;
 
     @ColumnInfo(name = "short_name")
     public String shortName;

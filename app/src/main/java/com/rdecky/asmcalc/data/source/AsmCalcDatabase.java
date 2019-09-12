@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.rdecky.asmcalc.data.UserEntry;
 
-@Database(entities = {UserEntry.class}, version = 2)
+@Database(entities = {UserEntry.class}, version = 4)
 public abstract class AsmCalcDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "UserEntries.db";
     private static AsmCalcDatabase INSTANCE = null;

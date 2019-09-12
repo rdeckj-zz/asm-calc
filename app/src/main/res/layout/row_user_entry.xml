@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,7 +10,7 @@
             type="com.rdecky.asmcalc.data.UserEntry" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lookup_item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,9 +18,45 @@
         android:clickable="true">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/short_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{userEntry.shortName}" />
+            android:text="@{userEntry.shortName}"
+            app:layout_constraintBottom_toBottomOf="@id/hex_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/dec_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{userEntry.decText}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/hex_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{userEntry.hexText}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dec_text" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{userEntry.description}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hex_text" />
+
+        <View
+            android:id="@+id/horizontal_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"
+            app:layout_constraintBottom_toBottomOf="@id/description" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

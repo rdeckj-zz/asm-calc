@@ -6,7 +6,8 @@ import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
-import java.util.Random;
+import java.text.DateFormat;
+import java.util.Date;
 
 class SpecialButtonHandler {
 
@@ -15,7 +16,6 @@ class SpecialButtonHandler {
     private HistoryBarController historyBarController;
     private Calculator calculator;
     private UserEntryDao userEntryDao;
-    private Random random;
 
     SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController,
                          Calculator calculator, UserEntryDao userEntryDao) {
@@ -24,7 +24,6 @@ class SpecialButtonHandler {
         this.historyBarController = historyBarController;
         this.calculator = calculator;
         this.userEntryDao = userEntryDao;
-        random = new Random();
     }
 
     void handle(SpecialButtonValue value) {
@@ -85,7 +84,11 @@ class SpecialButtonHandler {
             @Override
             public void run() {
                 UserEntry userEntry = new UserEntry();
-                userEntry.shortName = "TODO"; //TODO
+                userEntry.shortName = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date());
+                userEntry.value = calculatorViewModel.getCurrentValue();
+                userEntry.decText = calculatorViewModel.getDecText();
+                userEntry.hexText = calculatorViewModel.getHexText();
+                userEntry.description = "Added from quick save";
                 userEntryDao.insert(userEntry);
             }
         });

@@ -124,6 +124,14 @@ public class CalculatorViewModel extends ViewModel {
         return _currentValue.getValue();
     }
 
+    String getDecText() {
+        return _decText.getValue();
+    }
+
+    String getHexText() {
+        return _hexText.getValue();
+    }
+
     void clearEntry() {
         setCurrentValue("0");
     }

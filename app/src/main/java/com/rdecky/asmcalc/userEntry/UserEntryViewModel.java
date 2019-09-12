@@ -6,10 +6,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.rdecky.asmcalc.data.UserEntry;
-import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class UserEntryViewModel extends ViewModel {
         _items.setValue(Collections.<UserEntry>emptyList());
     }
 
-    public void observeUserEntries() {
+    void observeUserEntries() {
         userEntryDao.getUserEntries().observeForever(new Observer<List<UserEntry>>() {
             @Override
             public void onChanged(List<UserEntry> userEntries) {

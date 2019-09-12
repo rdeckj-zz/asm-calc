@@ -16,7 +16,7 @@ public abstract class AsmCalcDatabase extends RoomDatabase {
     public abstract UserEntryDao userEntryDao();
 
     public static AsmCalcDatabase getInstance(Context context) {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AsmCalcDatabase.class, DATABASE_NAME)
                     .fallbackToDestructiveMigration()
                     .build();

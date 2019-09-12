@@ -19,23 +19,18 @@ public class UserEntriesAdapter extends RecyclerView.Adapter<UserEntriesAdapter.
 
         RowUserEntryBinding binding;
 
-        public UserEntriesViewHolder(RowUserEntryBinding binding) {
+        UserEntriesViewHolder(RowUserEntryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        public void bind(UserEntry entry) {
+        void bind(UserEntry entry) {
             binding.setUserEntry(entry);
             binding.executePendingBindings();
         }
     }
 
     private List<UserEntry> userEntries;
-    private UserEntryViewModel viewModel;
-
-    UserEntriesAdapter(UserEntryViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
 
     @NonNull
     @Override
@@ -56,7 +51,7 @@ public class UserEntriesAdapter extends RecyclerView.Adapter<UserEntriesAdapter.
         return userEntries.size();
     }
 
-    public void setUserEntries(List<UserEntry> userEntries) {
+    void setUserEntries(List<UserEntry> userEntries) {
         this.userEntries = userEntries;
         notifyDataSetChanged();
     }

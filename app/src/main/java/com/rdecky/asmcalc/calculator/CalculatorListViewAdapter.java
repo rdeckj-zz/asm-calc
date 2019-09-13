@@ -67,7 +67,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
     private List<CalculatorButton> allButtons = new ArrayList<>();
 
     CalculatorListViewAdapter(Context context, CalculatorViewModel calculatorViewModel,
-                                     HistoryBarViewModel historyBarViewModel) {
+                              HistoryBarViewModel historyBarViewModel) {
         this.context = context;
         this.calculatorViewModel = calculatorViewModel;
         this.historyBarViewModel = historyBarViewModel;
@@ -186,7 +186,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
             @Override
             public void onClick(View view) {
                 historyBarViewModel.operatorButtonPressed(operatorButtonValue);
-                calculatorViewModel.operatorButtonPressed(operatorButtonValue);
+                calculatorViewModel.operatorButtonPressed();
             }
         });
     }

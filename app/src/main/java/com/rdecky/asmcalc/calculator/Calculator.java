@@ -78,7 +78,7 @@ class Calculator {
     }
 
     private static void handleRightParenthesis(ArrayList<HistoryValue> outputList, ArrayList<OperatorValue> operatorList, HistoryValue token) {
-        if(token instanceof OperatorValue) {
+        if (token instanceof OperatorValue) {
             OperatorValue operatorValue = (OperatorValue) token;
             if (operatorValue.isRightParenthesis()) {
                 for (int i = operatorList.size() - 1; i >= 0; i--) {

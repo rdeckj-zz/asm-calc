@@ -36,21 +36,24 @@ public class HistoryBarViewModel extends ViewModel {
     }
 
 
-    public void operatorButtonPressed(OperatorValue operatorButtonValue) {
+    void operatorButtonPressed(OperatorValue operatorButtonValue) {
         update(operatorButtonValue);
     }
 
-    public void specialButtonPressed(SpecialButtonValue specialButtonValue) {
-        if (specialButtonValue.getText().toLowerCase().equals("=")) {
-            equals();
-        }
-
-        if (specialButtonValue.getText().toLowerCase().equals("clear")) {
-            clear();
+    void specialButtonPressed(SpecialButtonValue specialButtonValue) {
+        switch (specialButtonValue.getText().toLowerCase()) {
+            case "=":
+                equals();
+                break;
+            case "clear":
+                clear();
+                break;
+            default:
+                break;
         }
     }
 
-    public void setInputFormat(InputFormatClickListener.InputFormat newFormat) {
+    void setInputFormat(InputFormatClickListener.InputFormat newFormat) {
         createInputHistoryObserver();
         removeOldHistoryFormatObservers();
         setNewHistoryFormatObserver(newFormat);
@@ -80,7 +83,7 @@ public class HistoryBarViewModel extends ViewModel {
         _history.setValue(new ArrayList<HistoryValue>());
     }
 
-    void update(OperatorValue value) {
+    private void update(OperatorValue value) {
         updateViewModel(value);
         previousValue = value;
     }
@@ -92,7 +95,7 @@ public class HistoryBarViewModel extends ViewModel {
         addHistoryValue(value);
     }
 
-    void addHistoryValue(HistoryValue historyValue) {
+    private void addHistoryValue(HistoryValue historyValue) {
         List<HistoryValue> currentHistory = _history.getValue();
         if (currentHistory == null) {
             currentHistory = new ArrayList<>();
@@ -140,7 +143,5 @@ public class HistoryBarViewModel extends ViewModel {
     private void removeOldHistoryFormatObservers() {
         _decHistory.removeObserver(historyFormatObserver);
         _hexHistory.removeObserver(historyFormatObserver);
-//    }
-
     }
 }

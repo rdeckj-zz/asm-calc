@@ -25,14 +25,11 @@ class SpecialButtonHandler {
                 backspace();
                 break;
             case "clear":
-                clear();
+                clearEntry();
                 break;
             case "ce":
-                calculatorViewModel.clearEntry();
+                clearEntry();
                 break;
-//            case "=":
-//                equals();
-//                break;
             case "+/-":
                 invert();
                 break;
@@ -44,9 +41,8 @@ class SpecialButtonHandler {
         }
     }
 
-    private void equals() {
-//        long result = Calculator.evaluate(calculatorViewModel.getHistory());
-//        calculatorViewModel.setCurrentValueAsDec(result);
+    private void clearEntry() {
+        calculatorViewModel.clearEntry();
     }
 
     private void backspace() {
@@ -57,10 +53,6 @@ class SpecialButtonHandler {
             String newString = noFormatting.substring(0, noFormatting.length() - 1);
             calculatorViewModel.setCurrentValue(newString);
         }
-    }
-
-    private void clear() {
-        calculatorViewModel.clearEntry();
     }
 
     private void invert() {

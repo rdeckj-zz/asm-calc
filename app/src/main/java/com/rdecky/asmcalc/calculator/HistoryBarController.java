@@ -38,20 +38,4 @@ class HistoryBarController {
         }
         calculatorViewModel.addHistoryValue(value);
     }
-
-    private String appendToHistory(String currentHistory, OperatorValue value, String currentValue) {
-        StringBuilder newHistory = new StringBuilder(currentHistory);
-
-        if (!currentHistory.isEmpty()) {
-            newHistory.append(" ");
-        }
-
-        if (!value.isLeftParenthesis()) {
-            newHistory.append(currentValue);
-            newHistory.append(" ");
-        }
-        newHistory.append(value.getText());
-
-        return newHistory.toString();
-    }
 }

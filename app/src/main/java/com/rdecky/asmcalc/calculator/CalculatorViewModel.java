@@ -13,7 +13,6 @@ import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat;
@@ -27,7 +26,7 @@ public class CalculatorViewModel extends ViewModel {
     private InputFormatter inputFormatter;
     private Observer<String> inputFormatObserver;
     private InputFormat currentInputFormat;
-    private Observer<List<HistoryValue>> historyFormatObserver;
+    private Observer<String> historyFormatObserver;
 
     private SpecialButtonHandler specialButtonHandler;
     private OperatorButtonHandler operatorButtonHandler;
@@ -51,12 +50,13 @@ public class CalculatorViewModel extends ViewModel {
     private MutableLiveData<String> _binTextBottom = new MutableLiveData<>();
     public LiveData<String> binTextBottom = _binTextBottom;
 
-
     private MutableLiveData<List<HistoryValue>> _history = new MutableLiveData<>();
+
     private MutableLiveData<String> _decHistory = new MutableLiveData<>();
     private MutableLiveData<String> _hexHistory = new MutableLiveData<>();
-    public LiveData<String> inputHistory = _decHistory;
 
+    private MutableLiveData<String> _inputHistory = new MutableLiveData<>();
+    public LiveData<String> inputHistory = _inputHistory;
 
     public CalculatorViewModel(UserEntryDao userEntryDao) {
         HistoryBarController historyBarController = new HistoryBarController(this);
@@ -77,8 +77,7 @@ public class CalculatorViewModel extends ViewModel {
         setObservers();
         setInputFormat(InputFormat.DEC);
 
-        createHistoryFormatObserver();
-        _history.observeForever(historyFormatObserver);
+        _history.observeForever(createHistoryObserver());
     }
 
     void regularButtonPressed(ButtonValue value) {
@@ -101,7 +100,10 @@ public class CalculatorViewModel extends ViewModel {
         createInputFormatObserver();
         removeOldInputFormatObserver();
         setNewInputFormatObserver(newFormat);
-        changeHistoryValueFormat(newFormat);
+
+        createInputHistoryObserver();
+        removeOldHistoryFormatObservers();
+        setNewHistoryFormatObserver(newFormat);
     }
 
     void setCurrentValue(String newText) {
@@ -124,7 +126,7 @@ public class CalculatorViewModel extends ViewModel {
 
     void addHistoryValue(HistoryValue historyValue) {
         List<HistoryValue> currentHistory = _history.getValue();
-        if(currentHistory == null) {
+        if (currentHistory == null) {
             currentHistory = new ArrayList<>();
         }
         currentHistory.add(historyValue);
@@ -132,7 +134,7 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     void clearHistory() {
-        _history.setValue(Collections.<HistoryValue>emptyList());
+        _history.setValue(new ArrayList<HistoryValue>());
     }
 
     List<HistoryValue> getHistory() {
@@ -182,28 +184,44 @@ public class CalculatorViewModel extends ViewModel {
         _binText.removeObserver(inputFormatObserver);
     }
 
-    private void changeHistoryValueFormat(InputFormat inputFormat) {
-        if(inputFormat.equals(InputFormat.DEC)) {
-            inputHistory = _decHistory;
-        } else {
-            inputHistory = _hexHistory;
+    private void createInputHistoryObserver() {
+        if(historyFormatObserver == null) {
+            historyFormatObserver = new Observer<String>() {
+                @Override
+                public void onChanged(String newString) {
+                    _inputHistory.setValue(newString);
+                }
+            };
         }
     }
 
-    private void createHistoryFormatObserver() {
-        historyFormatObserver = new Observer<List<HistoryValue>>() {
+    private void setNewHistoryFormatObserver(InputFormat inputFormat) {
+        if (inputFormat.equals(InputFormat.DEC)) {
+            _decHistory.observeForever(historyFormatObserver);
+        } else {
+            _hexHistory.observeForever(historyFormatObserver);
+        }
+    }
+
+    private void removeOldHistoryFormatObservers() {
+        _decHistory.removeObserver(historyFormatObserver);
+        _hexHistory.removeObserver(historyFormatObserver);
+    }
+
+    private Observer<List<HistoryValue>> createHistoryObserver() {
+        return new Observer<List<HistoryValue>>() {
             @Override
             public void onChanged(List<HistoryValue> changedHistoryValues) {
                 StringBuilder decHistory = new StringBuilder();
                 StringBuilder hexHistory = new StringBuilder();
 
-                for(HistoryValue historyValue: changedHistoryValues) {
-                    if(historyValue instanceof NumberValue) {
+                for (HistoryValue historyValue : changedHistoryValues) {
+                    if (historyValue instanceof NumberValue) {
                         long value = ((NumberValue) historyValue).getValue();
                         decHistory.append(inputFormatter.formatDec(value));
                         hexHistory.append(inputFormatter.formatHex(value));
                     }
-                    if(historyValue instanceof OperatorValue) {
+                    if (historyValue instanceof OperatorValue) {
                         String operator = ((OperatorValue) historyValue).getText();
                         decHistory.append(" ");
                         decHistory.append(operator);

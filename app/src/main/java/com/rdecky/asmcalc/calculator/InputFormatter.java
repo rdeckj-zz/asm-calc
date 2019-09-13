@@ -15,6 +15,10 @@ class InputFormatter {
         return decimalFormat.format(number);
     }
 
+    String formatHex(Long number) {
+        return formatHexString(Long.toHexString(number));
+    }
+
     String formatHexString(String hexString) {
         StringBuilder sb = new StringBuilder(hexString);
         String temp;

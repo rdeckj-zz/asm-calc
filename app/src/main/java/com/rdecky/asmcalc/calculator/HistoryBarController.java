@@ -10,7 +10,6 @@ import java.util.List;
 class HistoryBarController {
 
     private CalculatorViewModel calculatorViewModel;
-    private List<HistoryValue> history = new ArrayList<>();
     private OperatorValue previousValue;
     private static final OperatorValue EQUALS = new OperatorValue("=");
 
@@ -19,8 +18,7 @@ class HistoryBarController {
     }
 
     void clear() {
-        calculatorViewModel.setInputHistory("");
-        history.clear();
+        calculatorViewModel.clearHistory();
     }
 
     void equals() {
@@ -30,29 +28,15 @@ class HistoryBarController {
     }
 
     void update(OperatorValue value) {
-        updateHistoryList(value);
         updateViewModel(value);
         previousValue = value;
     }
 
-    List<HistoryValue> getHistory() {
-        return history;
-    }
-
     private void updateViewModel(OperatorValue value) {
-        String currentHistory = calculatorViewModel.getInputHistory();
-        String currentValue = calculatorViewModel.getInputText();
-
-        String newHistory = appendToHistory(currentHistory, value, currentValue);
-
-        calculatorViewModel.setInputHistory(newHistory);
-    }
-
-    private void updateHistoryList(OperatorValue value) {
-        if (!value.isLeftParenthesis()) {
-            history.add(new NumberValue(calculatorViewModel.getCurrentValue()));
+        if(!value.isLeftParenthesis()) {
+            calculatorViewModel.addHistoryValue(new NumberValue(calculatorViewModel.getCurrentValue()));
         }
-        history.add(value);
+        calculatorViewModel.addHistoryValue(value);
     }
 
     private String appendToHistory(String currentHistory, OperatorValue value, String currentValue) {

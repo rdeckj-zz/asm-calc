@@ -50,7 +50,7 @@ class SpecialButtonHandler {
 
     private void equals() {
         historyBarController.equals();
-        long result = Calculator.evaluate(historyBarController.getHistory());
+        long result = Calculator.evaluate(calculatorViewModel.getHistory());
         historyBarController.clear();
         calculatorViewModel.setCurrentValueAsDec(result);
     }

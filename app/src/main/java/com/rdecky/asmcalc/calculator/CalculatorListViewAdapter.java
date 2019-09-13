@@ -62,13 +62,15 @@ public class CalculatorListViewAdapter implements ListAdapter {
     };
 
     private Context context;
-    private CalculatorViewModel viewModel;
-    private List<CalculatorButton> allButtons;
+    private CalculatorViewModel calculatorViewModel;
+    private HistoryBarViewModel historyBarViewModel;
+    private List<CalculatorButton> allButtons = new ArrayList<>();
 
-    public CalculatorListViewAdapter(Context context, CalculatorViewModel viewModel) {
+    CalculatorListViewAdapter(Context context, CalculatorViewModel calculatorViewModel,
+                                     HistoryBarViewModel historyBarViewModel) {
         this.context = context;
-        this.viewModel = viewModel;
-        allButtons = new ArrayList<>();
+        this.calculatorViewModel = calculatorViewModel;
+        this.historyBarViewModel = historyBarViewModel;
     }
 
     @Override
@@ -135,7 +137,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
         return false;
     }
 
-    public List<CalculatorButton> getAllButtons() {
+    List<CalculatorButton> getAllButtons() {
         return allButtons;
     }
 
@@ -162,7 +164,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.regularButtonPressed(buttonValue);
+                calculatorViewModel.regularButtonPressed(buttonValue);
             }
         });
     }
@@ -172,7 +174,8 @@ public class CalculatorListViewAdapter implements ListAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.specialButtonPressed(specialButtonValue);
+                historyBarViewModel.specialButtonPressed(specialButtonValue);
+                calculatorViewModel.specialButtonPressed(specialButtonValue);
             }
         });
     }
@@ -182,7 +185,8 @@ public class CalculatorListViewAdapter implements ListAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.operatorButtonPressed(operatorButtonValue);
+                historyBarViewModel.operatorButtonPressed(operatorButtonValue);
+                calculatorViewModel.operatorButtonPressed(operatorButtonValue);
             }
         });
     }

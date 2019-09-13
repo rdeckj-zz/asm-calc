@@ -12,14 +12,10 @@ import java.util.Date;
 class SpecialButtonHandler {
 
     private CalculatorViewModel calculatorViewModel;
-    private InputFormatter inputFormatter;
-    private HistoryBarController historyBarController;
     private UserEntryDao userEntryDao;
 
-    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, InputFormatter inputFormatter, HistoryBarController historyBarController, UserEntryDao userEntryDao) {
+    SpecialButtonHandler(CalculatorViewModel calculatorViewModel, UserEntryDao userEntryDao) {
         this.calculatorViewModel = calculatorViewModel;
-        this.inputFormatter = inputFormatter;
-        this.historyBarController = historyBarController;
         this.userEntryDao = userEntryDao;
     }
 
@@ -34,9 +30,9 @@ class SpecialButtonHandler {
             case "ce":
                 calculatorViewModel.clearEntry();
                 break;
-            case "=":
-                equals();
-                break;
+//            case "=":
+//                equals();
+//                break;
             case "+/-":
                 invert();
                 break;
@@ -49,14 +45,12 @@ class SpecialButtonHandler {
     }
 
     private void equals() {
-        historyBarController.equals();
-        long result = Calculator.evaluate(calculatorViewModel.getHistory());
-        historyBarController.clear();
-        calculatorViewModel.setCurrentValueAsDec(result);
+//        long result = Calculator.evaluate(calculatorViewModel.getHistory());
+//        calculatorViewModel.setCurrentValueAsDec(result);
     }
 
     private void backspace() {
-        String noFormatting = inputFormatter.stripFormatting(calculatorViewModel.getInputText());
+        String noFormatting = InputFormatter.stripFormatting(calculatorViewModel.getInputText());
         if (noFormatting.length() == 1) {
             calculatorViewModel.setCurrentValue("0");
         } else {
@@ -67,7 +61,6 @@ class SpecialButtonHandler {
 
     private void clear() {
         calculatorViewModel.clearEntry();
-        historyBarController.clear();
     }
 
     private void invert() {

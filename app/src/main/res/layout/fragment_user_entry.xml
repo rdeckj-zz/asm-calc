@@ -10,7 +10,7 @@
         <import type="androidx.core.content.ContextCompat" />
 
         <variable
-            name="viewModel"
+            name="userEntryViewModel"
             type="com.rdecky.asmcalc.userEntry.UserEntryViewModel" />
 
     </data>
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:items="@{viewModel.items}"
+            app:items="@{userEntryViewModel.items}"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

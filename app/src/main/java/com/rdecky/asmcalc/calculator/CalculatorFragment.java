@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.rdecky.asmcalc.CustomViewModelFactory;
 import com.rdecky.asmcalc.R;
+import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
 import com.rdecky.asmcalc.databinding.FragmentCalculatorBinding;
 
 import java.util.ArrayList;
@@ -26,21 +27,25 @@ import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat
 
 public class CalculatorFragment extends Fragment {
 
-    private CalculatorViewModel viewModel;
+    private CalculatorViewModel calculatorViewModel;
+    private HistoryBarViewModel historyBarViewModel;
     private View root;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CustomViewModelFactory viewModelFactory = CustomViewModelFactory.getInstance(getContext());
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CalculatorViewModel.class);
+        CustomViewModelFactory calculatorViewModelFactory = new CustomViewModelFactory(AsmCalcDatabase.getInstance(getContext()));
+        calculatorViewModel = ViewModelProviders.of(this, calculatorViewModelFactory).get(CalculatorViewModel.class);
+        CustomViewModelFactory historyBarViewModelFactory = new CustomViewModelFactory(calculatorViewModel);
+        historyBarViewModel = ViewModelProviders.of(this, historyBarViewModelFactory).get(HistoryBarViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentCalculatorBinding dataBinding = FragmentCalculatorBinding.inflate(inflater, container, false);
-        dataBinding.setViewModel(viewModel);
+        dataBinding.setCalculatorViewModel(calculatorViewModel);
+        dataBinding.setHistoryBarViewModel(historyBarViewModel);
         dataBinding.setLifecycleOwner(this.getViewLifecycleOwner());
 
         root = dataBinding.getRoot();
@@ -58,21 +63,21 @@ public class CalculatorFragment extends Fragment {
 
     private void setDecFormatListeners(List<CalculatorButton> calculatorButtons) {
         GroupedInputView decGroup = new GroupedInputView(getDecInputViews(), getAllInputViews(), DEC);
-        InputFormatClickListener decClickListener = new InputFormatClickListener(viewModel, decGroup, calculatorButtons);
+        InputFormatClickListener decClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, decGroup, calculatorButtons);
 
         setFormatListenerOnViews(decGroup, decClickListener);
     }
 
     private void setHexFormatListeners(List<CalculatorButton> calculatorButtons) {
         GroupedInputView hexGroup = new GroupedInputView(getHexInputViews(), getAllInputViews(), HEX);
-        InputFormatClickListener hexClickListener = new InputFormatClickListener(viewModel, hexGroup, calculatorButtons);
+        InputFormatClickListener hexClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, hexGroup, calculatorButtons);
 
         setFormatListenerOnViews(hexGroup, hexClickListener);
     }
 
     private void setBinFormatListeners(List<CalculatorButton> calculatorButtons) {
         GroupedInputView binGroup = new GroupedInputView(getBinInputViews(), getAllInputViews(), BIN);
-        InputFormatClickListener binClickListener = new InputFormatClickListener(viewModel, binGroup, calculatorButtons);
+        InputFormatClickListener binClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, binGroup, calculatorButtons);
 
         setFormatListenerOnViews(binGroup, binClickListener);
     }
@@ -116,7 +121,7 @@ public class CalculatorFragment extends Fragment {
 
     private List<CalculatorButton> createCalculatorButtons() {
         GridView calculatorButtons = root.findViewById(R.id.calculator_buttons);
-        CalculatorListViewAdapter adapter = new CalculatorListViewAdapter(getContext(), viewModel);
+        CalculatorListViewAdapter adapter = new CalculatorListViewAdapter(getContext(), calculatorViewModel, historyBarViewModel);
         calculatorButtons.setAdapter(adapter);
         return adapter.getAllButtons();
     }

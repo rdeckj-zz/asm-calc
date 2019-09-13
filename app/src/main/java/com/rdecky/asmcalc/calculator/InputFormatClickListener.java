@@ -17,17 +17,20 @@ public class InputFormatClickListener implements View.OnClickListener {
     }
 
     private CalculatorViewModel calculatorViewModel;
+    private HistoryBarViewModel historyBarViewModel;
     private GroupedInputView groupedInputView;
     private List<CalculatorButton> calculatorButtons;
 
-    InputFormatClickListener(CalculatorViewModel calculatorViewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorButtons) {
+    InputFormatClickListener(CalculatorViewModel calculatorViewModel, HistoryBarViewModel historyBarViewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorButtons) {
         this.calculatorViewModel = calculatorViewModel;
+        this.historyBarViewModel = historyBarViewModel;
         this.groupedInputView = groupedInputView;
         this.calculatorButtons = calculatorButtons;
     }
 
     @Override
     public void onClick(View view) {
+        historyBarViewModel.setInputFormat(groupedInputView.getInputFormat());
         calculatorViewModel.setInputFormat(groupedInputView.getInputFormat());
         resetAllViews();
         highlightLinkedViews();

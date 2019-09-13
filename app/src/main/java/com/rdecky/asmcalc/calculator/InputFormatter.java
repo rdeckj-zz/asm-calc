@@ -6,20 +6,20 @@ import java.util.List;
 
 class InputFormatter {
 
-    String stripFormatting(String input) {
+    static String stripFormatting(String input) {
         return input.replace(" ", "").replace(",", "");
     }
 
-    String formatDec(Long number) {
+    static String formatDec(Long number) {
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         return decimalFormat.format(number);
     }
 
-    String formatHex(Long number) {
+    static String formatHex(Long number) {
         return formatHexString(Long.toHexString(number));
     }
 
-    String formatHexString(String hexString) {
+    static String formatHexString(String hexString) {
         StringBuilder sb = new StringBuilder(hexString);
         String temp;
 
@@ -35,7 +35,7 @@ class InputFormatter {
         return sb.reverse().toString().toUpperCase();
     }
 
-    List<String> formatBinString(String binString) {
+    static List<String> formatBinString(String binString) {
         ArrayList<String> returnList = new ArrayList<>();
         int binStringLength = binString.length();
 
@@ -53,7 +53,7 @@ class InputFormatter {
         return returnList;
     }
 
-    private String formatEntireBinString(String binString) {
+    private static String formatEntireBinString(String binString) {
         StringBuilder sb = new StringBuilder(binString);
         StringBuilder reversedSb = new StringBuilder(sb.reverse().toString());
 
@@ -64,7 +64,7 @@ class InputFormatter {
         return sb.toString();
     }
 
-    private void spacePaddedHalfword(StringBuilder sb, StringBuilder reversedSb) {
+    private static void spacePaddedHalfword(StringBuilder sb, StringBuilder reversedSb) {
         int spaceCnt = 0;
         for (int i = reversedSb.length(); i >= 1; i--) {
             spaceCnt++;
@@ -75,20 +75,20 @@ class InputFormatter {
         }
     }
 
-    private void padHalfwordWithZeros(StringBuilder reversedSb) {
+    private static void padHalfwordWithZeros(StringBuilder reversedSb) {
         for (int i = 32 - reversedSb.length(); i > 0; i--) {
             reversedSb.append("0");
         }
     }
 
-    private void padByteWithZeros(StringBuilder stringBuilder, int fillZeroes) {
+    private static void padByteWithZeros(StringBuilder stringBuilder, int fillZeroes) {
         while (fillZeroes != 0 && fillZeroes != 4) {
             stringBuilder.append("0");
             fillZeroes--;
         }
     }
 
-    private int calculateByteZeros(StringBuilder stringBuilder) {
+    private static int calculateByteZeros(StringBuilder stringBuilder) {
         int fillZeroes;
         if (stringBuilder.length() >= 4) {
             fillZeroes = 4 - stringBuilder.length() % 4;

@@ -1,11 +1,7 @@
 package com.rdecky.asmcalc.calculator;
 
-import com.rdecky.asmcalc.calculator.value.HistoryValue;
 import com.rdecky.asmcalc.calculator.value.NumberValue;
 import com.rdecky.asmcalc.calculator.value.OperatorValue;
-
-import java.util.ArrayList;
-import java.util.List;
 
 class HistoryBarController {
 
@@ -17,25 +13,25 @@ class HistoryBarController {
         this.calculatorViewModel = calculatorViewModel;
     }
 
-    void clear() {
-        calculatorViewModel.clearHistory();
-    }
+//    void clear() {
+//        calculatorViewModel.clearHistory();
+//    }
+//
+//    void equals() {
+//        if (!previousValue.isRightParenthesis()) {
+//            update(EQUALS);
+//        }
+//    }
 
-    void equals() {
-        if(!previousValue.isRightParenthesis()) {
-            update(EQUALS);
-        }
-    }
+//    void update(OperatorValue value) {
+//        updateViewModel(value);
+//        previousValue = value;
+//    }
 
-    void update(OperatorValue value) {
-        updateViewModel(value);
-        previousValue = value;
-    }
-
-    private void updateViewModel(OperatorValue value) {
-        if(!value.isLeftParenthesis()) {
-            calculatorViewModel.addHistoryValue(new NumberValue(calculatorViewModel.getCurrentValue()));
-        }
-        calculatorViewModel.addHistoryValue(value);
-    }
+//    private void updateViewModel(OperatorValue value) {
+//        if (!value.isLeftParenthesis()) {
+//            calculatorViewModel.addHistoryValue(new NumberValue(calculatorViewModel.getCurrentValue()));
+//        }
+//        calculatorViewModel.addHistoryValue(value);
+//    }
 }

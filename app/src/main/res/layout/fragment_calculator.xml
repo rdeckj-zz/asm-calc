@@ -10,8 +10,12 @@
         <import type="androidx.core.content.ContextCompat" />
 
         <variable
-            name="viewModel"
+            name="calculatorViewModel"
             type="com.rdecky.asmcalc.calculator.CalculatorViewModel" />
+
+        <variable
+            name="historyBarViewModel"
+            type="com.rdecky.asmcalc.calculator.HistoryBarViewModel" />
 
     </data>
 
@@ -28,7 +32,7 @@
             android:gravity="end"
             android:paddingTop="5dp"
             android:paddingRight="8dp"
-            android:text="@{viewModel.inputHistory}"
+            android:text="@{historyBarViewModel.inputHistory}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -37,7 +41,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:gravity="end"
-            android:text="@{viewModel.inputText}"
+            android:text="@{calculatorViewModel.inputText}"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/input_history" />
 
@@ -56,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:clickable="true"
-            android:text="@{viewModel.decText}"
+            android:text="@{calculatorViewModel.decText}"
             app:layout_constraintStart_toEndOf="@id/dec_title"
             app:layout_constraintTop_toBottomOf="@id/input_bar" />
 
@@ -74,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="@{viewModel.hexText}"
+            android:text="@{calculatorViewModel.hexText}"
             app:layout_constraintStart_toEndOf="@id/hex_title"
             app:layout_constraintTop_toBottomOf="@id/dec_title" />
 
@@ -92,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="@{viewModel.binTextTop}"
+            android:text="@{calculatorViewModel.binTextTop}"
             app:layout_constraintStart_toEndOf="@id/bin_title"
             app:layout_constraintTop_toBottomOf="@id/hex_title" />
 
@@ -101,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="@{viewModel.binTextBottom}"
+            android:text="@{calculatorViewModel.binTextBottom}"
             app:layout_constraintStart_toEndOf="@id/bin_title"
             app:layout_constraintTop_toBottomOf="@id/bin_display_top" />
 

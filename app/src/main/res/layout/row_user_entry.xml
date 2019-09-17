@@ -5,9 +5,19 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="userEntry"
-            type="com.rdecky.asmcalc.data.UserEntry" />
+            name="userEntryModel"
+            type="com.rdecky.asmcalc.userEntry.UserEntryModel" />
+
+        <variable
+            name="isSelected"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="selectMode"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,20 +27,38 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true">
 
+        <ImageView
+            android:id="@+id/filled_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_box_black_24dp"
+            android:visibility="@{isSelected ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/empty_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_box_outline_blank_black_24dp"
+            android:visibility="@{userEntryModel.showSelectionCheckbox ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/short_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{userEntry.shortName}"
+            android:text="@{userEntryModel.userEntry.shortName}"
             app:layout_constraintBottom_toBottomOf="@id/hex_text"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/filled_checkbox"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/dec_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{userEntry.decText}"
+            android:text="@{userEntryModel.userEntry.decText}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +66,7 @@
             android:id="@+id/hex_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{userEntry.hexText}"
+            android:text="@{userEntryModel.userEntry.hexText}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dec_text" />
 
@@ -46,7 +74,7 @@
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{userEntry.description}"
+            android:text="@{userEntryModel.userEntry.description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/hex_text" />

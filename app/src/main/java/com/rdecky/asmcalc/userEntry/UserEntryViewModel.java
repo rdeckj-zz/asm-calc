@@ -8,26 +8,27 @@ import androidx.lifecycle.ViewModel;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class UserEntryViewModel extends ViewModel {
 
-    private MutableLiveData<List<UserEntry>> _items = new MutableLiveData<>();
-    public LiveData<List<UserEntry>> items = _items;
+    private MutableLiveData<List<UserEntryModel>> _items = new MutableLiveData<>();
+    public LiveData<List<UserEntryModel>> items = _items;
 
     private UserEntryDao userEntryDao;
 
     public UserEntryViewModel(UserEntryDao userEntryDao) {
         this.userEntryDao = userEntryDao;
-        _items.setValue(Collections.<UserEntry>emptyList());
+        _items.setValue(Collections.<UserEntryModel>emptyList());
     }
 
     void observeUserEntries() {
         userEntryDao.getUserEntries().observeForever(new Observer<List<UserEntry>>() {
             @Override
             public void onChanged(List<UserEntry> userEntries) {
-                _items.setValue(userEntries);
+                _items.setValue(UserEntryModel.createList(userEntries));
             }
         });
     }

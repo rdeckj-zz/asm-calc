@@ -32,4 +32,24 @@ public class UserEntryViewModel extends ViewModel {
             }
         });
     }
+
+    void turnOnSelectionBoxes() {
+        List<UserEntryModel> entryModels = _items.getValue();
+
+        for(UserEntryModel userEntryModel: entryModels) {
+            userEntryModel.showSelectionCheckbox = true;
+        }
+
+        _items.setValue(entryModels);
+    }
+
+    void turnOffSelectionBoxes() {
+        List<UserEntryModel> entryModels = _items.getValue();
+
+        for(UserEntryModel userEntryModel: entryModels) {
+            userEntryModel.showSelectionCheckbox = false;
+        }
+
+        _items.setValue(entryModels);
+    }
 }

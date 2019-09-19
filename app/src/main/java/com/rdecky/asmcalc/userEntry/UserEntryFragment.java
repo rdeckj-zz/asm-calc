@@ -73,6 +73,12 @@ public class UserEntryFragment extends Fragment {
             public void onSelectionChanged() {
                 Log.v("Selection Changed", "Selection: " + selectionTracker.getSelection());
                 super.onSelectionChanged();
+
+                if(selectionTracker.getSelection().size() > 0) {
+                    userEntryViewModel.turnOnSelectionBoxes();
+                } else {
+                    userEntryViewModel.turnOffSelectionBoxes();
+                }
             }
         });
     }

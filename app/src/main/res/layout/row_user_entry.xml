@@ -14,10 +14,6 @@
         <variable
             name="isSelected"
             type="java.lang.Boolean" />
-
-        <variable
-            name="selectMode"
-            type="java.lang.Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,16 +27,7 @@
             android:id="@+id/filled_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_box_black_24dp"
-            android:visibility="@{isSelected ? View.VISIBLE : View.GONE}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/empty_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_check_box_outline_blank_black_24dp"
+            android:src="@{isSelected ? @drawable/ic_check_box_black_24dp : @drawable/ic_check_box_outline_blank_black_24dp}"
             android:visibility="@{userEntryModel.showSelectionCheckbox ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

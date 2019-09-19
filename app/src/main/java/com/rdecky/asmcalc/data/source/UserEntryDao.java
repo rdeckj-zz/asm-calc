@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.PrimaryKey;
 import androidx.room.Query;
 
 import com.rdecky.asmcalc.data.UserEntry;
@@ -15,14 +14,11 @@ import java.util.List;
 public interface UserEntryDao {
 
     @Query("SELECT * FROM userentry")
-    public LiveData<List<UserEntry>> getUserEntries();
-
-    @Insert
-    void insertAll(UserEntry... userEntries);
+    LiveData<List<UserEntry>> getUserEntries();
 
     @Insert
     void insert(UserEntry userEntry);
 
     @Delete
-    void delete(UserEntry userEntry);
+    void deleteAll(List<UserEntry> userEntries);
 }

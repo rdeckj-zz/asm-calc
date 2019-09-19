@@ -30,7 +30,8 @@
             android:src="@{isSelected ? @drawable/ic_check_box_black_24dp : @drawable/ic_check_box_outline_blank_black_24dp}"
             android:visibility="@{userEntryModel.showSelectionCheckbox ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/short_name"

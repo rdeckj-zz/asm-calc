@@ -45,7 +45,6 @@
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/input_history" />
 
-
         <TextView
             android:id="@+id/dec_title"
             android:layout_width="wrap_content"

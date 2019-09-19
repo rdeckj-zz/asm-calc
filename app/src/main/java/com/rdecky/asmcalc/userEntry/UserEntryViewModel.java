@@ -1,15 +1,19 @@
 package com.rdecky.asmcalc.userEntry;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.selection.Selection;
 
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class UserEntryViewModel extends ViewModel {
@@ -33,21 +37,42 @@ public class UserEntryViewModel extends ViewModel {
         });
     }
 
-    void turnOnSelectionBoxes() {
-        List<UserEntryModel> entryModels = _items.getValue();
-
-        for(UserEntryModel userEntryModel: entryModels) {
-            userEntryModel.showSelectionCheckbox = true;
-        }
-
-        _items.setValue(entryModels);
+    void showSelectionBoxes() {
+        toggleSelectionBoxes(true);
     }
 
-    void turnOffSelectionBoxes() {
+    void hideSelectionBoxes() {
+        toggleSelectionBoxes(false);
+    }
+
+    void deleteSelectedUserEntries(Selection<Long> selection) {
+        Iterator<Long> iterator = selection.iterator();
+        List<UserEntryModel> userEntries = _items.getValue();
+        final List<UserEntry> itemsToRemove = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Long position = iterator.next();
+            itemsToRemove.add(userEntries.get(position.intValue()).userEntry);
+        }
+
+        deleteEntriesFromDatabase(itemsToRemove);
+        userEntries.removeAll(itemsToRemove);
+    }
+
+    private void deleteEntriesFromDatabase(final List<UserEntry> itemsToRemove) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                userEntryDao.deleteAll(itemsToRemove);
+            }
+        });
+    }
+
+    private void toggleSelectionBoxes(boolean value) {
         List<UserEntryModel> entryModels = _items.getValue();
 
-        for(UserEntryModel userEntryModel: entryModels) {
-            userEntryModel.showSelectionCheckbox = false;
+        for (UserEntryModel userEntryModel : entryModels) {
+            userEntryModel.showSelectionCheckbox = value;
         }
 
         _items.setValue(entryModels);

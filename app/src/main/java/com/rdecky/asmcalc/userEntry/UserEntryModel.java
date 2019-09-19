@@ -10,7 +10,7 @@ public class UserEntryModel {
     public UserEntry userEntry;
     public boolean showSelectionCheckbox;
 
-    UserEntryModel(UserEntry userEntry) {
+    private UserEntryModel(UserEntry userEntry) {
         this.userEntry = userEntry;
     }
 

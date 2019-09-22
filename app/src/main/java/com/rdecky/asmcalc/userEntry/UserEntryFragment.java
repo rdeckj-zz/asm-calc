@@ -22,6 +22,7 @@ import com.rdecky.asmcalc.CustomViewModelFactory;
 import com.rdecky.asmcalc.R;
 import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
 import com.rdecky.asmcalc.databinding.FragmentUserEntryBinding;
+import com.rdecky.asmcalc.userEntry.modification.ModificationActivity;
 
 import java.util.Objects;
 
@@ -75,7 +76,7 @@ public class UserEntryFragment extends Fragment {
         parentActivity.findViewById(R.id.add_fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(parentActivity, UserEntryAddEditActivity.class);
+                Intent intent = new Intent(parentActivity, ModificationActivity.class);
                 startActivity(intent);
             }
         });

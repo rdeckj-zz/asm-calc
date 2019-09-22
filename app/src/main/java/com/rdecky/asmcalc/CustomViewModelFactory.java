@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.rdecky.asmcalc.calculator.CalculatorViewModel;
 import com.rdecky.asmcalc.calculator.HistoryBarViewModel;
+import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
+import com.rdecky.asmcalc.userEntry.UserEntryModel;
 import com.rdecky.asmcalc.userEntry.UserEntryViewModel;
+import com.rdecky.asmcalc.userEntry.modification.ModificationViewModel;
 
 public class CustomViewModelFactory implements ViewModelProvider.Factory {
 
@@ -32,6 +35,8 @@ public class CustomViewModelFactory implements ViewModelProvider.Factory {
             return (T) new UserEntryViewModel(database.userEntryDao());
         } else if (modelClass.isAssignableFrom(HistoryBarViewModel.class)) {
             return (T) new HistoryBarViewModel(calculatorViewModel);
+        } else if (modelClass.isAssignableFrom(ModificationViewModel.class)) {
+            return (T) new ModificationViewModel(database.userEntryDao(), new UserEntry());
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class");

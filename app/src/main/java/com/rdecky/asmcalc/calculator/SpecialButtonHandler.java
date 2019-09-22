@@ -65,12 +65,13 @@ class SpecialButtonHandler {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                UserEntry userEntry = new UserEntry();
-                userEntry.shortName = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date());
-                userEntry.value = calculatorViewModel.getCurrentValue();
-                userEntry.decText = calculatorViewModel.getDecText();
-                userEntry.hexText = calculatorViewModel.getHexText();
-                userEntry.description = "Added from quick save";
+                UserEntry userEntry = new UserEntry.Builder()
+                        .setShortName(DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date()))
+                        .setValue(calculatorViewModel.getCurrentValue())
+                        .setDecText(calculatorViewModel.getDecText())
+                        .setHexText(calculatorViewModel.getHexText())
+                        .setDescription("Added from quick save")
+                        .build();
                 userEntryDao.insert(userEntry);
             }
         });

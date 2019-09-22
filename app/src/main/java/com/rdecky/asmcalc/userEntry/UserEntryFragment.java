@@ -1,5 +1,7 @@
 package com.rdecky.asmcalc.userEntry;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ public class UserEntryFragment extends Fragment {
     private SelectionTracker<Long> selectionTracker;
     private UserEntryAdapter userEntryAdapter;
     private ImageView delete;
+    private Activity parentActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +53,8 @@ public class UserEntryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        delete = Objects.requireNonNull(getActivity()).findViewById(R.id.delete);
+        parentActivity = Objects.requireNonNull(getActivity());
+
         setDeleteClickListener();
 
         dataBinding.setLifecycleOwner(getViewLifecycleOwner());
@@ -63,11 +67,23 @@ public class UserEntryFragment extends Fragment {
         userEntryViewModel.observeUserEntries();
         userEntryAdapter.setSelectionTracker(selectionTracker);
 
+        setAddClickListener();
         setSelectionObserver();
     }
 
+    private void setAddClickListener() {
+        parentActivity.findViewById(R.id.add_fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(parentActivity, UserEntryAddEditActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void setDeleteClickListener() {
-       delete.setOnClickListener(new View.OnClickListener() {
+        delete = parentActivity.findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 userEntryViewModel.deleteSelectedUserEntries(selectionTracker.getSelection());

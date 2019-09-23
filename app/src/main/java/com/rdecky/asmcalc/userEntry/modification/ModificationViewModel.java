@@ -1,6 +1,6 @@
 package com.rdecky.asmcalc.userEntry.modification;
 
-import android.util.Log;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.ViewModel;
 
@@ -23,5 +23,16 @@ public class ModificationViewModel extends ViewModel {
 
     public void setUserEntry(UserEntry userEntry) {
         this.userEntry = userEntry;
+    }
+
+    void saveUserEntry() {
+        AsyncTask.execute(new Runnable() {
+            UserEntry newUserEntry = userEntry;
+
+            @Override
+            public void run() {
+                userEntryDao.insert(newUserEntry);
+            }
+        });
     }
 }

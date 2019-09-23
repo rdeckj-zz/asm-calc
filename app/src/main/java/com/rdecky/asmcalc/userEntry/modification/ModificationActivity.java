@@ -1,6 +1,7 @@
 package com.rdecky.asmcalc.userEntry.modification;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,5 +27,13 @@ public class ModificationActivity extends AppCompatActivity {
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_modification_user_entry);
         dataBinding.setModificationViewModel(modificationViewModel);
+
+        dataBinding.acceptFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modificationViewModel.saveUserEntry();
+                finish();
+            }
+        });
     }
 }

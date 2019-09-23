@@ -6,4 +6,9 @@
     <string name="decTitle">Dec:</string>
     <string name="hexTitle">Hex:</string>
     <string name="binTitle">Bin:</string>
+
+    <string name="description">Description</string>
+    <string name="hex_text">Hex Value</string>
+    <string name="dec_text">Dec Value</string>
+    <string name="short_name">Short Name</string>
 </resources>

@@ -20,9 +20,9 @@ public class UserEntryLookup extends ItemDetailsLookup<Long> {
     @Override
     public ItemDetails<Long> getItemDetails(@NonNull MotionEvent e) {
         View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
-        if(view != null) {
+        if (view != null) {
             final RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
-            if(viewHolder instanceof UserEntryAdapter.UserEntriesViewHolder) {
+            if (viewHolder instanceof UserEntryAdapter.UserEntriesViewHolder) {
                 final UserEntryAdapter.UserEntriesViewHolder userEntriesViewHolder = (UserEntryAdapter.UserEntriesViewHolder) viewHolder;
                 return userEntriesViewHolder.getItemDetails();
             }

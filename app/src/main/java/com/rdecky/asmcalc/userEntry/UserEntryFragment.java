@@ -38,16 +38,13 @@ public class UserEntryFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CustomViewModelFactory viewModelFactory = new CustomViewModelFactory(AsmCalcDatabase.getInstance(getContext()));
-        userEntryViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserEntryViewModel.class);
+        createViewModel();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dataBinding = FragmentUserEntryBinding.inflate(inflater, container, false);
-        dataBinding.setUserEntryViewModel(userEntryViewModel);
-
+        setupDataBinding(inflater, container);
         return dataBinding.getRoot();
     }
 
@@ -72,6 +69,16 @@ public class UserEntryFragment extends Fragment {
         setSelectionObserver();
     }
 
+    private void createViewModel() {
+        CustomViewModelFactory viewModelFactory = new CustomViewModelFactory(AsmCalcDatabase.getInstance(getContext()));
+        userEntryViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserEntryViewModel.class);
+    }
+
+    private void setupDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        dataBinding = FragmentUserEntryBinding.inflate(inflater, container, false);
+        dataBinding.setUserEntryViewModel(userEntryViewModel);
+    }
+
     private void setAddClickListener() {
         parentActivity.findViewById(R.id.add_fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +101,7 @@ public class UserEntryFragment extends Fragment {
     }
 
     private void createUserEntryAdapter() {
-        userEntryAdapter = new UserEntryAdapter();
+        userEntryAdapter = new UserEntryAdapter(parentActivity);
         userEntryAdapter.setHasStableIds(true);
     }
 

@@ -27,11 +27,13 @@ public class ModificationViewModel extends ViewModel {
 
     void saveUserEntry() {
         AsyncTask.execute(new Runnable() {
-            UserEntry newUserEntry = userEntry;
-
             @Override
             public void run() {
-                userEntryDao.insert(newUserEntry);
+                if (userEntryDao.getUserEntryById(userEntry.getUid()) != null) {
+                    userEntryDao.update(userEntry);
+                } else {
+                    userEntryDao.insert(userEntry);
+                }
             }
         });
     }

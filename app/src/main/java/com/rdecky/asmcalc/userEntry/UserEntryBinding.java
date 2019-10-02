@@ -3,8 +3,6 @@ package com.rdecky.asmcalc.userEntry;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rdecky.asmcalc.data.UserEntry;
-
 import java.util.List;
 
 public class UserEntryBinding {

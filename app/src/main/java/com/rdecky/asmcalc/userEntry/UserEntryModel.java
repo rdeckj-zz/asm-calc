@@ -7,8 +7,8 @@ import java.util.List;
 
 public class UserEntryModel {
 
-    public UserEntry userEntry;
-    public boolean showSelectionCheckbox;
+    private UserEntry userEntry;
+    private boolean showSelectionCheckbox;
 
     public UserEntryModel(UserEntry userEntry) {
         this.userEntry = userEntry;
@@ -22,5 +22,17 @@ public class UserEntryModel {
         }
 
         return userEntryModels;
+    }
+
+    public UserEntry getUserEntry() {
+        return userEntry;
+    }
+
+    public boolean getShowSelectionCheckbox() {
+        return showSelectionCheckbox;
+    }
+
+    void setShowSelectionCheckbox(boolean showSelectionCheckbox) {
+        this.showSelectionCheckbox = showSelectionCheckbox;
     }
 }

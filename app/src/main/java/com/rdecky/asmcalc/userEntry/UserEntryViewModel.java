@@ -52,7 +52,7 @@ public class UserEntryViewModel extends ViewModel {
 
         while (iterator.hasNext()) {
             Long position = iterator.next();
-            itemsToRemove.add(userEntries.get(position.intValue()).userEntry);
+            itemsToRemove.add(userEntries.get(position.intValue()).getUserEntry());
         }
 
         deleteEntriesFromDatabase(itemsToRemove);
@@ -72,7 +72,7 @@ public class UserEntryViewModel extends ViewModel {
         List<UserEntryModel> entryModels = _items.getValue();
 
         for (UserEntryModel userEntryModel : entryModels) {
-            userEntryModel.showSelectionCheckbox = value;
+            userEntryModel.setShowSelectionCheckbox(value);
         }
 
         _items.setValue(entryModels);

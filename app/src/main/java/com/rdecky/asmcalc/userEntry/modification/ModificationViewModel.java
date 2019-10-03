@@ -9,6 +9,7 @@ import com.rdecky.asmcalc.data.source.UserEntryDao;
 
 public class ModificationViewModel extends ViewModel {
 
+    //TODO use one-way data binding and add a text watcher to the activity
     private UserEntryDao userEntryDao;
     private UserEntry userEntry;
 

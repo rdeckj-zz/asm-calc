@@ -2,15 +2,21 @@ package com.rdecky.asmcalc.userEntry.modification;
 
 import android.os.AsyncTask;
 
+import androidx.databinding.Bindable;
+import androidx.databinding.Observable;
+import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.ViewModel;
 
+import com.rdecky.asmcalc.BR;
+import com.rdecky.asmcalc.calculator.InputFormatter;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
-public class ModificationViewModel extends ViewModel {
+public class ModificationViewModel extends ViewModel implements Observable {
 
-    //TODO use one-way data binding and add a text watcher to the activity
+    private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
     private UserEntryDao userEntryDao;
+    @Bindable
     private UserEntry userEntry;
 
     public ModificationViewModel(UserEntryDao userEntryDao, UserEntry userEntry) {
@@ -26,6 +32,16 @@ public class ModificationViewModel extends ViewModel {
         this.userEntry = userEntry;
     }
 
+    @Override
+    public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
+        callbacks.add(callback);
+    }
+
+    @Override
+    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
+        callbacks.remove(callback);
+    }
+
     void saveUserEntry() {
         AsyncTask.execute(new Runnable() {
             @Override
@@ -37,5 +53,38 @@ public class ModificationViewModel extends ViewModel {
                 }
             }
         });
+    }
+
+    void hexTextChanged(CharSequence newValue) {
+        String noFormatting = InputFormatter.stripFormatting(newValue.toString());
+        try {
+            Long value = Long.valueOf(noFormatting, 16);
+            setNewValues(value);
+        } catch (NumberFormatException e) {
+            // Invalid, don't update
+        }
+    }
+
+    void decTextChanged(CharSequence newValue) {
+        String noFormatting = InputFormatter.stripFormatting(newValue.toString());
+        try {
+        Long value = Long.valueOf(noFormatting, 10);
+        setNewValues(value);
+        } catch (NumberFormatException e) {
+            // Invalid, don't update
+        }
+    }
+
+    private void notifyPropertyChanged(int fieldId) {
+        callbacks.notifyCallbacks(this, fieldId, null);
+    }
+
+    private void setNewValues(Long value) {
+        String newHex = InputFormatter.formatHex(value);
+        String newDec = InputFormatter.formatDec(value);
+        userEntry.setHexText(newHex);
+        userEntry.setDecText(newDec);
+
+        notifyPropertyChanged(BR.userEntry);
     }
 }

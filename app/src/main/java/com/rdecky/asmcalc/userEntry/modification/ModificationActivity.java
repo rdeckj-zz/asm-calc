@@ -2,7 +2,12 @@ package com.rdecky.asmcalc.userEntry.modification;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +26,8 @@ public class ModificationActivity extends AppCompatActivity {
 
     private ModificationViewModel modificationViewModel;
     private ActivityModificationUserEntryBinding dataBinding;
+    private EditText decTextInput;
+    private EditText hexTextInput;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,9 +35,11 @@ public class ModificationActivity extends AppCompatActivity {
 
         createViewModel();
         setupDataBinding();
-
+        saveViewReferences();
         setAcceptOnClickListener();
         updateViewWithExtra(getIntent());
+        setInputWatcher(decTextInput, decTextWatcher);
+        setInputWatcher(hexTextInput, hexTextWatcher);
     }
 
     private void setupDataBinding() {
@@ -41,6 +50,11 @@ public class ModificationActivity extends AppCompatActivity {
     private void createViewModel() {
         CustomViewModelFactory viewModelFactory = new CustomViewModelFactory(AsmCalcDatabase.getInstance(this));
         modificationViewModel = ViewModelProviders.of(this, viewModelFactory).get(ModificationViewModel.class);
+    }
+
+    private void saveViewReferences() {
+        decTextInput = findViewById(R.id.edit_dec_text);
+        hexTextInput = findViewById(R.id.edit_hex_text);
     }
 
     private void setAcceptOnClickListener() {
@@ -62,4 +76,48 @@ public class ModificationActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void setInputWatcher(final EditText watchedInput, final TextWatcher watcher) {
+        watchedInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    watchedInput.addTextChangedListener(watcher);
+                }
+                else{
+                    watchedInput.removeTextChangedListener(watcher);
+                }
+            }
+        });
+    }
+
+    final TextWatcher hexTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            modificationViewModel.hexTextChanged(hexTextInput.getText());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    final TextWatcher decTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            modificationViewModel.decTextChanged(decTextInput.getText());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
 }

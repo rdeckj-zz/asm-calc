@@ -4,19 +4,19 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-class InputFormatter {
+public class InputFormatter {
 
-    static String stripFormatting(String input) {
+    public static String stripFormatting(String input) {
         return input.replace(" ", "").replace(",", "");
     }
 
-    static String formatDec(Long number) {
-        DecimalFormat decimalFormat = new DecimalFormat("#,###");
-        return decimalFormat.format(number);
+    public static String formatHex(Long number) {
+        return formatHexString(Long.toHexString(number));
     }
 
-    static String formatHex(Long number) {
-        return formatHexString(Long.toHexString(number));
+    public static String formatDec(Long number) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(number);
     }
 
     static String formatHexString(String hexString) {

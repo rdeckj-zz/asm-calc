@@ -1,15 +1,19 @@
 package com.rdecky.asmcalc.calculator;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.rdecky.asmcalc.calculator.value.ButtonValue;
-import com.rdecky.asmcalc.calculator.value.OperatorValue;
 import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
+import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat;
@@ -19,11 +23,10 @@ public class CalculatorViewModel extends ViewModel {
     private static final String INITIAL_DEC_TEXT = "0";
     private static final String INITIAL_HEX_TEXT = "0";
     private static final String INITIAL_BIN_TEXT = "0000 0000 0000 0000 0000 0000 0000 0000";
+    private final UserEntryDao userEntryDao;
 
     private Observer<String> inputFormatObserver;
     private InputFormat currentInputFormat;
-
-    private SpecialButtonHandler specialButtonHandler;
 
     private MutableLiveData<Long> _currentValue = new MutableLiveData<>();
 
@@ -45,10 +48,7 @@ public class CalculatorViewModel extends ViewModel {
     public LiveData<String> binTextBottom = _binTextBottom;
 
     public CalculatorViewModel(UserEntryDao userEntryDao) {
-        specialButtonHandler = new SpecialButtonHandler(
-                this,
-                userEntryDao
-        );
+        this.userEntryDao = userEntryDao;
         _currentValue.setValue(0L);
         _inputText.setValue(INITIAL_DEC_TEXT);
         _decText.setValue(INITIAL_DEC_TEXT);
@@ -66,7 +66,23 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     void specialButtonPressed(SpecialButtonValue value) {
-        specialButtonHandler.handle(value);
+        switch (value.getText().toLowerCase()) {
+            case "bksp":
+                backspace();
+                break;
+            case "clear":
+            case "ce":
+                clearEntry();
+                break;
+            case "+/-":
+                invert();
+                break;
+            case "ms":
+                saveEntry();
+                break;
+            default:
+                break;
+        }
     }
 
     void operatorButtonPressed() {
@@ -95,23 +111,11 @@ public class CalculatorViewModel extends ViewModel {
         _currentValue.setValue(newValue);
     }
 
-    String getInputText() {
-        return _inputText.getValue();
-    }
-
     Long getCurrentValue() {
         return _currentValue.getValue();
     }
 
-    String getDecText() {
-        return _decText.getValue();
-    }
-
-    String getHexText() {
-        return _hexText.getValue();
-    }
-
-    void clearEntry() {
+    private void clearEntry() {
         setCurrentValue("0");
     }
 
@@ -179,5 +183,35 @@ public class CalculatorViewModel extends ViewModel {
         _binTextTop.setValue(topText);
         _binTextBottom.setValue(bottomText);
         _binText.setValue(topText + " " + bottomText);
+    }
+
+    private void backspace() {
+        String noFormatting = InputFormatter.stripFormatting(_inputText.getValue());
+        if (noFormatting.length() == 1) {
+            setCurrentValue("0");
+        } else {
+            String newString = noFormatting.substring(0, noFormatting.length() - 1);
+            setCurrentValue(newString);
+        }
+    }
+
+    private void invert() {
+        setCurrentValueAsDec(_currentValue.getValue() * -1L);
+    }
+
+    private void saveEntry() {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                UserEntry userEntry = new UserEntry.Builder()
+                        .setShortName(DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date()))
+                        .setValue(_currentValue.getValue())
+                        .setDecText(_decText.getValue())
+                        .setHexText(_hexText.getValue())
+                        .setDescription("Added from quick save")
+                        .build();
+                userEntryDao.insert(userEntry);
+            }
+        });
     }
 }

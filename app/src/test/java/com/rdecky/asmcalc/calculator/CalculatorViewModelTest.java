@@ -98,6 +98,14 @@ public class CalculatorViewModelTest {
     }
 
     @Test
+    public void setCurrentValue_inputFormatDec_handlesMaxValue() {
+        calculatorViewModel.setInputFormat(InputFormatClickListener.InputFormat.DEC);
+        calculatorViewModel.setCurrentValue(Long.toString(Long.MAX_VALUE));
+
+        assertThat(calculatorViewModel.getCurrentValue(), is(Long.MAX_VALUE));
+    }
+
+    @Test
     public void setCurrentValue_inputFormatHex_updatesCurrentValue() {
         calculatorViewModel.setInputFormat(InputFormatClickListener.InputFormat.HEX);
         calculatorViewModel.setCurrentValue("FFFF9F9F");
@@ -106,11 +114,43 @@ public class CalculatorViewModelTest {
     }
 
     @Test
+    public void setCurrentValue_inputFormatHex_handlesMaxValue() {
+        calculatorViewModel.setInputFormat(InputFormatClickListener.InputFormat.HEX);
+        calculatorViewModel.setCurrentValue("FFFFFFFFFFFFFFFF");
+
+        assertThat(calculatorViewModel.getCurrentValue(), is(-1L));
+    }
+
+    @Test
+    public void setCurrentValue_inputFormatHex_handlesSecondLargestValue() {
+        calculatorViewModel.setInputFormat(InputFormatClickListener.InputFormat.HEX);
+        calculatorViewModel.setCurrentValue("EFFFFFFFFFFFFFFF");
+
+        assertThat(calculatorViewModel.getCurrentValue(), is(-1152921504606846977L));
+    }
+
+    @Test
     public void setCurrentValue_inputFormatBin_updatesCurrentValue() {
         calculatorViewModel.setInputFormat(InputFormatClickListener.InputFormat.BIN);
         calculatorViewModel.setCurrentValue("0001110001010001010101");
 
         assertThat(calculatorViewModel.getCurrentValue(), is(463957L));
+    }
+
+    @Test
+    public void setCurrentValue_inputFormatBin_handlesMinValue() {
+        calculatorViewModel.setInputFormat(InputFormatClickListener.InputFormat.BIN);
+        calculatorViewModel.setCurrentValue("1000000000000000000000000000000000000000000000000000000000000000");
+
+        assertThat(calculatorViewModel.getCurrentValue(), is(Long.MIN_VALUE));
+    }
+
+    @Test
+    public void setCurrentValue_inputFormatBin_handlesMaxValue() {
+        calculatorViewModel.setInputFormat(InputFormatClickListener.InputFormat.BIN);
+        calculatorViewModel.setCurrentValue("1111111111111111111111111111111111111111111111111111111111111111");
+
+        assertThat(calculatorViewModel.getCurrentValue(), is(-1L));
     }
 
     @Test

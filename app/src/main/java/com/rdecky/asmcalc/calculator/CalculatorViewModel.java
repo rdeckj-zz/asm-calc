@@ -11,18 +11,24 @@ import com.rdecky.asmcalc.calculator.value.ButtonValue;
 import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
+import com.rdecky.asmcalc.util.BaseConverter;
+import com.rdecky.asmcalc.util.NumberFormatter;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
 import static com.rdecky.asmcalc.calculator.InputFormatClickListener.InputFormat;
+import static com.rdecky.asmcalc.util.BaseConverter.BIN_RADIX;
+import static com.rdecky.asmcalc.util.BaseConverter.DEC_RADIX;
+import static com.rdecky.asmcalc.util.BaseConverter.HEX_RADIX;
 
 public class CalculatorViewModel extends ViewModel {
 
     private static final String INITIAL_DEC_TEXT = "0";
     private static final String INITIAL_HEX_TEXT = "0";
     private static final String INITIAL_BIN_TEXT = "0000 0000 0000 0000 0000 0000 0000 0000";
+
     private final UserEntryDao userEntryDao;
 
     private Observer<String> inputFormatObserver;
@@ -61,7 +67,7 @@ public class CalculatorViewModel extends ViewModel {
 
     void regularButtonPressed(ButtonValue value) {
         String buttonText = value.getText();
-        String newText = InputFormatter.stripFormatting(inputText.getValue()) + buttonText;
+        String newText = NumberFormatter.stripFormatting(inputText.getValue()) + buttonText;
         setCurrentValue(newText);
     }
 
@@ -99,11 +105,11 @@ public class CalculatorViewModel extends ViewModel {
 
     void setCurrentValue(String newText) {
         if (currentInputFormat == InputFormat.DEC) {
-            setCurrentValueBasedOnRadix(newText, 10);
+            setCurrentValueBasedOnRadix(newText, DEC_RADIX);
         } else if (currentInputFormat == InputFormat.HEX) {
-            setCurrentValueBasedOnRadix(newText, 16);
+            setCurrentValueBasedOnRadix(newText, HEX_RADIX);
         } else if (currentInputFormat == InputFormat.BIN) {
-            setCurrentValueBasedOnRadix(newText, 2);
+            setCurrentValueBasedOnRadix(newText, BIN_RADIX);
         }
     }
 
@@ -148,8 +154,21 @@ public class CalculatorViewModel extends ViewModel {
 
     private void setCurrentValueBasedOnRadix(String newText, int radix) {
         try {
-            Long newValue = Long.parseLong(newText, radix);
-            _currentValue.setValue(newValue);
+            long convertedValue;
+
+            switch (radix) {
+                case BIN_RADIX:
+                    convertedValue = BaseConverter.convertBinString(newText);
+                    break;
+                case HEX_RADIX:
+                    convertedValue = BaseConverter.convertHexString(newText);
+                    break;
+                default:
+                    convertedValue = BaseConverter.convertDecString(newText);
+                    break;
+            }
+
+            _currentValue.setValue(convertedValue);
         } catch (NumberFormatException e) {
             // Overflow, don't do anything
         }
@@ -167,16 +186,16 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     private void setDecTextFormattedValue(Long currentValue) {
-        _decText.setValue(InputFormatter.formatDec(currentValue));
+        _decText.setValue(NumberFormatter.formatDec(currentValue));
     }
 
     private void setHexTextFormattedValue(Long currentValue) {
-        _hexText.setValue(InputFormatter.formatHexString(Long.toHexString(currentValue)));
+        _hexText.setValue(NumberFormatter.formatHexString(Long.toHexString(currentValue)));
     }
 
     private void setBinTextFormattedValue(Long currentValue) {
         String binary = Long.toBinaryString(currentValue);
-        List<String> formattedBinary = InputFormatter.formatBinString(binary);
+        List<String> formattedBinary = NumberFormatter.formatBinString(binary);
         String topText = formattedBinary.get(0);
         String bottomText = formattedBinary.get(1);
 
@@ -186,7 +205,7 @@ public class CalculatorViewModel extends ViewModel {
     }
 
     private void backspace() {
-        String noFormatting = InputFormatter.stripFormatting(_inputText.getValue());
+        String noFormatting = NumberFormatter.stripFormatting(_inputText.getValue());
         if (noFormatting.length() == 1) {
             setCurrentValue("0");
         } else {

@@ -1,4 +1,4 @@
-package com.rdecky.asmcalc.calculator;
+package com.rdecky.asmcalc.util;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,71 +7,71 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class InputFormatterTest {
+public class NumberFormatterTest {
 
-    private InputFormatter inputFormatter;
+    private NumberFormatter numberFormatter;
 
     @Before
     public void setUp() {
-        inputFormatter = new InputFormatter();
+        numberFormatter = new NumberFormatter();
     }
 
     @Test
     public void formatHexString_oneCharacter() {
-        assertEquals("F", inputFormatter.formatHexString("F"));
+        assertEquals("F", numberFormatter.formatHexString("F"));
     }
 
     @Test
     public void formatHexString_twoCharacters() {
-        assertEquals("FA", inputFormatter.formatHexString("FA"));
+        assertEquals("FA", numberFormatter.formatHexString("FA"));
     }
 
     @Test
     public void formatHexString_eightCharacters() {
-        assertEquals("123F ABCD", inputFormatter.formatHexString("123FABCD"));
+        assertEquals("123F ABCD", numberFormatter.formatHexString("123FABCD"));
     }
 
     @Test
     public void formatHexString_sixteenCharacters() {
-        assertEquals("FFFF FFFF FFFF FFFF", inputFormatter.formatHexString("FFFFFFFFFFFFFFFF"));
+        assertEquals("FFFF FFFF FFFF FFFF", numberFormatter.formatHexString("FFFFFFFFFFFFFFFF"));
     }
 
     @Test
     public void formatHexString_mixedCase_returnsAllCapitals() {
-        assertEquals("AS D123", inputFormatter.formatHexString("asd123"));
+        assertEquals("AS D123", numberFormatter.formatHexString("asd123"));
     }
 
     @Test
     public void formatBinaryString_zero() {
-        List<String> result = inputFormatter.formatBinString("0");
+        List<String> result = numberFormatter.formatBinString("0");
         assertEquals("0000 0000 0000 0000 0000 0000 0000 0000", result.get(0));
         assertEquals("0000 0000 0000 0000 0000 0000 0000 0000", result.get(1));
     }
 
     @Test
     public void formatBinaryString_one() {
-        List<String> result = inputFormatter.formatBinString("1");
+        List<String> result = numberFormatter.formatBinString("1");
         assertEquals("0000 0000 0000 0000 0000 0000 0000 0000", result.get(0));
         assertEquals("0000 0000 0000 0000 0000 0000 0000 0001", result.get(1));
     }
 
     @Test
     public void formatBinaryString_singleDigit_withLeadingZero() {
-        List<String> result = inputFormatter.formatBinString("01");
+        List<String> result = numberFormatter.formatBinString("01");
         assertEquals("0000 0000 0000 0000 0000 0000 0000 0000", result.get(0));
         assertEquals("0000 0000 0000 0000 0000 0000 0000 0001", result.get(1));
     }
 
     @Test
     public void formatBinaryString_twentyFourDigits() {
-        List<String> result = inputFormatter.formatBinString("111111111111000000000000");
+        List<String> result = numberFormatter.formatBinString("111111111111000000000000");
         assertEquals("0000 0000 0000 0000 0000 0000 0000 0000", result.get(0));
         assertEquals("0000 0000 1111 1111 1111 0000 0000 0000", result.get(1));
     }
 
     @Test
     public void formatBinaryString_thirtyFourDigits() {
-        List<String> result = inputFormatter.formatBinString("1100000000111111111111000000000000");
+        List<String> result = numberFormatter.formatBinString("1100000000111111111111000000000000");
         assertEquals("0000 0000 0000 0000 0000 0000 0000 0011", result.get(0));
         assertEquals("0000 0000 1111 1111 1111 0000 0000 0000", result.get(1));
     }

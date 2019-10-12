@@ -8,7 +8,7 @@ import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.ViewModel;
 
 import com.rdecky.asmcalc.BR;
-import com.rdecky.asmcalc.calculator.InputFormatter;
+import com.rdecky.asmcalc.util.NumberFormatter;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
 
@@ -56,7 +56,7 @@ public class ModificationViewModel extends ViewModel implements Observable {
     }
 
     void hexTextChanged(CharSequence newValue) {
-        String noFormatting = InputFormatter.stripFormatting(newValue.toString());
+        String noFormatting = NumberFormatter.stripFormatting(newValue.toString());
         try {
             Long value = Long.valueOf(noFormatting, 16);
             setNewValues(value);
@@ -66,7 +66,7 @@ public class ModificationViewModel extends ViewModel implements Observable {
     }
 
     void decTextChanged(CharSequence newValue) {
-        String noFormatting = InputFormatter.stripFormatting(newValue.toString());
+        String noFormatting = NumberFormatter.stripFormatting(newValue.toString());
         try {
         Long value = Long.valueOf(noFormatting, 10);
         setNewValues(value);
@@ -80,8 +80,8 @@ public class ModificationViewModel extends ViewModel implements Observable {
     }
 
     private void setNewValues(Long value) {
-        String newHex = InputFormatter.formatHex(value);
-        String newDec = InputFormatter.formatDec(value);
+        String newHex = NumberFormatter.formatHex(value);
+        String newDec = NumberFormatter.formatDec(value);
         userEntry.setHexText(newHex);
         userEntry.setDecText(newDec);
 

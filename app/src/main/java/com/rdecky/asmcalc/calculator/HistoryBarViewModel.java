@@ -9,6 +9,7 @@ import com.rdecky.asmcalc.calculator.value.HistoryValue;
 import com.rdecky.asmcalc.calculator.value.NumberValue;
 import com.rdecky.asmcalc.calculator.value.OperatorValue;
 import com.rdecky.asmcalc.calculator.value.SpecialButtonValue;
+import com.rdecky.asmcalc.util.NumberFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,6 @@ public class HistoryBarViewModel extends ViewModel {
         setInputFormat(InputFormatClickListener.InputFormat.DEC);
         _history.observeForever(createHistoryObserver());
     }
-
 
     void operatorButtonPressed(OperatorValue operatorButtonValue) {
         update(operatorButtonValue);
@@ -114,8 +114,8 @@ public class HistoryBarViewModel extends ViewModel {
                 for (HistoryValue historyValue : changedHistoryValues) {
                     if (historyValue instanceof NumberValue) {
                         long value = ((NumberValue) historyValue).getValue();
-                        decHistory.append(InputFormatter.formatDec(value));
-                        hexHistory.append(InputFormatter.formatHex(value));
+                        decHistory.append(NumberFormatter.formatDec(value));
+                        hexHistory.append(NumberFormatter.formatHex(value));
                     }
                     if (historyValue instanceof OperatorValue) {
                         String operator = ((OperatorValue) historyValue).getText();

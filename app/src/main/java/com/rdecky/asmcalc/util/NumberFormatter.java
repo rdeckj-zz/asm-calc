@@ -1,10 +1,10 @@
-package com.rdecky.asmcalc.calculator;
+package com.rdecky.asmcalc.util;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputFormatter {
+public class NumberFormatter {
 
     public static String stripFormatting(String input) {
         return input.replace(" ", "").replace(",", "");
@@ -19,7 +19,7 @@ public class InputFormatter {
         return decimalFormat.format(number);
     }
 
-    static String formatHexString(String hexString) {
+    public static String formatHexString(String hexString) {
         StringBuilder sb = new StringBuilder(hexString);
         String temp;
 
@@ -35,7 +35,7 @@ public class InputFormatter {
         return sb.reverse().toString().toUpperCase();
     }
 
-    static List<String> formatBinString(String binString) {
+    public static List<String> formatBinString(String binString) {
         ArrayList<String> returnList = new ArrayList<>();
         int binStringLength = binString.length();
 

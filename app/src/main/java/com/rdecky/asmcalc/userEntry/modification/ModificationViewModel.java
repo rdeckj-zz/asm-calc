@@ -8,9 +8,9 @@ import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.ViewModel;
 
 import com.rdecky.asmcalc.BR;
-import com.rdecky.asmcalc.util.NumberFormatter;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.UserEntryDao;
+import com.rdecky.asmcalc.util.NumberFormatter;
 
 public class ModificationViewModel extends ViewModel implements Observable {
 
@@ -68,8 +68,8 @@ public class ModificationViewModel extends ViewModel implements Observable {
     void decTextChanged(CharSequence newValue) {
         String noFormatting = NumberFormatter.stripFormatting(newValue.toString());
         try {
-        Long value = Long.valueOf(noFormatting, 10);
-        setNewValues(value);
+            Long value = Long.valueOf(noFormatting, 10);
+            setNewValues(value);
         } catch (NumberFormatException e) {
             // Invalid, don't update
         }

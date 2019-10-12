@@ -27,7 +27,8 @@ public class UserEntry implements Parcelable {
     @ColumnInfo(name = "description")
     private String description;
 
-    public UserEntry() {}
+    public UserEntry() {
+    }
 
     protected UserEntry(Parcel in) {
         uid = in.readInt();

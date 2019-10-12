@@ -8,7 +8,6 @@ import com.rdecky.asmcalc.calculator.CalculatorViewModel;
 import com.rdecky.asmcalc.calculator.HistoryBarViewModel;
 import com.rdecky.asmcalc.data.UserEntry;
 import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
-import com.rdecky.asmcalc.userEntry.UserEntryModel;
 import com.rdecky.asmcalc.userEntry.UserEntryViewModel;
 import com.rdecky.asmcalc.userEntry.modification.ModificationViewModel;
 

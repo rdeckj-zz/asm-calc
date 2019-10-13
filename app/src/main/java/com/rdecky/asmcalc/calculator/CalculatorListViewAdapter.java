@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
+import com.rdecky.asmcalc.R;
 import com.rdecky.asmcalc.calculator.value.ButtonValue;
 import com.rdecky.asmcalc.calculator.value.DecButtonValue;
 import com.rdecky.asmcalc.calculator.value.HexButtonValue;
@@ -143,6 +144,8 @@ public class CalculatorListViewAdapter implements ListAdapter {
 
     private View createNewButton(ButtonValue buttonValue) {
         final CalculatorButton button = new CalculatorButton(context, buttonValue);
+        button.setPadding(0, 0, 0, 0);
+        button.setBackground(context.getDrawable(R.drawable.bg_calculator_button));
         setButtonClickListener(button);
         allButtons.add(button);
         return button;

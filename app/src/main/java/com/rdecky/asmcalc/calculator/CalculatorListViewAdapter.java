@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
 import com.rdecky.asmcalc.R;
+import com.rdecky.asmcalc.calculator.button.CalculatorButton;
+import com.rdecky.asmcalc.calculator.button.CalculatorImageButton;
+import com.rdecky.asmcalc.calculator.button.CalculatorTextButton;
 import com.rdecky.asmcalc.calculator.value.ButtonValue;
 import com.rdecky.asmcalc.calculator.value.DecButtonValue;
 import com.rdecky.asmcalc.calculator.value.HexButtonValue;
@@ -143,12 +146,24 @@ public class CalculatorListViewAdapter implements ListAdapter {
     }
 
     private View createNewButton(ButtonValue buttonValue) {
-        final CalculatorButton button = new CalculatorButton(context, buttonValue);
-        button.setPadding(0, 0, 0, 0);
-        button.setBackground(context.getDrawable(R.drawable.bg_calculator_button));
-        setButtonClickListener(button);
-        allButtons.add(button);
-        return button;
+        if (buttonValue.getText().equals("Bksp")) {
+            CalculatorImageButton button = new CalculatorImageButton(context, buttonValue);
+            button.setBackground(context.getDrawable(R.drawable.bg_calculator_button));
+            button.setImageResource(R.drawable.ic_backspace_24dp);
+            button.setMinimumHeight(((View) allButtons.get(0)).getHeight());
+            button.setZ(((View) allButtons.get(0)).getZ());
+            setButtonClickListener(button);
+            button.setEnabled(true);
+            button.setClickable(true);
+            allButtons.add(button);
+            return button;
+        } else {
+            CalculatorTextButton button = new CalculatorTextButton(context, buttonValue);
+            button.setBackground(context.getDrawable(R.drawable.bg_calculator_button));
+            setButtonClickListener(button);
+            allButtons.add(button);
+            return button;
+        }
     }
 
     private void setButtonClickListener(final CalculatorButton button) {
@@ -164,7 +179,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
     }
 
     private void setRegularButtonClickListener(CalculatorButton button, final ButtonValue buttonValue) {
-        button.setOnClickListener(new View.OnClickListener() {
+        ((View) button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 calculatorViewModel.regularButtonPressed(buttonValue);
@@ -174,7 +189,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
 
     private void setSpecialButtonClickListener(CalculatorButton button, ButtonValue buttonValue) {
         final SpecialButtonValue specialButtonValue = (SpecialButtonValue) buttonValue;
-        button.setOnClickListener(new View.OnClickListener() {
+        ((View) button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 historyBarViewModel.specialButtonPressed(specialButtonValue);
@@ -185,7 +200,7 @@ public class CalculatorListViewAdapter implements ListAdapter {
 
     private void setOperatorButtonClickListener(CalculatorButton button, ButtonValue buttonValue) {
         final OperatorValue operatorButtonValue = (OperatorValue) buttonValue;
-        button.setOnClickListener(new View.OnClickListener() {
+        ((View) button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 historyBarViewModel.operatorButtonPressed(operatorButtonValue);

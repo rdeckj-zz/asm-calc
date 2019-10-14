@@ -3,9 +3,9 @@ package com.rdecky.asmcalc.calculator;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.rdecky.asmcalc.calculator.button.CalculatorButton;
 import com.rdecky.asmcalc.calculator.value.ButtonValue;
 
 import java.util.List;
@@ -19,13 +19,13 @@ public class InputFormatClickListener implements View.OnClickListener {
     private CalculatorViewModel calculatorViewModel;
     private HistoryBarViewModel historyBarViewModel;
     private GroupedInputView groupedInputView;
-    private List<CalculatorButton> calculatorButtons;
+    private List<CalculatorButton> calculatorTextButtons;
 
-    InputFormatClickListener(CalculatorViewModel calculatorViewModel, HistoryBarViewModel historyBarViewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorButtons) {
+    InputFormatClickListener(CalculatorViewModel calculatorViewModel, HistoryBarViewModel historyBarViewModel, GroupedInputView groupedInputView, List<CalculatorButton> calculatorTextButtons) {
         this.calculatorViewModel = calculatorViewModel;
         this.historyBarViewModel = historyBarViewModel;
         this.groupedInputView = groupedInputView;
-        this.calculatorButtons = calculatorButtons;
+        this.calculatorTextButtons = calculatorTextButtons;
     }
 
     @Override
@@ -53,8 +53,8 @@ public class InputFormatClickListener implements View.OnClickListener {
     }
 
     private void enableAllButtons() {
-        for (Button button : calculatorButtons) {
-            button.setEnabled(true);
+        for (CalculatorButton button : calculatorTextButtons) {
+            setEnabled(button, true);
         }
     }
 
@@ -69,20 +69,24 @@ public class InputFormatClickListener implements View.OnClickListener {
     }
 
     private void disableNonBinaryButtons() {
-        for (CalculatorButton button : calculatorButtons) {
+        for (CalculatorButton button : calculatorTextButtons) {
             ButtonValue value = button.getValue();
             if (!value.isBinValue() && (value.isDecValue() || value.isHexValue())) {
-                button.setEnabled(false);
+                setEnabled(button, false);
             }
         }
     }
 
     private void disableHexButtons() {
-        for (CalculatorButton button : calculatorButtons) {
+        for (CalculatorButton button : calculatorTextButtons) {
             ButtonValue value = button.getValue();
             if (value.isHexValue()) {
-                button.setEnabled(false);
+                setEnabled(button, false);
             }
         }
+    }
+
+    private void setEnabled(CalculatorButton button, boolean enabled) {
+        ((View) button).setEnabled(enabled);
     }
 }

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.rdecky.asmcalc.CustomViewModelFactory;
 import com.rdecky.asmcalc.R;
+import com.rdecky.asmcalc.calculator.button.CalculatorButton;
 import com.rdecky.asmcalc.data.source.AsmCalcDatabase;
 import com.rdecky.asmcalc.databinding.FragmentCalculatorBinding;
 
@@ -49,35 +50,35 @@ public class CalculatorFragment extends Fragment {
         dataBinding.setLifecycleOwner(this.getViewLifecycleOwner());
 
         root = dataBinding.getRoot();
-        List<CalculatorButton> calculatorButtons = createCalculatorButtons();
-        setInputFormatListeners(calculatorButtons);
+        List<CalculatorButton> calculatorTextButtons = createCalculatorButtons();
+        setInputFormatListeners(calculatorTextButtons);
 
         return root;
     }
 
-    private void setInputFormatListeners(List<CalculatorButton> calculatorButtons) {
-        setDecFormatListeners(calculatorButtons);
-        setHexFormatListeners(calculatorButtons);
-        setBinFormatListeners(calculatorButtons);
+    private void setInputFormatListeners(List<CalculatorButton> calculatorTextButtons) {
+        setDecFormatListeners(calculatorTextButtons);
+        setHexFormatListeners(calculatorTextButtons);
+        setBinFormatListeners(calculatorTextButtons);
     }
 
-    private void setDecFormatListeners(List<CalculatorButton> calculatorButtons) {
+    private void setDecFormatListeners(List<CalculatorButton> calculatorTextButtons) {
         GroupedInputView decGroup = new GroupedInputView(getDecInputViews(), getAllInputViews(), DEC);
-        InputFormatClickListener decClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, decGroup, calculatorButtons);
+        InputFormatClickListener decClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, decGroup, calculatorTextButtons);
 
         setFormatListenerOnViews(decGroup, decClickListener);
     }
 
-    private void setHexFormatListeners(List<CalculatorButton> calculatorButtons) {
+    private void setHexFormatListeners(List<CalculatorButton> calculatorTextButtons) {
         GroupedInputView hexGroup = new GroupedInputView(getHexInputViews(), getAllInputViews(), HEX);
-        InputFormatClickListener hexClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, hexGroup, calculatorButtons);
+        InputFormatClickListener hexClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, hexGroup, calculatorTextButtons);
 
         setFormatListenerOnViews(hexGroup, hexClickListener);
     }
 
-    private void setBinFormatListeners(List<CalculatorButton> calculatorButtons) {
+    private void setBinFormatListeners(List<CalculatorButton> calculatorTextButtons) {
         GroupedInputView binGroup = new GroupedInputView(getBinInputViews(), getAllInputViews(), BIN);
-        InputFormatClickListener binClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, binGroup, calculatorButtons);
+        InputFormatClickListener binClickListener = new InputFormatClickListener(calculatorViewModel, historyBarViewModel, binGroup, calculatorTextButtons);
 
         setFormatListenerOnViews(binGroup, binClickListener);
     }

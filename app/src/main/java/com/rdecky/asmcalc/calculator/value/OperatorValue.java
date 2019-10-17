@@ -3,6 +3,12 @@ package com.rdecky.asmcalc.calculator.value;
 public class OperatorValue implements ButtonValue, HistoryValue {
 
     private String value;
+    private int drawableResourceId;
+
+    public OperatorValue(String value, int drawableResourceId) {
+        this.value = value;
+        this.drawableResourceId = drawableResourceId;
+    }
 
     public OperatorValue(String value) {
         this.value = value;
@@ -26,6 +32,11 @@ public class OperatorValue implements ButtonValue, HistoryValue {
     @Override
     public boolean isBinValue() {
         return false;
+    }
+
+    @Override
+    public int getDrawableResourceId() {
+        return drawableResourceId;
     }
 
     public int getPrecedence() {

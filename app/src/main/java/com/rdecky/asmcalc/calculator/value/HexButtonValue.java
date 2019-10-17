@@ -27,4 +27,9 @@ public class HexButtonValue implements ButtonValue {
     public boolean isBinValue() {
         return false;
     }
+
+    @Override
+    public int getDrawableResourceId() {
+        return 0;
+    }
 }

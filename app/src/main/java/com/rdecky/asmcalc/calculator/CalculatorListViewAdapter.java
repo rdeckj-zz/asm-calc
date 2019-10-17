@@ -29,11 +29,11 @@ public class CalculatorListViewAdapter implements ListAdapter {
             new OperatorValue("Not"),
             new OperatorValue("And"),
             //Row 2
-            new SpecialButtonValue("MS"),
+            new SpecialButtonValue("MS", R.drawable.ic_save_24dp),
             new OperatorValue("Mod"),
             new SpecialButtonValue("CE"),
             new SpecialButtonValue("Clear"),
-            new SpecialButtonValue("Bksp"),
+            new SpecialButtonValue("Bksp", R.drawable.ic_backspace_24dp),
             new OperatorValue("/"),
             //Row 3
             new HexButtonValue("A"),
@@ -41,25 +41,25 @@ public class CalculatorListViewAdapter implements ListAdapter {
             new DecButtonValue("7"),
             new DecButtonValue("8"),
             new DecButtonValue("9"),
-            new OperatorValue("*"),
+            new OperatorValue("*", R.drawable.ic_multiply_24dp),
             //Row 4
             new HexButtonValue("C"),
             new HexButtonValue("D"),
             new DecButtonValue("4"),
             new DecButtonValue("5"),
             new DecButtonValue("6"),
-            new OperatorValue("-"),
+            new OperatorValue("-", R.drawable.ic_subtract_24dp),
             //Row 5
             new HexButtonValue("E"),
             new HexButtonValue("F"),
             new DecButtonValue("1"),
             new DecButtonValue("2"),
             new DecButtonValue("3"),
-            new OperatorValue("+"),
+            new OperatorValue("+", R.drawable.ic_add_24dp),
             //Row 6
             new OperatorValue("("),
             new OperatorValue(")"),
-            new SpecialButtonValue("+/-"),
+            new SpecialButtonValue("+/-", R.drawable.ic_invert_24dp),
             new DecButtonValue("0"),
             new SpecialButtonValue("."),
             new SpecialButtonValue("=")
@@ -146,24 +146,34 @@ public class CalculatorListViewAdapter implements ListAdapter {
     }
 
     private View createNewButton(ButtonValue buttonValue) {
-        if (buttonValue.getText().equals("Bksp")) {
-            CalculatorImageButton button = new CalculatorImageButton(context, buttonValue);
-            button.setBackground(context.getDrawable(R.drawable.bg_calculator_button));
-            button.setImageResource(R.drawable.ic_backspace_24dp);
-            button.setMinimumHeight(((View) allButtons.get(0)).getHeight());
-            button.setZ(((View) allButtons.get(0)).getZ());
-            setButtonClickListener(button);
-            button.setEnabled(true);
-            button.setClickable(true);
-            allButtons.add(button);
-            return button;
+        //TODO, don't use a gridview, switch to hard-coding buttons instead.
+        int drawableResourceId = buttonValue.getDrawableResourceId();
+        if(drawableResourceId != 0) {
+            return createCalculatorImageButton(buttonValue, drawableResourceId);
         } else {
-            CalculatorTextButton button = new CalculatorTextButton(context, buttonValue);
-            button.setBackground(context.getDrawable(R.drawable.bg_calculator_button));
-            setButtonClickListener(button);
-            allButtons.add(button);
-            return button;
+            return createCalculatorTextButton(buttonValue);
         }
+    }
+
+    private CalculatorTextButton createCalculatorTextButton(ButtonValue buttonValue) {
+        CalculatorTextButton button = new CalculatorTextButton(context, buttonValue);
+        button.setBackground(context.getDrawable(R.drawable.bg_calculator_button));
+        setButtonClickListener(button);
+        allButtons.add(button);
+        return button;
+    }
+
+    private CalculatorImageButton createCalculatorImageButton(ButtonValue buttonValue, int imageResource) {
+        CalculatorImageButton button = new CalculatorImageButton(context, buttonValue);
+        button.setBackground(context.getDrawable(R.drawable.bg_calculator_button));
+        button.setImageResource(imageResource);
+        button.setMinimumHeight(((View) allButtons.get(0)).getHeight());
+        button.setZ(((View) allButtons.get(0)).getZ());
+        setButtonClickListener(button);
+        button.setEnabled(true);
+        button.setClickable(true);
+        allButtons.add(button);
+        return button;
     }
 
     private void setButtonClickListener(final CalculatorButton button) {

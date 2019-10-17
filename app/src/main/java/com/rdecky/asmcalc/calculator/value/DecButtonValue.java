@@ -28,4 +28,9 @@ public class DecButtonValue implements ButtonValue {
         char firstDigit = value.charAt(0);
         return firstDigit == '0' || firstDigit == '1';
     }
+
+    @Override
+    public int getDrawableResourceId() {
+        return 0;
+    }
 }

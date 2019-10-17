@@ -3,6 +3,12 @@ package com.rdecky.asmcalc.calculator.value;
 public class SpecialButtonValue implements ButtonValue {
 
     private String value;
+    private int drawableResourceId;
+
+    public SpecialButtonValue(String value, int drawableResourceId) {
+        this.value = value;
+        this.drawableResourceId = drawableResourceId;
+    }
 
     public SpecialButtonValue(String value) {
         this.value = value;
@@ -26,5 +32,10 @@ public class SpecialButtonValue implements ButtonValue {
     @Override
     public boolean isBinValue() {
         return false;
+    }
+
+    @Override
+    public int getDrawableResourceId() {
+        return drawableResourceId;
     }
 }
